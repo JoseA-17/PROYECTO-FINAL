@@ -10,7 +10,7 @@ package ControlEmpleados;
  */
 public class InicioSesion {
     private String username;
-    private String password; // Podrías agregar cifrado para seguridad.
+    private String password;
 
     public InicioSesion(String username, String password) {
         this.username = username;

@@ -100,7 +100,7 @@ public class frmAnadirEmpleado extends javax.swing.JFrame {
         });
         jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 140, 266, 30));
         jPanel1.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 230, 143, 30));
-        jPanel1.add(txtEdad, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 190, 60, 20));
+        jPanel1.add(txtEdad, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 190, 50, 30));
         jPanel1.add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 270, 266, 30));
 
         cmbCargo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ingeniero", "Supervisor", "Cajero", "Tecnico" }));

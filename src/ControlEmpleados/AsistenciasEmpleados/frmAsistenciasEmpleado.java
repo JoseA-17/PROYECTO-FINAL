@@ -188,11 +188,11 @@ public class frmAsistenciasEmpleado extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarAsistenciaActionPerformed
 
     private void btnVerAsistenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerAsistenciasActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-        frmVerAsistencias verAsistencias = new frmVerAsistencias();
-        verAsistencias.setVisible(true);
-        verAsistencias.setLocationRelativeTo(null);
+// TODO add your handling code here:
+    this.dispose();
+    frmVerAsistencia verAsistencias = new frmVerAsistencia();
+    verAsistencias.setVisible(true);
+    verAsistencias.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnVerAsistenciasActionPerformed
 
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed

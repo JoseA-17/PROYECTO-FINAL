@@ -27,9 +27,9 @@ public class frmIniciarSesion1 extends javax.swing.JFrame {
     // Método para inicializar los usuarios y contraseñas
     private void inicializarUsuarios() {
         usuarios.put("admin", "1234");
-        usuarios.put("supervisor", "abcd");
-        usuarios.put("cajero", "boxer2024");
-        usuarios.put("soporte", "support123");
+        usuarios.put("talvez", "1234");
+        usuarios.put("cajero", "2024");
+        usuarios.put("soporte", "juan34");
     }
 
     // Método para validar las credenciales del usuario
@@ -42,7 +42,7 @@ public class frmIniciarSesion1 extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Inicio de sesion exitoso. ¡Bienvenido, " + usuario + "!");
             abrirMenuPrincipal();
         } else {
-            lblMensaje.setText("Usuario o contraseña incorrectos.");
+            JOptionPane.showMessageDialog(null,"Usuario o contraseña incorrectos.");
         }
     }
 
@@ -70,7 +70,6 @@ public class frmIniciarSesion1 extends javax.swing.JFrame {
         txtContrasenia = new javax.swing.JPasswordField();
         btnIniciarSesion = new javax.swing.JButton();
         lblMensaje = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
 
@@ -83,17 +82,17 @@ public class frmIniciarSesion1 extends javax.swing.JFrame {
         jLabel1.setText("INICIO DE SESION");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 100, 400, 40));
 
-        jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("USUARIO");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 220, 90, 28));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, 120, 28));
 
-        jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("PASSWORD");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 270, 110, 30));
-        jPanel1.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 220, 200, 30));
-        jPanel1.add(txtContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 270, 200, 30));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 270, 140, 30));
+        jPanel1.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 220, 200, 30));
+        jPanel1.add(txtContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 270, 200, 30));
 
         btnIniciarSesion.setBackground(new java.awt.Color(102, 153, 255));
         btnIniciarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/enter 30x30.png"))); // NOI18N
@@ -103,18 +102,15 @@ public class frmIniciarSesion1 extends javax.swing.JFrame {
                 btnIniciarSesionActionPerformed(evt);
             }
         });
-        jPanel1.add(btnIniciarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 330, 60, 40));
+        jPanel1.add(btnIniciarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 330, 60, 40));
 
         lblMensaje.setText(" ");
         jPanel1.add(lblMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(34, 231, 272, 25));
 
-        jLabel5.setText("jLabel5");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, 250, 190));
-
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Acceder");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 380, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 380, -1, -1));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/wallpaperbetter 830x450.jpg"))); // NOI18N
         jLabel7.setText("jLabel7");
@@ -181,7 +177,6 @@ public class frmIniciarSesion1 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblMensaje;

@@ -61,7 +61,7 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("MENU PRINCIPAL");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, -1, 57));
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, -1, 57));
 
         btnGestionEmpleados.setBackground(new java.awt.Color(102, 153, 255));
         btnGestionEmpleados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/120x120.png"))); // NOI18N
@@ -81,7 +81,7 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
                 btnControlAsistenciasActionPerformed(evt);
             }
         });
-        jPanel2.add(btnControlAsistencias, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 130, 160, -1));
+        jPanel2.add(btnControlAsistencias, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 120, 160, -1));
 
         btnCerrarSesion.setBackground(new java.awt.Color(102, 153, 255));
         btnCerrarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/out70x70.png"))); // NOI18N
@@ -91,12 +91,12 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
                 btnCerrarSesionActionPerformed(evt);
             }
         });
-        jPanel2.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 330, 110, -1));
+        jPanel2.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 360, 110, -1));
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("SALIR");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 420, 60, 20));
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 440, 60, 20));
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -106,7 +106,7 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("CONTROL ASISTENCIAS");
-        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 260, 220, 20));
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 260, 250, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
