@@ -7,7 +7,10 @@ package ControlEmpleados.GestionEmpleados;
 import ControlEmpleados.Empleado;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.sql.*;
+import DAO.Conexion;
 
 /**
  *
@@ -22,30 +25,41 @@ public class frmVerEmpleados extends javax.swing.JFrame {
     {
         initComponents();
         this.setLocationRelativeTo(null);
+        cargarEmpleados();
     }
     
-    private void llenarTabla() 
-    {
+   private void cargarEmpleados() {
+        // Modelo de la tabla
         DefaultTableModel modelo = (DefaultTableModel) tblEmpleados.getModel();
-        modelo.setRowCount(0); // Limpiar tabla antes de llenarla
+        modelo.setRowCount(0); // Limpiar filas anteriores
 
-        // Obtener la lista de empleados
-        List<Empleado> listaEmpleados = EmpleadosManager.obtenerEmpleados();
+        String query = "SELECT * FROM empleados"; // Consulta SQL para obtener todos los empleados
 
-        // Agregar las filas correspondientes para cada empleado
-        for (Empleado emp : listaEmpleados) 
-        {
-            modelo.addRow(new Object[]{
-                emp.getId(), // ID del empleado
-                emp.getNombre(),
-                emp.getCargo(),
-                emp.getTelefono(),
-                emp.getCorreo(),
-                emp.getEdad(),
-                emp.isSeguro() ? "SI" : "NO"
-            });
+        try {
+            Conexion conn = new Conexion("empleados"); // Conexión con la base de datos
+            Connection c = conn.getConexion();
+            Statement st = c.createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                // Obtiene los datos de cada columna
+                String id = String.valueOf(rs.getInt("id"));
+                String nombre = rs.getString("nombre");
+                String telefono = rs.getString("telefono");
+                String correo = rs.getString("correo");
+                int edad = rs.getInt("edad");
+                String cargo = rs.getString("cargo");
+                String seguro = rs.getBoolean("seguro") ? "SI" : "NO";
+
+                // Agrega la fila a la tabla
+                modelo.addRow(new Object[]{id, nombre, telefono, correo, edad, cargo, seguro});
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar los empleados: " + e.getMessage());
         }
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -59,8 +73,8 @@ public class frmVerEmpleados extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblEmpleados = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        btnVolver = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        btnVolver = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -77,7 +91,7 @@ public class frmVerEmpleados extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nombre", "Cargo", "Telefono", "Correo", "Edad", "Seguro"
+                "ID", "Nombre", "Telefono", "Correo", "Edad", "Cargo", "Seguro"
             }
         ));
         jScrollPane1.setViewportView(tblEmpleados);
@@ -85,20 +99,18 @@ public class frmVerEmpleados extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(102, 153, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnVolver.setBackground(new java.awt.Color(102, 153, 255));
-        btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/out50x50.png"))); // NOI18N
-        btnVolver.setBorder(null);
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Volver");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 70, -1, -1));
+
+        btnVolver.setText("Volver");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVolverActionPerformed(evt);
             }
         });
-        jPanel1.add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 20, -1, -1));
-
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Volver");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 70, -1, -1));
+        jPanel1.add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 30, -1, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -118,17 +130,21 @@ public class frmVerEmpleados extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        // TODO add your handling code here:
-        this.dispose();  // Cierra el formulario actual
-        frmGestionEmpleados frame = new frmGestionEmpleados();  
-        frame.setVisible(true); 
-    }//GEN-LAST:event_btnVolverActionPerformed
-
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        llenarTabla();
+        cargarEmpleados();
+        
     }//GEN-LAST:event_formWindowOpened
+
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        // TODO add your handling code here:
+         this.dispose();
+        frmGestionEmpleados frmgestionEmpleados = new frmGestionEmpleados();
+   
+    frmgestionEmpleados.setVisible(true);
+    
+    frmgestionEmpleados.setLocationRelativeTo(null);
+    }//GEN-LAST:event_btnVolverActionPerformed
     
     /**
      * @param args the command line arguments

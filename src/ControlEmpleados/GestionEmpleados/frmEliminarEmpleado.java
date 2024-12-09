@@ -4,11 +4,14 @@
  */
 package ControlEmpleados.GestionEmpleados;
 
-import ControlEmpleados.Empleado;
-import java.util.List;
-import javax.swing.JFrame;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.sql.*;
+import DAO.Conexion;
 
 /**
  *
@@ -23,68 +26,99 @@ public class frmEliminarEmpleado extends javax.swing.JFrame
     public frmEliminarEmpleado() {
         initComponents();
         this.setLocationRelativeTo(null);
+        cargarEmpleados();
     }
     
-    // Método para llenar la tabla
-    private void llenarTabla() 
-    {
+    private void cargarEmpleados() {
+        // Modelo de la tabla
         DefaultTableModel modelo = (DefaultTableModel) tblEmpleados.getModel();
-        modelo.setRowCount(0); // Limpiar la tabla antes de llenarla
+        modelo.setRowCount(0); // Limpiar filas anteriores
 
-        // Obtener la lista de empleados
-        List<Empleado> empleados = EmpleadosManager.obtenerEmpleados();
+        String query = "SELECT * FROM empleados"; // Consulta SQL para obtener todos los empleados
 
-        // Agregar cada empleado como una fila en la tabla
-        for (Empleado emp : empleados) 
-        {
-            modelo.addRow(new Object[]
-            {
-                emp.getId(),
-                emp.getNombre(),
-                emp.getCargo(),
-                emp.getTelefono(),
-                emp.getCorreo(),
-                emp.getEdad(),
-                emp.isSeguro() ? "Sí" : "No"
-            });
+        try {
+            Conexion conn = new Conexion("empleados"); // Conexión con la base de datos
+            Connection c = conn.getConexion();
+            Statement st = c.createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                // Obtiene los datos de cada columna
+                String id = String.valueOf(rs.getInt("id"));
+                String nombre = rs.getString("nombre");
+                String telefono = rs.getString("telefono");
+                String correo = rs.getString("correo");
+                int edad = rs.getInt("edad");
+                String cargo = rs.getString("cargo");
+                String seguro = rs.getBoolean("seguro") ? "SI" : "NO";
+
+                // Agrega la fila a la tabla
+                modelo.addRow(new Object[]{id, nombre, telefono, correo, edad, cargo, seguro});
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar los empleados: " + e.getMessage());
         }
     }
 
     // Método para eliminar un empleado
-    private void eliminarEmpleado() 
-    {
-        int filaSeleccionada = tblEmpleados.getSelectedRow();
+    private void eliminarEmpleado() {
+    int filaSeleccionada = tblEmpleados.getSelectedRow();
 
-        if (filaSeleccionada == -1) 
-        {
-            // Si no hay fila seleccionada, mostrar un mensaje de error
-            JOptionPane.showMessageDialog(this, "Por favor, selecciona un empleado para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
-            return; // Salir del método
-        }
+    if (filaSeleccionada == -1) {
+        JOptionPane.showMessageDialog(this, "Por favor, selecciona un empleado para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-        // Obtener el ID del empleado de la fila seleccionada (columna 0)
-        int idEmpleado = (int) tblEmpleados.getValueAt(filaSeleccionada, 0);
+    // Obtener el ID del empleado desde la tabla (como String) y convertirlo a Integer
+    String idEmpleadoStr = (String) tblEmpleados.getValueAt(filaSeleccionada, 0);
+    int idEmpleado;
 
-        // Confirmar la eliminación con el usuario
-        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar este empleado?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+    try {
+        idEmpleado = Integer.parseInt(idEmpleadoStr); // Convertir el ID a entero
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Error al obtener el ID del empleado. El formato no es válido.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-        if (confirmacion == JOptionPane.YES_OPTION) 
-        {
-            // Llamar al método para eliminar el empleado
-            boolean eliminado = EmpleadosManager.eliminarEmpleado(idEmpleado);
+    // Confirmar eliminación
+    String nombreEmpleado = (String) tblEmpleados.getValueAt(filaSeleccionada, 1);
+    int confirmacion = JOptionPane.showConfirmDialog(
+        this,
+        "¿Estás seguro de que deseas eliminar al empleado " + nombreEmpleado + "?",
+        "Confirmar eliminación",
+        JOptionPane.YES_NO_OPTION
+    );
 
-            if (eliminado) 
-            {
-                JOptionPane.showMessageDialog(this, "Empleado eliminado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                llenarTabla(); // Actualizar la tabla después de eliminar
-            } 
-            
-            else 
-            {
-                JOptionPane.showMessageDialog(this, "Error al eliminar el empleado. No se encontró el ID.", "Error", JOptionPane.ERROR_MESSAGE);
+    if (confirmacion == JOptionPane.YES_OPTION) {
+        // SQL para eliminar el empleado de la base de datos
+        String sql = "DELETE FROM empleados WHERE id = ?";
+
+        try {
+            DAO.Conexion conn = new DAO.Conexion("empleados");
+            Connection c = conn.getConexion();
+
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1, idEmpleado);
+
+            int filasAfectadas = ps.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                JOptionPane.showMessageDialog(this, "Empleado eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                cargarEmpleados(); // Actualizar la tabla después de eliminar
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al eliminar el empleado. No se encontró el ID en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
             }
+
+            ps.close();
+            c.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+}
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -98,10 +132,10 @@ public class frmEliminarEmpleado extends javax.swing.JFrame
         jScrollPane1 = new javax.swing.JScrollPane();
         tblEmpleados = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        btnVolver = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        btnVolver = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -118,23 +152,13 @@ public class frmEliminarEmpleado extends javax.swing.JFrame
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nombre", "Cargo", "Telefono", "Correo", "Edad", "Seguro"
+                "ID", "Nombre", "Telefono", "Correo", "Edad", "Cargo", "Seguro"
             }
         ));
         jScrollPane1.setViewportView(tblEmpleados);
 
         jPanel1.setBackground(new java.awt.Color(102, 153, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        btnVolver.setBackground(new java.awt.Color(102, 153, 255));
-        btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/out50x50.png"))); // NOI18N
-        btnVolver.setBorder(null);
-        btnVolver.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVolverActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 20, -1, -1));
 
         btnEliminar.setBackground(new java.awt.Color(102, 153, 255));
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/delete user 50x50.png"))); // NOI18N
@@ -155,6 +179,14 @@ public class frmEliminarEmpleado extends javax.swing.JFrame
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Volver");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 80, -1, -1));
+
+        btnVolver.setText("Volver");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, -1, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -180,17 +212,20 @@ public class frmEliminarEmpleado extends javax.swing.JFrame
         eliminarEmpleado();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        // TODO add your handling code here:
-        this.dispose();  // Cierra el formulario actual
-        frmGestionEmpleados frame = new frmGestionEmpleados(); 
-        frame.setVisible(true); 
-    }//GEN-LAST:event_btnVolverActionPerformed
-
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        llenarTabla();
+        cargarEmpleados();
     }//GEN-LAST:event_formWindowOpened
+
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        // TODO add your handling code here:
+         this.dispose();
+        frmGestionEmpleados frmgestionEmpleados = new frmGestionEmpleados();
+   
+    frmgestionEmpleados.setVisible(true);
+    
+    frmgestionEmpleados.setLocationRelativeTo(null);
+    }//GEN-LAST:event_btnVolverActionPerformed
 
     /**
      * @param args the command line arguments
@@ -222,8 +257,7 @@ public class frmEliminarEmpleado extends javax.swing.JFrame
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-            frmEliminarEmpleado frame = new frmEliminarEmpleado();  
-            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);  
+            frmEliminarEmpleado frame = new frmEliminarEmpleado();   
             frame.setVisible(true); 
             }
         });

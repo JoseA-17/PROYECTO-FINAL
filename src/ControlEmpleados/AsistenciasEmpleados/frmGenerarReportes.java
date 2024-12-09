@@ -84,10 +84,12 @@ public class frmGenerarReportes extends javax.swing.JFrame {
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
-        this.dispose(); // Cierra este formulario
-        frmAsistenciasEmpleado asistenciasEmpleados = new frmAsistenciasEmpleado(); // Abre el formulario principal
-        asistenciasEmpleados.setVisible(true);
-        asistenciasEmpleados.setLocationRelativeTo(null);
+        this.dispose();
+        frmAsistenciasEmpleado formAsistencias = new frmAsistenciasEmpleado();
+    
+    formAsistencias.setVisible(true);
+    
+    formAsistencias.setLocationRelativeTo(null);
         
     }//GEN-LAST:event_btnVolverActionPerformed
 

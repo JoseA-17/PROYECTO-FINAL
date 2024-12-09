@@ -37,10 +37,10 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btnGestionEmpleados = new javax.swing.JButton();
         btnControlAsistencias = new javax.swing.JButton();
-        btnCerrarSesion = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        btnSalir = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -83,20 +83,10 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
         });
         jPanel2.add(btnControlAsistencias, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 120, 160, -1));
 
-        btnCerrarSesion.setBackground(new java.awt.Color(102, 153, 255));
-        btnCerrarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/out70x70.png"))); // NOI18N
-        btnCerrarSesion.setBorder(null);
-        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCerrarSesionActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 360, 110, -1));
-
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("SALIR");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 440, 60, 20));
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 420, 60, 20));
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -107,6 +97,9 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("CONTROL ASISTENCIAS");
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 260, 250, 20));
+
+        btnSalir.setText("Salir");
+        jPanel2.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 360, -1, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -131,15 +124,11 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
 
     private void btnControlAsistenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnControlAsistenciasActionPerformed
         // TODO add your handling code here:
+        this.dispose();
         frmAsistenciasEmpleado frame = new frmAsistenciasEmpleado();   
         frame.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnControlAsistenciasActionPerformed
-
-    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
-        // TODO add your handling code here:
-        System.exit(0);  //Cerrar la aplicación
-    }//GEN-LAST:event_btnCerrarSesionActionPerformed
     
     /**
      * @param args the command line arguments
@@ -179,9 +168,9 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCerrarSesion;
     private javax.swing.JButton btnControlAsistencias;
     private javax.swing.JButton btnGestionEmpleados;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;

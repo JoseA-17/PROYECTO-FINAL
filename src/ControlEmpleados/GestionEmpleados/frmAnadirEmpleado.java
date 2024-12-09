@@ -7,6 +7,8 @@ package ControlEmpleados.GestionEmpleados;
 import ControlEmpleados.Empleado;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import java.sql.*;
+import DAO.Conexion;
 
 /**
  *
@@ -48,9 +50,9 @@ public class frmAnadirEmpleado extends javax.swing.JFrame {
         cmbCargo = new javax.swing.JComboBox<>();
         cmbSeguro = new javax.swing.JComboBox<>();
         btnAnadir = new javax.swing.JButton();
-        btnVolver = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        btnVolver = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -119,17 +121,6 @@ public class frmAnadirEmpleado extends javax.swing.JFrame {
         });
         jPanel1.add(btnAnadir, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 410, -1, -1));
 
-        btnVolver.setBackground(new java.awt.Color(102, 153, 255));
-        btnVolver.setForeground(new java.awt.Color(102, 153, 255));
-        btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/out50x50.png"))); // NOI18N
-        btnVolver.setBorder(null);
-        btnVolver.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVolverActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 410, -1, -1));
-
         jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Cargo");
@@ -139,6 +130,14 @@ public class frmAnadirEmpleado extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Volver");
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 470, 60, 28));
+
+        btnVolver.setText("Volver");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 410, -1, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -155,7 +154,6 @@ public class frmAnadirEmpleado extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnadirActionPerformed
-    // TODO add your handling code here:
     String nombre = txtNombre.getText();
     String telefono = txtTelefono.getText();
     String correo = txtCorreo.getText();
@@ -165,17 +163,38 @@ public class frmAnadirEmpleado extends javax.swing.JFrame {
     String cargo = cmbCargo.getSelectedItem().toString();
     
     // Obtén el estado del seguro desde el comboBox
-    boolean seguro = cmbSeguro.getSelectedItem().toString().equals("Sí");
+    boolean seguro = cmbSeguro.getSelectedItem().toString().equals("SI");
 
-    // Crear un nuevo objeto de Empleado con los datos ingresados
-    Empleado nuevoEmpleado = new Empleado(nombre, cargo, telefono, correo, edad, seguro);
+    // SQL para insertar los datos del empleado en la base de datos
+    String query = "INSERT INTO empleados (nombre, telefono, correo, edad, cargo, seguro) VALUES (?, ?, ?, ?, ?, ?)";
     
-    // Agregar el nuevo empleado utilizando el método de EmpleadosManager
-    EmpleadosManager.agregarEmpleado(nuevoEmpleado);
 
-    // Confirmación o mensaje
-    JOptionPane.showMessageDialog(this, "Empleado agregado correctamente.");
-    
+        // Prepara la consulta SQL
+        try {
+            Conexion conn = new Conexion("empleados");
+            Connection c = null;
+            c = conn.getConexion();
+            PreparedStatement ps = c.prepareStatement(query);
+            ps.setString(1, nombre);
+            ps.setString(2, telefono);
+            ps.setString(3, correo);
+            ps.setInt(4, edad);
+            ps.setString(5, cargo);
+            ps.setBoolean(6, seguro);
+            
+            // Ejecuta la consulta
+            int filasAfectadas = ps.executeUpdate();
+            
+            if (filasAfectadas > 0) {
+                JOptionPane.showMessageDialog(this, "Empleado agregado correctamente.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al agregar el empleado.");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al ejecutar la consulta: " + e.getMessage());
+        }
+
+
     // Limpiar los campos después de agregar
     txtNombre.setText("");
     txtTelefono.setText("");
@@ -185,16 +204,19 @@ public class frmAnadirEmpleado extends javax.swing.JFrame {
     cmbSeguro.setSelectedIndex(0);  // Reiniciar el JComboBox a la primera opción
     }//GEN-LAST:event_btnAnadirActionPerformed
 
-    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        // TODO add your handling code here:                                         
-        this.dispose();  // Cierra el formulario actual
-        frmGestionEmpleados frame = new frmGestionEmpleados(); 
-        frame.setVisible(true); 
-    }//GEN-LAST:event_btnVolverActionPerformed
-
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreActionPerformed
+
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        frmGestionEmpleados formGestion = new frmGestionEmpleados();
+    
+    formGestion.setVisible(true);
+    
+    formGestion.setLocationRelativeTo(null);
+    }//GEN-LAST:event_btnVolverActionPerformed
         
     /**
      * @param args the command line arguments

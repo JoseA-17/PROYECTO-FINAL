@@ -8,50 +8,67 @@ package ControlEmpleados;
  *
  * @author anton
  */
+import java.sql.*;
+
+import DAO.Conexion;
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
+import com.mysql.jdbc.ResultSet;
 import javax.swing.JOptionPane;
-import java.util.HashMap;
-import javax.swing.JFrame;
 public class frmIniciarSesion1 extends javax.swing.JFrame {
 
     /**
      * Creates new form frmIniciarSesion1
      */
-    private static HashMap<String, String> usuarios = new HashMap<>();
     public frmIniciarSesion1() {
         initComponents();
         this.setLocationRelativeTo(null); // centralizar el formulario
-        inicializarUsuarios(); // Inicializa los usuarios
     }
     
+    private void abrirMenuPrincipal() {
+    // Código para abrir el menú principal
+    frmMenuPrincipal menu = new frmMenuPrincipal();  // Asegúrate de tener esta clase
+    menu.setVisible(true);  // Muestra el formulario del menú principal
+    this.dispose();  // Cierra el formulario de inicio de sesión
+}
 
-    // Método para inicializar los usuarios y contraseñas
-    private void inicializarUsuarios() {
-        usuarios.put("admin", "1234");
-        usuarios.put("talvez", "1234");
-        usuarios.put("cajero", "2024");
-        usuarios.put("soporte", "juan34");
-    }
 
     // Método para validar las credenciales del usuario
     private void validarCredenciales() {
-        String usuario = txtUsuario.getText();  // Obtiene el nombre de usuario
-        String contrasena = new String(txtContrasenia.getPassword());  // Obtiene la contraseña
+    String usuario = txtUsuario.getText().trim();  // Obtén el usuario ingresado
+    String contrasena = new String(txtContrasenia.getPassword()).trim();  // Obtén la contraseña ingresada
 
-        // Verifica si el usuario y la contraseña son correctos
-        if (usuarios.containsKey(usuario) && usuarios.get(usuario).equals(contrasena)) {
-            JOptionPane.showMessageDialog(this, "Inicio de sesion exitoso. ¡Bienvenido, " + usuario + "!");
-            abrirMenuPrincipal();
-        } else {
-            JOptionPane.showMessageDialog(null,"Usuario o contraseña incorrectos.");
+    // Validación de campos vacíos
+    if (usuario.isEmpty() || contrasena.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
+        return;
+    }
+
+    // Conexión a la base de datos
+    Conexion conn = new Conexion("empleados"); // Cambia al nombre correcto de tu base de datos
+    String sql = "SELECT * FROM users WHERE users = ? AND password = ?"; // Verifica el nombre de la tabla y campos
+
+    try (Connection con = (Connection) conn.getConexion();  // Obtén la conexión
+         PreparedStatement ps = (PreparedStatement) con.prepareStatement(sql)) {  // Prepara la consulta
+
+        // Sustituye los valores en la consulta SQL
+        ps.setString(1, usuario);
+        ps.setString(2, contrasena);
+
+        // Ejecuta la consulta y obtiene el resultado
+        try (ResultSet rs = (ResultSet) ps.executeQuery()) {
+            if (rs.next()) {  // Si el usuario existe
+                JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso. ¡Bienvenido, " + usuario + "!");
+                abrirMenuPrincipal();  // Abre el menú principal
+            } else {
+                JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos.");
+            }
         }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos: " + e.getMessage());
     }
+}
 
-    // Método para abrir el menú principal después de iniciar sesión correctamente
-    private void abrirMenuPrincipal() {
-        this.dispose(); // Cierra la ventana actual
-        frmMenuPrincipal frame = new frmMenuPrincipal();  
-        frame.setVisible(true);  
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
