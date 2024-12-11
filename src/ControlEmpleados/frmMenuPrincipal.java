@@ -7,6 +7,7 @@ package ControlEmpleados;
 
 import ControlEmpleados.AsistenciasEmpleados.frmAsistenciasEmpleado;
 import ControlEmpleados.GestionEmpleados.frmGestionEmpleados;
+import ControlEmpleados.Nominas.frmGestionSalarios;
 import javax.swing.JFrame;
 
 /**
@@ -41,6 +42,7 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         btnSalir = new javax.swing.JButton();
+        btnSalarios = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -99,7 +101,20 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 260, 250, 20));
 
         btnSalir.setText("Salir");
-        jPanel2.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 360, -1, 50));
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 350, -1, 50));
+
+        btnSalarios.setText("Salarios");
+        btnSalarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalariosActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnSalarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 350, 110, 100));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -129,6 +144,18 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
         frame.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnControlAsistenciasActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnSalariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalariosActionPerformed
+        // TODO add your handling code here:
+         this.dispose();  // Cierra el formulario actual
+        frmGestionSalarios frame = new frmGestionSalarios();
+        frame.setVisible(true);
+    }//GEN-LAST:event_btnSalariosActionPerformed
     
     /**
      * @param args the command line arguments
@@ -170,6 +197,7 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnControlAsistencias;
     private javax.swing.JButton btnGestionEmpleados;
+    private javax.swing.JButton btnSalarios;
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

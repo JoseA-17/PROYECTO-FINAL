@@ -22,6 +22,7 @@ public class frmRegistrarAsistencia extends javax.swing.JFrame {
      */
     public frmRegistrarAsistencia() {
         initComponents();
+        this.setLocationRelativeTo(null);
         cargarTablaAsistencias();
         agregarListenerSeleccionFila();
     }

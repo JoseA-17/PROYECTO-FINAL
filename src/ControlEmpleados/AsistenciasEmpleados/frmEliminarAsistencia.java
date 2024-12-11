@@ -24,9 +24,72 @@ public class frmEliminarAsistencia extends javax.swing.JFrame {
      */
     public frmEliminarAsistencia() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        cargarTablaAsistencias();
+        agregarListenerSeleccionFila();
     }
     
-    private void cargarTablaVerAsistencias() {
+    private String idEmpleadoSeleccionado = ""; // Variable para almacenar el ID del empleado seleccionado
+
+private void agregarListenerSeleccionFila() {
+    tblEmpleados.getSelectionModel().addListSelectionListener(e -> {
+        int row = tblEmpleados.getSelectedRow();
+        if (row != -1) {
+            // Se ha seleccionado una fila, muestra el ID o realiza alguna acción
+            idEmpleadoSeleccionado = tblEmpleados.getValueAt(row, 0).toString(); // Asigna el ID del empleado desde la primera columna
+            System.out.println("ID del empleado seleccionado: " + idEmpleadoSeleccionado);    
+        }
+    });
+}
+
+
+    private void eliminarAsistencia() {
+    // Validar que se haya seleccionado un empleado
+    if (idEmpleadoSeleccionado.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, selecciona un empleado de la tabla.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Crear conexión
+    Conexion conn = new Conexion("empleados");
+    Connection c = conn.getConexion();
+    
+    if (c == null) {
+        JOptionPane.showMessageDialog(this, "No se pudo establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Consulta SQL para eliminar la asistencia
+    String deleteQuery = "DELETE FROM asistencias WHERE ID = ?";
+
+    try {
+        PreparedStatement psDelete = c.prepareStatement(deleteQuery);
+        psDelete.setString(1, idEmpleadoSeleccionado); // Usamos el ID del empleado seleccionado
+        int rowsAffected = psDelete.executeUpdate();
+        
+        if (rowsAffected > 0) {
+            JOptionPane.showMessageDialog(this, "Asistencia eliminada correctamente para el empleado con ID: " + idEmpleadoSeleccionado);
+            // Actualizar la tabla después de eliminar la asistencia
+            cargarTablaAsistencias();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al eliminar la asistencia del empleado.");
+        }
+
+        psDelete.close();
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error al eliminar la asistencia: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    } finally {
+        try {
+            if (c != null) c.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+    
+    private void cargarTablaAsistencias() {
     // Obtener la conexión
     Conexion conn = new Conexion("empleados"); // Usa la base de datos correcta
     Connection c = conn.getConexion();
@@ -248,7 +311,7 @@ private void filtrarPorNombre() {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setText("Historial de Asistencias");
+        jLabel1.setText("Eliminar Asistencias");
 
         tblEmpleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -289,6 +352,11 @@ private void filtrarPorNombre() {
         });
 
         jButton1.setText("Eliminar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -402,6 +470,11 @@ private void filtrarPorNombre() {
         // TODO add your handling code here:
         filtrarPorID();
     }//GEN-LAST:event_btnBuscarPorIDActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        eliminarAsistencia();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

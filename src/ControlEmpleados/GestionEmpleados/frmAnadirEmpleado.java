@@ -4,8 +4,6 @@
  */
 package ControlEmpleados.GestionEmpleados;
 
-import ControlEmpleados.Empleado;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import java.sql.*;
 import DAO.Conexion;
@@ -159,17 +157,17 @@ public class frmAnadirEmpleado extends javax.swing.JFrame {
     String correo = txtCorreo.getText();
     int edad = Integer.parseInt(txtEdad.getText());
     
-    // Obtén el cargo seleccionado en el comboBox
+    //obtiene el dato del cargo
     String cargo = cmbCargo.getSelectedItem().toString();
     
-    // Obtén el estado del seguro desde el comboBox
+    //obtiene datos del combo box seguro
     boolean seguro = cmbSeguro.getSelectedItem().toString().equals("SI");
 
-    // SQL para insertar los datos del empleado en la base de datos
+    //SQL para insertar los datos del empleado en la base de datos
     String query = "INSERT INTO empleados (nombre, telefono, correo, edad, cargo, seguro) VALUES (?, ?, ?, ?, ?, ?)";
     
 
-        // Prepara la consulta SQL
+        //consulta sql manejando exception
         try {
             Conexion conn = new Conexion("empleados");
             Connection c = null;
@@ -182,20 +180,25 @@ public class frmAnadirEmpleado extends javax.swing.JFrame {
             ps.setString(5, cargo);
             ps.setBoolean(6, seguro);
             
-            // Ejecuta la consulta
+            //Ejecuta la consulta
             int filasAfectadas = ps.executeUpdate();
             
-            if (filasAfectadas > 0) {
+            if (filasAfectadas > 0) 
+            {
                 JOptionPane.showMessageDialog(this, "Empleado agregado correctamente.");
-            } else {
+            } 
+            
+            else 
+            {
                 JOptionPane.showMessageDialog(this, "Error al agregar el empleado.");
             }
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) 
+        {
             JOptionPane.showMessageDialog(this, "Error al ejecutar la consulta: " + e.getMessage());
         }
 
-
-    // Limpiar los campos después de agregar
+    //Limpiar los campos después de agregar
     txtNombre.setText("");
     txtTelefono.setText("");
     txtCorreo.setText("");
