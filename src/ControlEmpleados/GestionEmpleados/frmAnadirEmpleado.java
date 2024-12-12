@@ -127,15 +127,18 @@ public class frmAnadirEmpleado extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Volver");
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 470, 60, 28));
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 470, 60, 28));
 
-        btnVolver.setText("Volver");
+        btnVolver.setBackground(new java.awt.Color(102, 153, 255));
+        btnVolver.setForeground(new java.awt.Color(102, 153, 255));
+        btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/out50x50.png"))); // NOI18N
+        btnVolver.setBorder(null);
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVolverActionPerformed(evt);
             }
         });
-        jPanel1.add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 410, -1, 40));
+        jPanel1.add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 410, -1, 60));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

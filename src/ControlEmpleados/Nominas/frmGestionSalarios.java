@@ -18,6 +18,7 @@ public class frmGestionSalarios extends javax.swing.JFrame {
      */
     public frmGestionSalarios() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -33,14 +34,15 @@ public class frmGestionSalarios extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         btnVolver1 = new javax.swing.JButton();
         btnVerAsistencias = new javax.swing.JButton();
         btnActualizarNomina = new javax.swing.JButton();
         btnRegistrarNomina = new javax.swing.JButton();
         btnRecibo = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
 
         btnVolver.setBackground(new java.awt.Color(102, 153, 255));
         btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/out50x50.png"))); // NOI18N
@@ -57,21 +59,17 @@ public class frmGestionSalarios extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(102, 153, 255));
         jPanel2.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Gestion Salarios");
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 20, 276, 41));
 
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Ver Empleado y Nomina");
-
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Generar Nomina");
-
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Generar Recibo");
-
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Actualizar Nomina");
+        jLabel2.setText("Actualizar nomina");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 240, -1, -1));
 
         btnVolver1.setBackground(new java.awt.Color(102, 153, 255));
         btnVolver1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/out50x50.png"))); // NOI18N
@@ -81,110 +79,74 @@ public class frmGestionSalarios extends javax.swing.JFrame {
                 btnVolver1ActionPerformed(evt);
             }
         });
+        jPanel2.add(btnVolver1, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 250, 70, 70));
 
         btnVerAsistencias.setBackground(new java.awt.Color(102, 153, 255));
         btnVerAsistencias.setForeground(new java.awt.Color(102, 153, 255));
-        btnVerAsistencias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/immigration120x120.png"))); // NOI18N
+        btnVerAsistencias.setIcon(new javax.swing.ImageIcon("C:\\Users\\anton\\Downloads\\Buscar empleado y nmomina 120x120).png")); // NOI18N
         btnVerAsistencias.setBorder(null);
         btnVerAsistencias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVerAsistenciasActionPerformed(evt);
             }
         });
+        jPanel2.add(btnVerAsistencias, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, 180, 130));
 
-        btnActualizarNomina.setText("ActualizarNomina");
+        btnActualizarNomina.setBackground(new java.awt.Color(102, 153, 255));
+        btnActualizarNomina.setIcon(new javax.swing.ImageIcon("C:\\Users\\anton\\Downloads\\Actualizar nomina 120x120.png")); // NOI18N
+        btnActualizarNomina.setBorder(null);
         btnActualizarNomina.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActualizarNominaActionPerformed(evt);
             }
         });
+        jPanel2.add(btnActualizarNomina, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 90, 180, 150));
 
-        btnRegistrarNomina.setText("Registrar Nomina");
+        btnRegistrarNomina.setBackground(new java.awt.Color(102, 153, 255));
+        btnRegistrarNomina.setIcon(new javax.swing.ImageIcon("C:\\Users\\anton\\Downloads\\registrar nomina 120x120.png")); // NOI18N
+        btnRegistrarNomina.setBorder(null);
         btnRegistrarNomina.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegistrarNominaActionPerformed(evt);
             }
         });
+        jPanel2.add(btnRegistrarNomina, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 320, 180, 130));
 
-        btnRecibo.setText("Generar Recibo");
+        btnRecibo.setBackground(new java.awt.Color(102, 153, 255));
+        btnRecibo.setIcon(new javax.swing.ImageIcon("C:\\Users\\anton\\Downloads\\Generar recibo 120x120.png")); // NOI18N
+        btnRecibo.setBorder(null);
         btnRecibo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReciboActionPerformed(evt);
             }
         });
+        jPanel2.add(btnRecibo, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 310, 220, 150));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(136, 136, 136)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(2, 2, 2)
-                                .addComponent(btnRegistrarNomina, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(btnVerAsistencias, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 233, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(btnActualizarNomina))
-                                .addGap(25, 25, 25))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addGap(6, 6, 6)
-                                    .addComponent(jLabel4))
-                                .addComponent(btnRecibo, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(158, 158, 158)
-                        .addComponent(jLabel3)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(226, 226, 226))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(316, 316, 316)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnVolver1)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(91, 91, 91)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnVerAsistencias, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel2)
-                        .addGap(149, 149, 149)
-                        .addComponent(btnRegistrarNomina, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnActualizarNomina, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnRecibo, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel4)
-                        .addGap(1, 1, 1)))
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                .addComponent(btnVolver1)
-                .addGap(31, 31, 31))
-        );
+        jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Ver Empleado y Nomina");
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 240, -1, -1));
+
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Generar recibo");
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 460, -1, -1));
+
+        jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Volver");
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 330, -1, -1));
+
+        jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Registrar nomina");
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 460, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,6 +178,15 @@ public class frmGestionSalarios extends javax.swing.JFrame {
         verAsistencias.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnVerAsistenciasActionPerformed
 
+    private void btnReciboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReciboActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        frmGenerarRecibo  NominaRecibo = new frmGenerarRecibo();
+        NominaRecibo.setVisible(true);
+        NominaRecibo.setLocationRelativeTo(null);
+
+    }//GEN-LAST:event_btnReciboActionPerformed
+
     private void btnActualizarNominaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarNominaActionPerformed
         // TODO add your handling code here:
         this.dispose();
@@ -230,17 +201,7 @@ public class frmGestionSalarios extends javax.swing.JFrame {
         frmRegistrarNomina  registrarNOMINA = new frmRegistrarNomina();
         registrarNOMINA.setVisible(true);
         registrarNOMINA.setLocationRelativeTo(null);
-        
     }//GEN-LAST:event_btnRegistrarNominaActionPerformed
-
-    private void btnReciboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReciboActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-        frmGenerarRecibo  NominaRecibo = new frmGenerarRecibo();
-        NominaRecibo.setVisible(true);
-        NominaRecibo.setLocationRelativeTo(null);
-        
-    }//GEN-LAST:event_btnReciboActionPerformed
 
     /**
      * @param args the command line arguments
@@ -287,8 +248,9 @@ public class frmGestionSalarios extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }

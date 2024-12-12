@@ -43,6 +43,7 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         btnSalir = new javax.swing.JButton();
         btnSalarios = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -88,39 +89,49 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("SALIR");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 420, 60, 20));
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 440, 60, 20));
 
-        jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("GESTION EMPLEADOS");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 260, 210, 20));
+        jLabel4.setText("Calculo salarios");
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 470, 210, -1));
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("CONTROL ASISTENCIAS");
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 260, 250, 20));
 
-        btnSalir.setText("Salir");
+        btnSalir.setBackground(new java.awt.Color(102, 153, 255));
+        btnSalir.setForeground(new java.awt.Color(102, 153, 255));
+        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/out70x70.png"))); // NOI18N
+        btnSalir.setBorder(null);
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalirActionPerformed(evt);
             }
         });
-        jPanel2.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 350, -1, 50));
+        jPanel2.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 340, -1, 90));
 
-        btnSalarios.setText("Salarios");
+        btnSalarios.setBackground(new java.awt.Color(102, 153, 255));
+        btnSalarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/calculating120x120.png"))); // NOI18N
+        btnSalarios.setBorder(null);
         btnSalarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalariosActionPerformed(evt);
             }
         });
-        jPanel2.add(btnSalarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 350, 110, 100));
+        jPanel2.add(btnSalarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 310, 200, 150));
+
+        jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("GESTION EMPLEADOS");
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 260, 210, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 830, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 830, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,6 +214,7 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables

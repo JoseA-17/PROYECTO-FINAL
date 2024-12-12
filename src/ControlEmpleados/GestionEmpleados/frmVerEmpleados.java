@@ -60,7 +60,143 @@ public class frmVerEmpleados extends javax.swing.JFrame {
         }
     }
 
+   private void filtrarPorID() {
+    // Obtener el texto del campo txtID
+    String idEmpleado = txtID.getText().trim();
 
+    if (idEmpleado.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, ingrese un ID para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    // Obtener la conexión
+    Conexion conn = new Conexion("empleados");
+    Connection c = conn.getConexion();
+
+    if (c == null) {
+        JOptionPane.showMessageDialog(this, "Error: No se pudo conectar a la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    try {
+        // Crear la consulta SQL para filtrar por ID
+        String query = "SELECT asistencias.id, empleados.nombre, empleados.cargo, " +
+                       "asistencias.asistencia, asistencias.entrada, asistencias.salida, asistencias.observacion " +
+                       "FROM asistencias " +
+                       "INNER JOIN empleados ON asistencias.id = empleados.id " +
+                       "WHERE empleados.id = ?";  // Filtrar por ID
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setInt(1, Integer.parseInt(idEmpleado));  // Convertir el ID a entero
+
+        ResultSet rs = ps.executeQuery();
+
+        // Limpiar la tabla antes de agregar nuevos datos
+        DefaultTableModel model = (DefaultTableModel) tblEmpleados.getModel();
+        model.setRowCount(0);
+
+        // Llenar la tabla con los resultados filtrados
+        while (rs.next()) {
+            Object[] row = new Object[7];
+            row[0] = rs.getInt("id");
+            row[1] = rs.getString("nombre");
+            row[2] = rs.getString("cargo");
+            row[3] = rs.getString("asistencia");
+            row[4] = rs.getString("entrada");
+            row[5] = rs.getString("salida");
+            row[6] = rs.getString("observacion");
+
+            model.addRow(row);
+        }
+
+        if (model.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "No se encontraron asistencias para el ID proporcionado.", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        rs.close();
+        ps.close();
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error al realizar la consulta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "El ID debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+    } finally {
+        try {
+            if (c != null) {
+                c.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+private void filtrarPorNombre() {
+    // Obtener el texto del campo txtNombre
+    String nombreEmpleado = txtNombre.getText().trim();
+
+    if (nombreEmpleado.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, ingrese un nombre para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    // Obtener la conexión
+    Conexion conn = new Conexion("empleados");
+    Connection c = conn.getConexion();
+
+    if (c == null) {
+        JOptionPane.showMessageDialog(this, "Error: No se pudo conectar a la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    try {
+        // Crear la consulta SQL para filtrar por nombre
+        String query = "SELECT asistencias.id, empleados.nombre, empleados.cargo, " +
+                       "asistencias.asistencia, asistencias.entrada, asistencias.salida, asistencias.observacion " +
+                       "FROM asistencias " +
+                       "INNER JOIN empleados ON asistencias.id = empleados.id " +
+                       "WHERE empleados.nombre LIKE ?";  // Filtrar por nombre (con LIKE)
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setString(1, "%" + nombreEmpleado + "%");  // Permitir coincidencias parciales
+
+        ResultSet rs = ps.executeQuery();
+
+        // Limpiar la tabla antes de agregar nuevos datos
+        DefaultTableModel model = (DefaultTableModel) tblEmpleados.getModel();
+        model.setRowCount(0);
+
+        // Llenar la tabla con los resultados filtrados
+        while (rs.next()) {
+            Object[] row = new Object[7];
+            row[0] = rs.getInt("id");
+            row[1] = rs.getString("nombre");
+            row[2] = rs.getString("cargo");
+            row[3] = rs.getString("asistencia");
+            row[4] = rs.getString("entrada");
+            row[5] = rs.getString("salida");
+            row[6] = rs.getString("observacion");
+
+            model.addRow(row);
+        }
+
+        if (model.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "No se encontraron asistencias para el nombre proporcionado.", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        rs.close();
+        ps.close();
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error al realizar la consulta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    } finally {
+        try {
+            if (c != null) {
+                c.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -75,6 +211,15 @@ public class frmVerEmpleados extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         btnVolver = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        btnBuscarPorNombre = new javax.swing.JButton();
+        txtNombre = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        btnBuscarPorID = new javax.swing.JButton();
+        txtID = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -99,32 +244,82 @@ public class frmVerEmpleados extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(102, 153, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Volver");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 70, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, -1));
 
-        btnVolver.setText("Volver");
+        btnVolver.setBackground(new java.awt.Color(102, 153, 255));
+        btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/out70x70.png"))); // NOI18N
+        btnVolver.setBorder(null);
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVolverActionPerformed(evt);
             }
         });
-        jPanel1.add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 30, -1, 30));
+        jPanel1.add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 90, 80));
+
+        jPanel2.setBackground(new java.awt.Color(102, 153, 255));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Buscar");
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 10, 70, -1));
+
+        btnBuscarPorNombre.setBackground(new java.awt.Color(102, 153, 255));
+        btnBuscarPorNombre.setIcon(new javax.swing.ImageIcon("C:\\Users\\anton\\Downloads\\buscar 2 30x30.png")); // NOI18N
+        btnBuscarPorNombre.setBorder(null);
+        btnBuscarPorNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarPorNombreActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnBuscarPorNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 10, -1, -1));
+        jPanel2.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, 199, -1));
+
+        jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Buscar");
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 50, 70, -1));
+
+        btnBuscarPorID.setBackground(new java.awt.Color(102, 153, 255));
+        btnBuscarPorID.setIcon(new javax.swing.ImageIcon("C:\\Users\\anton\\Downloads\\buscar 2 30x30.png")); // NOI18N
+        btnBuscarPorID.setBorder(null);
+        btnBuscarPorID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarPorIDActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnBuscarPorID, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 50, -1, -1));
+        jPanel2.add(txtID, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 50, 55, -1));
+
+        jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText(" Filtrar por nombre:");
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 170, -1));
+
+        jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Filtrar por ID: ");
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 130, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -145,6 +340,16 @@ public class frmVerEmpleados extends javax.swing.JFrame {
     
     frmgestionEmpleados.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void btnBuscarPorIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarPorIDActionPerformed
+        // TODO add your handling code here:
+        filtrarPorID();
+    }//GEN-LAST:event_btnBuscarPorIDActionPerformed
+
+    private void btnBuscarPorNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarPorNombreActionPerformed
+        // TODO add your handling code here:
+        filtrarPorNombre();
+    }//GEN-LAST:event_btnBuscarPorNombreActionPerformed
     
     /**
      * @param args the command line arguments
@@ -183,10 +388,19 @@ public class frmVerEmpleados extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscarPorID;
+    private javax.swing.JButton btnBuscarPorNombre;
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblEmpleados;
+    private javax.swing.JTextField txtID;
+    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }
