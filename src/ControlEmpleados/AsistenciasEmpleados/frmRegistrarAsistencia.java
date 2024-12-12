@@ -7,9 +7,13 @@ package ControlEmpleados.AsistenciasEmpleados;
 import DAO.Conexion;
 import javax.swing.JOptionPane;
 import java.sql.*;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.table.DefaultTableModel;
+import java.text.SimpleDateFormat;
+import java.sql.Time;
+import java.util.Date;
 
 /**
  *
@@ -40,7 +44,8 @@ private void agregarListenerSeleccionFila() {
     });
 }
 
-private void registrarAsistencia() {
+private void registrarAsistencia() 
+{
     // Validar selección de empleado en la tabla
     int selectedRow = tblEmpleados.getSelectedRow();
     if (selectedRow == -1) {
@@ -70,7 +75,8 @@ private void registrarAsistencia() {
     diasMap.put("DOMINGO", "DOM");
 
     String columnaDia = diasMap.get(diaSemana);
-    if (columnaDia == null) {
+    if (columnaDia == null) 
+    {
         JOptionPane.showMessageDialog(this, "Día seleccionado no válido.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
@@ -90,7 +96,8 @@ private void registrarAsistencia() {
     // Crear conexión
     Conexion conn = new Conexion("empleados");
     Connection c = conn.getConexion();
-    if (c == null) {
+    if (c == null) 
+    {
         JOptionPane.showMessageDialog(this, "No se pudo establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
@@ -102,7 +109,8 @@ private void registrarAsistencia() {
     String updateQuery = "UPDATE asistencias SET Asistencia = ?, Entrada = ?, Salida = ?, Jornada = ?, Observacion = ?, " +
                          columnaDia + " = ? WHERE ID = ?";
 
-    try {
+    try 
+    {
         // Verificar si el registro existe
         PreparedStatement psCheck = c.prepareStatement(checkQuery);
         psCheck.setString(1, idEmpleado);
@@ -110,7 +118,8 @@ private void registrarAsistencia() {
         rs.next();
         int count = rs.getInt(1);
 
-        if (count == 0) {
+        if (count == 0) 
+        {
             // Insertar registro inicial si no existe
             PreparedStatement psInsert = c.prepareStatement(insertQuery);
             psInsert.setString(1, idEmpleado);
@@ -133,40 +142,54 @@ private void registrarAsistencia() {
         psUpdate.setString(7, idEmpleado); // ID del empleado
 
         int rowsAffected = psUpdate.executeUpdate();
-        if (rowsAffected > 0) {
+        if (rowsAffected > 0) 
+        {
             JOptionPane.showMessageDialog(this, "Asistencia registrada correctamente para el día: " + diaSemana);
-        } else {
+        } 
+        
+        else 
+        {
             JOptionPane.showMessageDialog(this, "Error al actualizar el registro de asistencia.");
         }
 
         psUpdate.close();
         rs.close();
         psCheck.close();
-    } catch (SQLException e) {
+    } 
+    
+    catch (SQLException e) 
+    {
         JOptionPane.showMessageDialog(this, "Error al registrar asistencia: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         e.printStackTrace();
-    } finally {
-        try {
+    } 
+    
+    finally 
+    {
+        try 
+        {
             if (c != null) c.close();
-        } catch (SQLException e) {
+        } 
+        
+        catch (SQLException e) 
+        {
             e.printStackTrace();
         }
     }
 }
 
 
-
-
 private void cargarTablaAsistencias() {
     Conexion conn = new Conexion("empleados"); // Conexión a la base de datos
     Connection c = conn.getConexion();
     
-    if (c == null) {
+    if (c == null) 
+    {
         JOptionPane.showMessageDialog(this, "Error: No se pudo conectar a la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
-    try {
+    try 
+    {
         // Consulta para combinar datos de empleados y asistencias
         String query = "SELECT e.ID, e.Nombre, e.Cargo, a.Asistencia, a.Entrada, a.Salida, a.Jornada, a.Observacion " +
                        "FROM empleados e " +
@@ -179,7 +202,8 @@ private void cargarTablaAsistencias() {
         DefaultTableModel model = (DefaultTableModel) tblEmpleados.getModel();
         model.setRowCount(0); // Eliminar filas existentes
 
-        while (rs.next()) {
+        while (rs.next()) 
+        {
             // Obtener datos de cada columna
             Object[] row = new Object[3]; // Cambia 3 por el número de columnas a mostrar
             row[0] = rs.getInt("ID");        // ID del empleado
@@ -192,15 +216,26 @@ private void cargarTablaAsistencias() {
 
         rs.close();
         stmt.close();
-    } catch (SQLException e) {
+    } 
+    
+    catch (SQLException e) 
+    {
         JOptionPane.showMessageDialog(this, "Error al cargar datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         e.printStackTrace();
-    } finally {
-        try {
-            if (c != null) {
+    } 
+    
+    finally 
+    {
+        try 
+        {
+            if (c != null) 
+            {
                 c.close();
             }
-        } catch (SQLException e) {
+        } 
+        
+        catch (SQLException e) 
+        {
             e.printStackTrace();
         }
     }
@@ -208,9 +243,11 @@ private void cargarTablaAsistencias() {
 
 
     // Método para buscar por ID de empleado (opcional)
-    private void buscarEmpleado() {
+    private void buscarEmpleado() 
+    {
        String idEmpleado = txtID.getText().trim();
-    if (idEmpleado.isEmpty()) {
+    if (idEmpleado.isEmpty()) 
+    {
         JOptionPane.showMessageDialog(this, "Por favor, ingresa un ID de empleado.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
@@ -218,7 +255,8 @@ private void cargarTablaAsistencias() {
     // Consulta SQL para buscar al empleado
     String query = "SELECT * FROM empleados WHERE id = ?";
 
-    try {
+    try 
+    {
         Conexion conn = new Conexion("empleados");
         Connection c = conn.getConexion();
         PreparedStatement ps = c.prepareStatement(query);
@@ -234,14 +272,151 @@ private void cargarTablaAsistencias() {
             JOptionPane.showMessageDialog(this, "Empleado encontrado: " + nombre + " - " + cargo);
 
             // Aquí podrías hacer algo con la información obtenida, como llenar un formulario o actualizar la tabla de asistencia.
-        } else {
+        } 
+        
+        else 
+        {
             JOptionPane.showMessageDialog(this, "Empleado no encontrado con el ID proporcionado.", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         ps.close();
         c.close();
-    } catch (SQLException e) {
+    } 
+    
+    catch (SQLException e) 
+    {
         JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
+    
+private Time convertirAHoraFormatoMySQL(String hora) throws ParseException 
+{
+    // Limpiar espacios extraños
+    hora = hora.trim();
+    
+    // Definir el formato de entrada (12 horas con AM/PM)
+    SimpleDateFormat inputFormat = new SimpleDateFormat("h a"); // Formato 12 horas con AM/PM
+    // Definir el formato de salida (24 horas)
+    SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm:ss"); // Formato 24 horas
+    
+    // Intentar parsear la hora de entrada
+    Date date = inputFormat.parse(hora);
+    // Convertir la hora al formato 24 horas
+    String horaFormateada = outputFormat.format(date);
+    
+    // Convertir a Time para la base de datos
+    return Time.valueOf(horaFormateada);
+}
+
+
+// Método para registrar las horas por día
+private void registrarHorasPorDia() 
+{
+    // Validar selección de empleado en la tabla
+    int selectedRow = tblEmpleados.getSelectedRow();
+    if (selectedRow == -1) 
+    {
+        JOptionPane.showMessageDialog(this, "Por favor, selecciona un empleado de la tabla.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Obtener datos de la tabla y los combos
+    String idEmpleado = tblEmpleados.getValueAt(selectedRow, 0).toString(); // ID del empleado
+    String nombreEmpleado = tblEmpleados.getValueAt(selectedRow, 1).toString(); // Nombre
+    String cargoEmpleado = tblEmpleados.getValueAt(selectedRow, 2).toString(); // Cargo
+    String diaSemana = cmbDiaSemana.getSelectedItem().toString().toUpperCase(); // Día en mayúsculas
+    String horaEntrada = cmbEntrada.getSelectedItem().toString() + " " + cmbHorarioEntrada.getSelectedItem().toString(); // Hora + AM/PM
+    String horaSalida = cmbSalida.getSelectedItem().toString() + " " + cmbHorarioSalida.getSelectedItem().toString(); // Hora + AM/PM
+
+    // Mapear días de la semana a las columnas correspondientes en la base de datos
+    Map<String, String> diasMap = new HashMap<>();
+    diasMap.put("LUNES", "lunes");
+    diasMap.put("MARTES", "martes");
+    diasMap.put("MIERCOLES", "miercoles");
+    diasMap.put("JUEVES", "jueves");
+    diasMap.put("VIERNES", "viernes");
+    diasMap.put("SABADO", "sabado");
+    diasMap.put("DOMINGO", "domingo");
+
+    String columnaDia = diasMap.get(diaSemana);
+    if (columnaDia == null) {
+        JOptionPane.showMessageDialog(this, "Día seleccionado no válido.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Crear conexión a la base de datos
+    Conexion conn = new Conexion("empleados");
+    Connection c = conn.getConexion();
+    if (c == null) {
+        JOptionPane.showMessageDialog(this, "No se pudo establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Consultas SQL
+    String checkQuery = "SELECT COUNT(*) FROM horariopordias WHERE id = ?";
+    String insertQuery = "INSERT INTO horariopordias (id, nombre, cargo, lunes, martes, miercoles, jueves, viernes, sabado, domingo) " +
+                         "VALUES (?, ?, ?, NULL, NULL, NULL, NULL, NULL, NULL, NULL)";
+    String updateQuery = "UPDATE horariopordias SET " + columnaDia + " = ? WHERE id = ?";
+
+    try 
+    {
+        // Verificar si el registro existe en la base de datos
+        PreparedStatement psCheck = c.prepareStatement(checkQuery);
+        psCheck.setString(1, idEmpleado);
+        ResultSet rs = psCheck.executeQuery();
+        rs.next();
+        int count = rs.getInt(1);
+
+        if (count == 0) 
+        {
+            // Insertar registro inicial si no existe
+            PreparedStatement psInsert = c.prepareStatement(insertQuery);
+            psInsert.setString(1, idEmpleado);
+            psInsert.setString(2, nombreEmpleado);
+            psInsert.setString(3, cargoEmpleado);
+            psInsert.executeUpdate();
+            psInsert.close();
+        }
+
+        // Actualizar el día seleccionado con las horas de entrada y salida
+        PreparedStatement psUpdate = c.prepareStatement(updateQuery);
+        psUpdate.setString(1, horaEntrada + " - " + horaSalida); // Guardar el rango de horas
+        psUpdate.setString(2, idEmpleado); // ID del empleado
+
+        // Ejecutar la actualización
+        int rowsAffected = psUpdate.executeUpdate();
+        if (rowsAffected > 0) 
+        {
+            JOptionPane.showMessageDialog(this, "Horas registradas correctamente para el día: " + diaSemana);
+        } 
+        
+        else 
+        {
+            JOptionPane.showMessageDialog(this, "Error al actualizar el registro de horas.");
+        }
+
+        psUpdate.close();
+        rs.close();
+        psCheck.close();
+        } 
+    
+    catch (SQLException e) 
+    {
+        JOptionPane.showMessageDialog(this, "Error al registrar horas: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    } 
+    
+    finally 
+    {
+        try 
+        {
+            if (c != null) c.close();
+        } 
+        
+        catch (SQLException e) 
+        {
+            e.printStackTrace();
+        }
     }
 }
 
@@ -506,7 +681,9 @@ private void cargarTablaAsistencias() {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         // TODO add your handling code here:
+        registrarHorasPorDia();
         registrarAsistencia();
+        
         
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
