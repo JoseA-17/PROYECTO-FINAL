@@ -1,7 +1,7 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package ControlEmpleados.Nominas;
+package ControlEmpleados.Nomina;
 
 import ControlEmpleados.AsistenciasEmpleados.frmVerAsistencia;
 import ControlEmpleados.GestionEmpleados.frmGestionEmpleados;
@@ -35,7 +35,7 @@ public class frmGestionSalarios extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnVolver1 = new javax.swing.JButton();
-        btnVerAsistencias = new javax.swing.JButton();
+        btnVerNominas = new javax.swing.JButton();
         btnActualizarNomina = new javax.swing.JButton();
         btnRegistrarNomina = new javax.swing.JButton();
         btnRecibo = new javax.swing.JButton();
@@ -79,18 +79,18 @@ public class frmGestionSalarios extends javax.swing.JFrame {
                 btnVolver1ActionPerformed(evt);
             }
         });
-        jPanel2.add(btnVolver1, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 250, 70, 70));
+        jPanel2.add(btnVolver1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 330, 80, 90));
 
-        btnVerAsistencias.setBackground(new java.awt.Color(102, 153, 255));
-        btnVerAsistencias.setForeground(new java.awt.Color(102, 153, 255));
-        btnVerAsistencias.setIcon(new javax.swing.ImageIcon("C:\\Users\\anton\\Downloads\\Buscar empleado y nmomina 120x120).png")); // NOI18N
-        btnVerAsistencias.setBorder(null);
-        btnVerAsistencias.addActionListener(new java.awt.event.ActionListener() {
+        btnVerNominas.setBackground(new java.awt.Color(102, 153, 255));
+        btnVerNominas.setForeground(new java.awt.Color(102, 153, 255));
+        btnVerNominas.setIcon(new javax.swing.ImageIcon("C:\\Users\\anton\\Downloads\\Buscar empleado y nmomina 120x120).png")); // NOI18N
+        btnVerNominas.setBorder(null);
+        btnVerNominas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVerAsistenciasActionPerformed(evt);
+                btnVerNominasActionPerformed(evt);
             }
         });
-        jPanel2.add(btnVerAsistencias, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, 180, 130));
+        jPanel2.add(btnVerNominas, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, 180, 130));
 
         btnActualizarNomina.setBackground(new java.awt.Color(102, 153, 255));
         btnActualizarNomina.setIcon(new javax.swing.ImageIcon("C:\\Users\\anton\\Downloads\\Actualizar nomina 120x120.png")); // NOI18N
@@ -110,7 +110,7 @@ public class frmGestionSalarios extends javax.swing.JFrame {
                 btnRegistrarNominaActionPerformed(evt);
             }
         });
-        jPanel2.add(btnRegistrarNomina, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 320, 180, 130));
+        jPanel2.add(btnRegistrarNomina, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 300, 180, 130));
 
         btnRecibo.setBackground(new java.awt.Color(102, 153, 255));
         btnRecibo.setIcon(new javax.swing.ImageIcon("C:\\Users\\anton\\Downloads\\Generar recibo 120x120.png")); // NOI18N
@@ -120,37 +120,37 @@ public class frmGestionSalarios extends javax.swing.JFrame {
                 btnReciboActionPerformed(evt);
             }
         });
-        jPanel2.add(btnRecibo, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 310, 220, 150));
+        jPanel2.add(btnRecibo, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 90, 220, 150));
 
         jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Ver Empleado y Nomina");
-        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 240, -1, -1));
+        jLabel6.setText("Ver Salarios");
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 240, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Generar recibo");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 460, -1, -1));
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 240, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Volver");
-        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 330, -1, -1));
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 440, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Registrar nomina");
-        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 460, -1, -1));
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 440, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 944, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE)
         );
 
         pack();
@@ -170,13 +170,13 @@ public class frmGestionSalarios extends javax.swing.JFrame {
         frame.setVisible(true);
     }//GEN-LAST:event_btnVolver1ActionPerformed
 
-    private void btnVerAsistenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerAsistenciasActionPerformed
+    private void btnVerNominasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerNominasActionPerformed
         // TODO add your handling code here:
         this.dispose();
-        frmVerAsistencia verAsistencias = new frmVerAsistencia();
-        verAsistencias.setVisible(true);
-        verAsistencias.setLocationRelativeTo(null);
-    }//GEN-LAST:event_btnVerAsistenciasActionPerformed
+        frmVerNominas verNominas = new frmVerNominas();
+        verNominas.setVisible(true);
+        verNominas.setLocationRelativeTo(null);
+    }//GEN-LAST:event_btnVerNominasActionPerformed
 
     private void btnReciboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReciboActionPerformed
         // TODO add your handling code here:
@@ -242,7 +242,7 @@ public class frmGestionSalarios extends javax.swing.JFrame {
     private javax.swing.JButton btnActualizarNomina;
     private javax.swing.JButton btnRecibo;
     private javax.swing.JButton btnRegistrarNomina;
-    private javax.swing.JButton btnVerAsistencias;
+    private javax.swing.JButton btnVerNominas;
     private javax.swing.JButton btnVolver;
     private javax.swing.JButton btnVolver1;
     private javax.swing.JLabel jLabel1;

@@ -6,7 +6,7 @@ package DAO;
 
 /**
  *
- * @author darwi
+ * @author anton
  */
 import java.sql.*;
 public class Conexion 

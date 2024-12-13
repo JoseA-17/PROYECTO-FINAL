@@ -5,6 +5,8 @@
 package ControlEmpleados.AsistenciasEmpleados;
 
 import DAO.Conexion;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import java.sql.*;
 import java.text.ParseException;
@@ -14,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 import java.text.SimpleDateFormat;
 import java.sql.Time;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  *
@@ -25,10 +28,10 @@ public class frmRegistrarAsistencia extends javax.swing.JFrame {
      * Creates new form frmRegistrarAsistencia
      */
     public frmRegistrarAsistencia() {
-        initComponents();
-        this.setLocationRelativeTo(null);
-        cargarTablaAsistencias();
-        agregarListenerSeleccionFila();
+         initComponents(); // Asegúrate de que los componentes se inicializan correctamente
+    this.setLocationRelativeTo(null);
+    cargarTablaAsistencias();
+    agregarListenerSeleccionFila();
     }
     
 private String idEmpleadoSeleccionado = ""; // Variable para almacenar el ID del empleado seleccionado
@@ -59,8 +62,8 @@ private void registrarAsistencia()
     String cargoEmpleado = tblEmpleados.getValueAt(selectedRow, 2).toString(); // Cargo
     String diaSemana = cmbDiaSemana.getSelectedItem().toString().toUpperCase(); // Día en mayúsculas
     String estadoAsistencia = cmbAsistencia.getSelectedItem().toString().substring(0, 1); // P, A o R
-    String horaEntrada = cmbEntrada.getSelectedItem().toString() + " " + cmbHorarioEntrada.getSelectedItem().toString(); // Hora + AM/PM
-    String horaSalida = cmbSalida.getSelectedItem().toString() + " " + cmbHorarioSalida.getSelectedItem().toString(); // Hora + AM/PM
+    String horaEntrada = cmbEntrada.getSelectedItem().toString();
+    String horaSalida = cmbSalida.getSelectedItem().toString();
     String jornada = cmbJornada.getSelectedItem().toString(); // Jornada (por ejemplo, "Matutina")
     String observacion = txtAreaObservacion.getText(); // Observaciones
 
@@ -80,18 +83,6 @@ private void registrarAsistencia()
         JOptionPane.showMessageDialog(this, "Día seleccionado no válido.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
-
-    // Mostrar datos en consola para depuración
-    System.out.println("ID Empleado: " + idEmpleado);
-    System.out.println("Nombre Empleado: " + nombreEmpleado);
-    System.out.println("Cargo Empleado: " + cargoEmpleado);
-    System.out.println("Día Seleccionado: " + diaSemana);
-    System.out.println("Columna Día: " + columnaDia);
-    System.out.println("Asistencia: " + estadoAsistencia);
-    System.out.println("Entrada: " + horaEntrada);
-    System.out.println("Salida: " + horaSalida);
-    System.out.println("Jornada: " + jornada);
-    System.out.println("Observación: " + observacion);
 
     // Crear conexión
     Conexion conn = new Conexion("empleados");
@@ -176,7 +167,6 @@ private void registrarAsistencia()
         }
     }
 }
-
 
 private void cargarTablaAsistencias() {
     Conexion conn = new Conexion("empleados"); // Conexión a la base de datos
@@ -289,33 +279,31 @@ private void cargarTablaAsistencias() {
     }
 }
     
-private Time convertirAHoraFormatoMySQL(String hora) throws ParseException 
-{
-    // Limpiar espacios extraños
-    hora = hora.trim();
-    
-    // Definir el formato de entrada (12 horas con AM/PM)
-    SimpleDateFormat inputFormat = new SimpleDateFormat("h a"); // Formato 12 horas con AM/PM
-    // Definir el formato de salida (24 horas)
-    SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm:ss"); // Formato 24 horas
-    
-    // Intentar parsear la hora de entrada
-    Date date = inputFormat.parse(hora);
-    // Convertir la hora al formato 24 horas
-    String horaFormateada = outputFormat.format(date);
-    
-    // Convertir a Time para la base de datos
-    return Time.valueOf(horaFormateada);
+   public class Utils {
+
+    // Función para parsear horas de entrada y salida
+    public static int parsearHoras(String horaEntrada, String horaSalida) throws ParseException {
+        // Definir el formato de hora que se espera (12 horas con AM/PM)
+        // Asegurarse de que esté en inglés o en el idioma adecuado
+        SimpleDateFormat formato = new SimpleDateFormat("h:mm a", Locale.ENGLISH);
+
+        // Intentar parsear las horas de entrada y salida
+        Date entrada = formato.parse(horaEntrada);
+        Date salida = formato.parse(horaSalida);
+
+        // Calcular la diferencia en milisegundos entre las dos horas
+        long diferencia = salida.getTime() - entrada.getTime();
+
+        // Convertir la diferencia a horas (milisegundos a horas)
+        return (int) (diferencia / (1000 * 60 * 60)); // Convertir milisegundos a horas
+    }
 }
-
-
-// Método para registrar las horas por día
-private void registrarHorasPorDia() 
-{
+    
+    
+private void registrarHorasPorDia() {
     // Validar selección de empleado en la tabla
     int selectedRow = tblEmpleados.getSelectedRow();
-    if (selectedRow == -1) 
-    {
+    if (selectedRow == -1) {
         JOptionPane.showMessageDialog(this, "Por favor, selecciona un empleado de la tabla.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
@@ -325,8 +313,8 @@ private void registrarHorasPorDia()
     String nombreEmpleado = tblEmpleados.getValueAt(selectedRow, 1).toString(); // Nombre
     String cargoEmpleado = tblEmpleados.getValueAt(selectedRow, 2).toString(); // Cargo
     String diaSemana = cmbDiaSemana.getSelectedItem().toString().toUpperCase(); // Día en mayúsculas
-    String horaEntrada = cmbEntrada.getSelectedItem().toString() + " " + cmbHorarioEntrada.getSelectedItem().toString(); // Hora + AM/PM
-    String horaSalida = cmbSalida.getSelectedItem().toString() + " " + cmbHorarioSalida.getSelectedItem().toString(); // Hora + AM/PM
+    String horaEntrada = cmbEntrada.getSelectedItem().toString();
+    String horaSalida = cmbSalida.getSelectedItem().toString();
 
     // Mapear días de la semana a las columnas correspondientes en la base de datos
     Map<String, String> diasMap = new HashMap<>();
@@ -354,12 +342,12 @@ private void registrarHorasPorDia()
 
     // Consultas SQL
     String checkQuery = "SELECT COUNT(*) FROM horariopordias WHERE id = ?";
-    String insertQuery = "INSERT INTO horariopordias (id, nombre, cargo, lunes, martes, miercoles, jueves, viernes, sabado, domingo) " +
-                         "VALUES (?, ?, ?, NULL, NULL, NULL, NULL, NULL, NULL, NULL)";
-    String updateQuery = "UPDATE horariopordias SET " + columnaDia + " = ? WHERE id = ?";
+    String selectHorasQuery = "SELECT horastrabajadas FROM horariopordias WHERE id = ?";
+    String insertQuery = "INSERT INTO horariopordias (id, nombre, cargo, lunes, martes, miercoles, jueves, viernes, sabado, domingo, horastrabajadas) " +
+                         "VALUES (?, ?, ?, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ?)";
+    String updateQuery = "UPDATE horariopordias SET " + columnaDia + " = ?, horastrabajadas = ? WHERE id = ?";
 
-    try 
-    {
+    try {
         // Verificar si el registro existe en la base de datos
         PreparedStatement psCheck = c.prepareStatement(checkQuery);
         psCheck.setString(1, idEmpleado);
@@ -367,54 +355,68 @@ private void registrarHorasPorDia()
         rs.next();
         int count = rs.getInt(1);
 
-        if (count == 0) 
-        {
-            // Insertar registro inicial si no existe
+        // Si no existe, insertar el registro inicial
+        if (count == 0) {
             PreparedStatement psInsert = c.prepareStatement(insertQuery);
             psInsert.setString(1, idEmpleado);
             psInsert.setString(2, nombreEmpleado);
             psInsert.setString(3, cargoEmpleado);
+            psInsert.setInt(4, 0); // Horas trabajadas iniciales 0
             psInsert.executeUpdate();
             psInsert.close();
         }
 
-        // Actualizar el día seleccionado con las horas de entrada y salida
+        // Obtener las horas trabajadas previamente para este empleado
+        PreparedStatement psSelect = c.prepareStatement(selectHorasQuery);
+        psSelect.setString(1, idEmpleado);
+        ResultSet rsHoras = psSelect.executeQuery();
+        int horasPrevias = 0;
+        if (rsHoras.next()) {
+            horasPrevias = rsHoras.getInt("horastrabajadas");
+        }
+        rsHoras.close();
+
+        // Calcular las horas trabajadas en el día usando la nueva función
+        int horasTrabajadas = 0;
+        if (horaEntrada != null && horaSalida != null) {
+            // Usamos la función parsearHoras para calcular las horas trabajadas
+            horasTrabajadas = Utils.parsearHoras(horaEntrada, horaSalida);
+
+            // Si el empleado falta, tiene permiso o excusa, las horas trabajadas serán 0
+            if ("F".equals(cmbAsistencia.getSelectedItem().toString()) ||
+                "P".equals(cmbAsistencia.getSelectedItem().toString()) ||
+                "E".equals(cmbAsistencia.getSelectedItem().toString())) {
+                horasTrabajadas = 0;
+            }
+        }
+
+        // Actualizar las horas trabajadas sumando las horas previas con las horas del día
+        int totalHorasTrabajadas = horasPrevias + horasTrabajadas;
+
+        // Actualizar la base de datos
         PreparedStatement psUpdate = c.prepareStatement(updateQuery);
-        psUpdate.setString(1, horaEntrada + " - " + horaSalida); // Guardar el rango de horas
-        psUpdate.setString(2, idEmpleado); // ID del empleado
+        psUpdate.setString(1, String.valueOf(horasTrabajadas));
+        psUpdate.setInt(2, totalHorasTrabajadas); // Horas totales
+        psUpdate.setString(3, idEmpleado);
 
         // Ejecutar la actualización
         int rowsAffected = psUpdate.executeUpdate();
-        if (rowsAffected > 0) 
-        {
+        if (rowsAffected > 0) {
             JOptionPane.showMessageDialog(this, "Horas registradas correctamente para el día: " + diaSemana);
-        } 
-        
-        else 
-        {
+        } else {
             JOptionPane.showMessageDialog(this, "Error al actualizar el registro de horas.");
         }
 
         psUpdate.close();
-        rs.close();
+        psSelect.close();
         psCheck.close();
-        } 
-    
-    catch (SQLException e) 
-    {
+    } catch (SQLException | ParseException e) {
         JOptionPane.showMessageDialog(this, "Error al registrar horas: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         e.printStackTrace();
-    } 
-    
-    finally 
-    {
-        try 
-        {
+    } finally {
+        try {
             if (c != null) c.close();
-        } 
-        
-        catch (SQLException e) 
-        {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -446,8 +448,6 @@ private void registrarHorasPorDia()
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         cmbJornada = new javax.swing.JComboBox<>();
-        cmbHorarioEntrada = new javax.swing.JComboBox<>();
-        cmbHorarioSalida = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtAreaObservacion = new javax.swing.JTextArea();
@@ -526,13 +526,13 @@ private void registrarHorasPorDia()
         jLabel6.setText("Hora de Salida");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 200, 101, -1));
 
-        cmbEntrada.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "8", "9", "10", "11", "12", "1", "2" }));
-        jPanel1.add(cmbEntrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 150, 49, -1));
+        cmbEntrada.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM" }));
+        jPanel1.add(cmbEntrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 150, 80, -1));
 
-        cmbSalida.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "12", "1", "2", "3", "4", "5", "6", "7", "8", "9" }));
-        jPanel1.add(cmbSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 200, 49, -1));
+        cmbSalida.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM" }));
+        jPanel1.add(cmbSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 200, 100, -1));
 
-        cmbAsistencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Presente", "Faltante", "Retraso", "Permiso", "Excusa" }));
+        cmbAsistencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Presente", "Faltante", "Permiso", "Excusa" }));
         jPanel1.add(cmbAsistencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 110, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -545,12 +545,6 @@ private void registrarHorasPorDia()
 
         cmbJornada.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Matutina", "Vespertina" }));
         jPanel1.add(cmbJornada, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 230, -1, -1));
-
-        cmbHorarioEntrada.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AM", "PM" }));
-        jPanel1.add(cmbHorarioEntrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 150, 56, -1));
-
-        cmbHorarioSalida.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PM", "AM" }));
-        jPanel1.add(cmbHorarioSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 200, 56, -1));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel9.setText("Observacion");
@@ -608,8 +602,8 @@ private void registrarHorasPorDia()
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         // TODO add your handling code here:
-        registrarHorasPorDia();
         registrarAsistencia();
+        registrarHorasPorDia();
         
         
     }//GEN-LAST:event_btnRegistrarActionPerformed
@@ -677,8 +671,6 @@ private void registrarHorasPorDia()
     private javax.swing.JComboBox<String> cmbAsistencia;
     private javax.swing.JComboBox<String> cmbDiaSemana;
     private javax.swing.JComboBox<String> cmbEntrada;
-    private javax.swing.JComboBox<String> cmbHorarioEntrada;
-    private javax.swing.JComboBox<String> cmbHorarioSalida;
     private javax.swing.JComboBox<String> cmbJornada;
     private javax.swing.JComboBox<String> cmbSalida;
     private javax.swing.JLabel jLabel1;

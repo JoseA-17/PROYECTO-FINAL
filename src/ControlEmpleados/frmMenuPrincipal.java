@@ -7,7 +7,7 @@ package ControlEmpleados;
 
 import ControlEmpleados.AsistenciasEmpleados.frmAsistenciasEmpleado;
 import ControlEmpleados.GestionEmpleados.frmGestionEmpleados;
-import ControlEmpleados.Nominas.frmGestionSalarios;
+import ControlEmpleados.Nomina.frmGestionSalarios;
 import javax.swing.JFrame;
 
 /**
@@ -158,7 +158,7 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         // TODO add your handling code here:
-        this.dispose();
+        System.exit(0);
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnSalariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalariosActionPerformed

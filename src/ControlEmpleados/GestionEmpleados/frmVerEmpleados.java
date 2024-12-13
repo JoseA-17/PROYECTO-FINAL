@@ -210,7 +210,7 @@ private void filtrarPorNombre() {
         tblEmpleados = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        btnVolver = new javax.swing.JButton();
+        btnVolver2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         btnBuscarPorNombre = new javax.swing.JButton();
@@ -249,15 +249,15 @@ private void filtrarPorNombre() {
         jLabel1.setText("Volver");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, -1));
 
-        btnVolver.setBackground(new java.awt.Color(102, 153, 255));
-        btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/out70x70.png"))); // NOI18N
-        btnVolver.setBorder(null);
-        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+        btnVolver2.setBackground(new java.awt.Color(102, 153, 255));
+        btnVolver2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/out50x50.png"))); // NOI18N
+        btnVolver2.setBorder(null);
+        btnVolver2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVolverActionPerformed(evt);
+                btnVolver2ActionPerformed(evt);
             }
         });
-        jPanel1.add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 90, 80));
+        jPanel1.add(btnVolver2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, -1));
 
         jPanel2.setBackground(new java.awt.Color(102, 153, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -265,7 +265,7 @@ private void filtrarPorNombre() {
         jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Buscar");
-        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 10, 70, -1));
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 20, 70, -1));
 
         btnBuscarPorNombre.setBackground(new java.awt.Color(102, 153, 255));
         btnBuscarPorNombre.setIcon(new javax.swing.ImageIcon("C:\\Users\\anton\\Downloads\\buscar 2 30x30.png")); // NOI18N
@@ -275,13 +275,13 @@ private void filtrarPorNombre() {
                 btnBuscarPorNombreActionPerformed(evt);
             }
         });
-        jPanel2.add(btnBuscarPorNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 10, -1, -1));
-        jPanel2.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, 199, -1));
+        jPanel2.add(btnBuscarPorNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, -1, -1));
+        jPanel2.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 20, 199, -1));
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Buscar");
-        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 50, 70, -1));
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 60, 70, -1));
 
         btnBuscarPorID.setBackground(new java.awt.Color(102, 153, 255));
         btnBuscarPorID.setIcon(new javax.swing.ImageIcon("C:\\Users\\anton\\Downloads\\buscar 2 30x30.png")); // NOI18N
@@ -291,26 +291,28 @@ private void filtrarPorNombre() {
                 btnBuscarPorIDActionPerformed(evt);
             }
         });
-        jPanel2.add(btnBuscarPorID, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 50, -1, -1));
-        jPanel2.add(txtID, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 50, 55, -1));
+        jPanel2.add(btnBuscarPorID, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, -1, -1));
+        jPanel2.add(txtID, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, 55, -1));
 
         jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText(" Filtrar por nombre:");
-        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 170, -1));
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 170, -1));
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Filtrar por ID: ");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 130, -1));
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 130, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 876, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -331,16 +333,6 @@ private void filtrarPorNombre() {
         
     }//GEN-LAST:event_formWindowOpened
 
-    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        // TODO add your handling code here:
-         this.dispose();
-        frmGestionEmpleados frmgestionEmpleados = new frmGestionEmpleados();
-   
-    frmgestionEmpleados.setVisible(true);
-    
-    frmgestionEmpleados.setLocationRelativeTo(null);
-    }//GEN-LAST:event_btnVolverActionPerformed
-
     private void btnBuscarPorIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarPorIDActionPerformed
         // TODO add your handling code here:
         filtrarPorID();
@@ -350,6 +342,15 @@ private void filtrarPorNombre() {
         // TODO add your handling code here:
         filtrarPorNombre();
     }//GEN-LAST:event_btnBuscarPorNombreActionPerformed
+
+    private void btnVolver2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolver2ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        frmGestionEmpleados frmgestionEmpleados = new frmGestionEmpleados();
+   
+        frmgestionEmpleados.setVisible(true);
+        frmgestionEmpleados.setLocationRelativeTo(null);
+    }//GEN-LAST:event_btnVolver2ActionPerformed
     
     /**
      * @param args the command line arguments
@@ -390,7 +391,7 @@ private void filtrarPorNombre() {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarPorID;
     private javax.swing.JButton btnBuscarPorNombre;
-    private javax.swing.JButton btnVolver;
+    private javax.swing.JButton btnVolver2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

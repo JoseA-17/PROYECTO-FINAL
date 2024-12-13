@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package ControlEmpleados.Nominas;
+package ControlEmpleados.Nomina;
 
 import ControlEmpleados.GestionEmpleados.frmGestionEmpleados;
 import DAO.Conexion;
@@ -17,13 +17,14 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Kelly
  */
-public class frmVerEmpleadosYNominas extends javax.swing.JFrame {
+public class frmVerNominas extends javax.swing.JFrame {
 
     /**
      * Creates new form frmVerEmpleadosYNominas
      */
-    public frmVerEmpleadosYNominas() {
+    public frmVerNominas() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
     
     
@@ -204,10 +205,10 @@ private void filtrarPorNombre() {
         jPanel1.setBackground(new java.awt.Color(102, 153, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Historial de Empleados y Nominas");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(256, 32, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, -1, -1));
 
         tblEmpleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -222,7 +223,7 @@ private void filtrarPorNombre() {
         ));
         jScrollPane1.setViewportView(tblEmpleados);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 820, 226));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 156, 820, 260));
 
         btnVolver.setBackground(new java.awt.Color(102, 153, 255));
         btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/out50x50.png"))); // NOI18N
@@ -237,14 +238,14 @@ private void filtrarPorNombre() {
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Buscar");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 150, 60, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 120, 60, -1));
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Filtrar por ID: ");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(74, 147, -1, -1));
-        jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(208, 92, 199, -1));
-        jPanel1.add(txtID, new org.netbeans.lib.awtextra.AbsoluteConstraints(208, 147, 55, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, -1, -1));
+        jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 80, 199, -1));
+        jPanel1.add(txtID, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 120, 55, -1));
 
         btnBuscarPorID.setBackground(new java.awt.Color(102, 153, 255));
         btnBuscarPorID.setIcon(new javax.swing.ImageIcon("C:\\Users\\anton\\Downloads\\buscar 2 30x30.png")); // NOI18N
@@ -254,7 +255,7 @@ private void filtrarPorNombre() {
                 btnBuscarPorIDActionPerformed(evt);
             }
         });
-        jPanel1.add(btnBuscarPorID, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 140, -1, -1));
+        jPanel1.add(btnBuscarPorID, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, -1, -1));
 
         btnBuscarPorNombre.setBackground(new java.awt.Color(102, 153, 255));
         btnBuscarPorNombre.setIcon(new javax.swing.ImageIcon("C:\\Users\\anton\\Downloads\\buscar 2 30x30.png")); // NOI18N
@@ -264,7 +265,7 @@ private void filtrarPorNombre() {
                 btnBuscarPorNombreActionPerformed(evt);
             }
         });
-        jPanel1.add(btnBuscarPorNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 90, -1, -1));
+        jPanel1.add(btnBuscarPorNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 70, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -274,12 +275,12 @@ private void filtrarPorNombre() {
         jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText(" Filtrar por nombre:");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(33, 92, -1, -1));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Buscar");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 90, 60, -1));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 80, 60, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -297,15 +298,15 @@ private void filtrarPorNombre() {
 
     private void btnVolver1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolver1ActionPerformed
         // TODO add your handling code here:
-        this.dispose();  // Cierra el formulario actual
+        this.dispose();  
         frmGestionSalarios frame = new frmGestionSalarios();
         frame.setVisible(true);
     }//GEN-LAST:event_btnVolver1ActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
-        this.dispose();  // Cierra el formulario actual
-        frmGestionEmpleados frame = new frmGestionEmpleados();
+         this.dispose();  
+        frmGestionSalarios frame = new frmGestionSalarios();
         frame.setVisible(true);
     }//GEN-LAST:event_btnVolverActionPerformed
 
@@ -336,20 +337,21 @@ private void filtrarPorNombre() {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(frmVerEmpleadosYNominas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmVerNominas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(frmVerEmpleadosYNominas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmVerNominas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(frmVerEmpleadosYNominas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmVerNominas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(frmVerEmpleadosYNominas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmVerNominas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new frmVerEmpleadosYNominas().setVisible(true);
+                new frmVerNominas().setVisible(true);
             }
         });
     }
