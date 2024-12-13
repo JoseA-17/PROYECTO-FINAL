@@ -64,12 +64,12 @@ public class frmGestionSalarios extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Gestion Salarios");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 20, 276, 41));
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, 276, 41));
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Actualizar nomina");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 240, -1, -1));
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 250, -1, -1));
 
         btnVolver1.setBackground(new java.awt.Color(102, 153, 255));
         btnVolver1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/out50x50.png"))); // NOI18N
@@ -79,7 +79,7 @@ public class frmGestionSalarios extends javax.swing.JFrame {
                 btnVolver1ActionPerformed(evt);
             }
         });
-        jPanel2.add(btnVolver1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 330, 80, 90));
+        jPanel2.add(btnVolver1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 330, 80, 90));
 
         btnVerNominas.setBackground(new java.awt.Color(102, 153, 255));
         btnVerNominas.setForeground(new java.awt.Color(102, 153, 255));
@@ -90,7 +90,7 @@ public class frmGestionSalarios extends javax.swing.JFrame {
                 btnVerNominasActionPerformed(evt);
             }
         });
-        jPanel2.add(btnVerNominas, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, 180, 130));
+        jPanel2.add(btnVerNominas, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 110, 180, 130));
 
         btnActualizarNomina.setBackground(new java.awt.Color(102, 153, 255));
         btnActualizarNomina.setIcon(new javax.swing.ImageIcon("C:\\Users\\anton\\Downloads\\Actualizar nomina 120x120.png")); // NOI18N
@@ -100,7 +100,7 @@ public class frmGestionSalarios extends javax.swing.JFrame {
                 btnActualizarNominaActionPerformed(evt);
             }
         });
-        jPanel2.add(btnActualizarNomina, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 90, 180, 150));
+        jPanel2.add(btnActualizarNomina, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 100, 180, 150));
 
         btnRegistrarNomina.setBackground(new java.awt.Color(102, 153, 255));
         btnRegistrarNomina.setIcon(new javax.swing.ImageIcon("C:\\Users\\anton\\Downloads\\registrar nomina 120x120.png")); // NOI18N
@@ -120,22 +120,22 @@ public class frmGestionSalarios extends javax.swing.JFrame {
                 btnReciboActionPerformed(evt);
             }
         });
-        jPanel2.add(btnRecibo, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 90, 220, 150));
+        jPanel2.add(btnRecibo, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 100, 220, 150));
 
         jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Ver Salarios");
-        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 240, -1, -1));
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 240, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Generar recibo");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 240, -1, -1));
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 250, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Volver");
-        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 440, -1, -1));
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 420, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
@@ -146,11 +146,11 @@ public class frmGestionSalarios extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 944, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 833, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE)
         );
 
         pack();

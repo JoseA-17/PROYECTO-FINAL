@@ -269,6 +269,7 @@ private void filtrarPorNombre() {
         btnBuscarPorNombre1 = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         btnGenerar = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -338,7 +339,8 @@ private void filtrarPorNombre() {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Volver");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Generar Recibo");
 
         tblRecibos.setModel(new javax.swing.table.DefaultTableModel(
@@ -388,69 +390,77 @@ private void filtrarPorNombre() {
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Buscar");
 
-        btnGenerar.setText("Generar");
+        btnGenerar.setBackground(new java.awt.Color(102, 153, 255));
+        btnGenerar.setForeground(new java.awt.Color(102, 153, 255));
+        btnGenerar.setIcon(new javax.swing.ImageIcon("C:\\Users\\anton\\Downloads\\Generar recibo 50x50.png")); // NOI18N
+        btnGenerar.setBorder(null);
         btnGenerar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGenerarActionPerformed(evt);
             }
         });
 
+        jLabel12.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setText("Generar");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(56, 56, 56)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnVolver2, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnGenerar, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnVolver2, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnGenerar)
-                        .addGap(406, 406, 406))))
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel12)))
+                .addGap(199, 199, 199))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(349, 349, 349)
-                        .addComponent(jLabel2))
+                        .addGap(16, 16, 16)
+                        .addComponent(jLabel8)
+                        .addGap(17, 17, 17)
+                        .addComponent(txtNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(11, 11, 11)
+                        .addComponent(btnBuscarPorNombre1)
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(16, 16, 16)
-                                .addComponent(jLabel8)
-                                .addGap(17, 17, 17)
-                                .addComponent(txtNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(11, 11, 11)
-                                .addComponent(btnBuscarPorNombre1)
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(62, 62, 62)
-                                .addComponent(jLabel9)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtID1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(5, 5, 5)
-                                .addComponent(btnBuscarPorID1)
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(326, 326, 326)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(62, 62, 62)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtID1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5)
+                        .addComponent(btnBuscarPorID1)
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(326, 326, 326)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane3)
+                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 32, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1060, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(281, 281, 281))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jLabel2)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
+                        .addGap(93, 93, 93)
                         .addComponent(jLabel3))
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnBuscarPorNombre1)
@@ -471,17 +481,16 @@ private void filtrarPorNombre() {
                                         .addComponent(jLabel9))
                                     .addComponent(jLabel10))))))
                 .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
-                        .addComponent(btnVolver2, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnGenerar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnVolver2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGenerar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addGap(15, 15, 15))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel12))
+                .addGap(0, 30, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -528,26 +537,100 @@ private void filtrarPorNombre() {
     }//GEN-LAST:event_btnBuscarPorNombre1ActionPerformed
 
     private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
-        // Obtener el índice de la fila seleccionada en la tabla
-// Verificar si se ha seleccionado alguna fila
-    int filaSeleccionada = tblRecibos.getSelectedRow();  // Obtener la fila seleccionada en la tabla
+         // Obtener el índice de la fila seleccionada en la tabla
+ int filaSeleccionada = tblRecibos.getSelectedRow();
 
-    if (filaSeleccionada == -1) {
-        JOptionPane.showMessageDialog(this, "Por favor, seleccione un empleado.");
-        return;  // Si no se seleccionó ninguna fila, salir de la función
+if (filaSeleccionada == -1) {
+    JOptionPane.showMessageDialog(this, "Por favor, seleccione un empleado.");
+    return; // Si no se seleccionó ninguna fila, salir de la función
+}
+
+try {
+    // Obtener los datos básicos de la fila seleccionada
+    String nombre = (String) tblRecibos.getValueAt(filaSeleccionada, 1);
+    int id = (int) tblRecibos.getValueAt(filaSeleccionada, 0);
+    int horasTrabajadas = (int) tblRecibos.getValueAt(filaSeleccionada, 3);
+    double salarioBase = (double) tblRecibos.getValueAt(filaSeleccionada, 4);
+    double bonificaciones = (double) tblRecibos.getValueAt(filaSeleccionada, 5);
+    double deducciones = (double) tblRecibos.getValueAt(filaSeleccionada, 6);
+    double salarioNeto = (double) tblRecibos.getValueAt(filaSeleccionada, 7);
+
+    // Crear una instancia de tu clase Conexion
+    Conexion conexion = new Conexion("empleados");
+    Connection conn = conexion.getConexion();
+
+    // Consultas SQL
+    String sqlEmpleado = "SELECT correo, cargo, seguro, edad FROM empleados WHERE ID = ?";
+    String sqlNomina = "SELECT HorasTrabajadas FROM nominas WHERE ID = ?";
+    String sqlAsistencias = "SELECT horasDisponibles FROM asistencias WHERE ID = ?";
+    
+    // Obtener información del empleado
+    PreparedStatement stmtEmpleado = conn.prepareStatement(sqlEmpleado);
+    stmtEmpleado.setInt(1, id);
+    ResultSet rsEmpleado = stmtEmpleado.executeQuery();
+
+    String correo = "", cargo = "", seguro = "";
+    int edad = 0;
+    if (rsEmpleado.next()) {
+        correo = rsEmpleado.getString("correo");
+        cargo = rsEmpleado.getString("cargo");
+        seguro = rsEmpleado.getString("seguro");
+        edad = rsEmpleado.getInt("edad");
+    }
+    
+    // Obtener información de horas trabajadas (de la tabla nominas)
+    PreparedStatement stmtNomina = conn.prepareStatement(sqlNomina);
+    stmtNomina.setInt(1, id);
+    ResultSet rsNomina = stmtNomina.executeQuery();
+
+    int horasUsadas = 0;
+    if (rsNomina.next()) {
+        horasUsadas = rsNomina.getInt("HorasTrabajadas");
     }
 
-    // Obtener los datos de la fila seleccionada
-    String nombre = (String) tblRecibos.getValueAt(filaSeleccionada, 1);  // Nombre de la columna 1
-    int id = (int) tblRecibos.getValueAt(filaSeleccionada, 0);              // ID de la columna 0
-    int horasTrabajadas = (int) tblRecibos.getValueAt(filaSeleccionada, 3); // Horas trabajadas de la columna 3
-    double salarioBase = (double) tblRecibos.getValueAt(filaSeleccionada, 4); // Salario Base de la columna 4
-    double bonificaciones = (double) tblRecibos.getValueAt(filaSeleccionada, 5); // Bonificaciones de la columna 5
-    double deducciones = (double) tblRecibos.getValueAt(filaSeleccionada, 6);   // Deducciones de la columna 6
-    double total = (double) tblRecibos.getValueAt(filaSeleccionada, 7);        // Total de la columna 7 (Salario Neto)
+    // Obtener información de horas disponibles (de la tabla asistencias)
+    PreparedStatement stmtAsistencias = conn.prepareStatement(sqlAsistencias);
+    stmtAsistencias.setInt(1, id);
+    ResultSet rsAsistencias = stmtAsistencias.executeQuery();
 
-    // Llamar a la función generarRecibo pasándole los datos de la fila seleccionada
-    GenerarReciboPDF.generarRecibo(nombre, id, horasTrabajadas, bonificaciones, deducciones, salarioBase, total);
+    double horasDisponibles = 60; // Las horas disponibles siempre son 60
+    if (rsAsistencias.next()) {
+        horasDisponibles = rsAsistencias.getDouble("horasDisponibles");
+    }
+
+    // Calcular salario bruto y total deducciones
+    double salarioBruto = salarioBase + bonificaciones;
+    double totalDeducciones = deducciones;
+
+    // Llamar a la función generarRecibo
+    GenerarReciboPDF.generarRecibo(
+        "Mi Empresa S.A.", 
+        nombre, 
+        id, 
+        correo, 
+        cargo, 
+        seguro, 
+        edad, 
+        horasTrabajadas, 
+        salarioBase / horasTrabajadas, // Tarifa por hora
+        bonificaciones, 
+        deducciones, 
+        horasDisponibles, 
+        horasUsadas, 
+        salarioBruto, 
+        totalDeducciones, 
+        salarioNeto
+    );
+
+    JOptionPane.showMessageDialog(this, "Recibo generado exitosamente.");
+} catch (SQLException e) {
+    e.printStackTrace();
+    JOptionPane.showMessageDialog(this, "Error al obtener los datos del empleado.");
+} catch (Exception e) {
+    e.printStackTrace();
+    JOptionPane.showMessageDialog(this, "Error al generar el recibo.");
+}
+
     }//GEN-LAST:event_btnGenerarActionPerformed
 
     /**
@@ -595,6 +678,7 @@ private void filtrarPorNombre() {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

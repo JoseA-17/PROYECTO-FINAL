@@ -51,6 +51,12 @@ public class frmAnadirEmpleado extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         btnVolver = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,56 +64,56 @@ public class frmAnadirEmpleado extends javax.swing.JFrame {
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 48)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Nuevo Empleado");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 50, 380, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 40, 290, -1));
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Nombre");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 140, -1, 29));
+        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\anton\\Downloads\\tarjeta-de-identificacion 30x30.png")); // NOI18N
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 120, -1, 29));
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Agregar");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 470, 80, 28));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 470, 80, 28));
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Edad");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 190, 60, 22));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 180, 50, 22));
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Telefono");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(248, 230, 80, 28));
+        jLabel5.setIcon(new javax.swing.ImageIcon("C:\\Users\\anton\\Downloads\\directorio-telefonico 30x30.png")); // NOI18N
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 220, 40, 28));
 
         jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Correo");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 270, 58, 26));
+        jLabel6.setText("Cargo");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 340, -1, 26));
 
         jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Seguro");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(262, 310, 60, 28));
+        jLabel7.setIcon(new javax.swing.ImageIcon("C:\\Users\\anton\\Downloads\\seguro de vida 30x30.png")); // NOI18N
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 300, 30, 28));
 
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNombreActionPerformed(evt);
             }
         });
-        jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 140, 266, 30));
-        jPanel1.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 230, 143, 30));
-        jPanel1.add(txtEdad, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 190, 50, 30));
-        jPanel1.add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 270, 266, 30));
+        jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 120, 266, 30));
+        jPanel1.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 220, 143, 30));
+        jPanel1.add(txtEdad, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 170, 50, 30));
+        jPanel1.add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 260, 266, 30));
 
         cmbCargo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ingeniero", "Supervisor", "Cajero", "Tecnico" }));
-        jPanel1.add(cmbCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 350, 104, 30));
+        jPanel1.add(cmbCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 340, 104, 30));
 
         cmbSeguro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SI", "NO" }));
-        jPanel1.add(cmbSeguro, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 310, 104, 30));
+        jPanel1.add(cmbSeguro, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 300, 104, 30));
 
         btnAnadir.setBackground(new java.awt.Color(102, 153, 255));
         btnAnadir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/add-user 50x50.png"))); // NOI18N
@@ -117,12 +123,12 @@ public class frmAnadirEmpleado extends javax.swing.JFrame {
                 btnAnadirActionPerformed(evt);
             }
         });
-        jPanel1.add(btnAnadir, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 410, -1, -1));
+        jPanel1.add(btnAnadir, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 420, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Cargo");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(266, 350, 60, 28));
+        jLabel8.setIcon(new javax.swing.ImageIcon("C:\\Users\\anton\\Downloads\\tiempo 30x30.png")); // NOI18N
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 340, 30, 28));
 
         jLabel9.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
@@ -140,6 +146,36 @@ public class frmAnadirEmpleado extends javax.swing.JFrame {
         });
         jPanel1.add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 410, -1, 60));
 
+        jLabel10.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setIcon(new javax.swing.ImageIcon("C:\\Users\\anton\\Downloads\\restriccion-de-edad 30x30.png")); // NOI18N
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 170, 30, 30));
+
+        jLabel11.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setText("Nombre");
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 120, 70, 22));
+
+        jLabel12.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setIcon(new javax.swing.ImageIcon("C:\\Users\\anton\\Downloads\\gmail 30x30.png")); // NOI18N
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 260, 58, 26));
+
+        jLabel13.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setText("Telefono");
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(248, 220, -1, 26));
+
+        jLabel14.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setText("Correo");
+        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 260, -1, 26));
+
+        jLabel15.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel15.setText("Seguro");
+        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 300, -1, 26));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -155,59 +191,72 @@ public class frmAnadirEmpleado extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnadirActionPerformed
-    String nombre = txtNombre.getText();
-    String telefono = txtTelefono.getText();
-    String correo = txtCorreo.getText();
-    int edad = Integer.parseInt(txtEdad.getText());
-    
-    //obtiene el dato del cargo
-    String cargo = cmbCargo.getSelectedItem().toString();
-    
-    //obtiene datos del combo box seguro
-    boolean seguro = cmbSeguro.getSelectedItem().toString().equals("SI");
+ // Obtener los valores de los campos de texto y combo box
+String nombre = txtNombre.getText().trim();
+String telefono = txtTelefono.getText().trim();
+String correo = txtCorreo.getText().trim();
+String edadStr = txtEdad.getText().trim();
+String cargo = cmbCargo.getSelectedItem().toString();
+String seguro = cmbSeguro.getSelectedItem().toString();
 
-    //SQL para insertar los datos del empleado en la base de datos
+// Validar que los campos no estén vacíos y que los campos de edad y teléfono sean numéricos
+if (nombre.isEmpty() || telefono.isEmpty() || correo.isEmpty() || edadStr.isEmpty() || cargo.isEmpty() || seguro.isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+    return;
+}
+
+try {
+    // Convertir edad a entero
+    int edad = Integer.parseInt(edadStr);
+
+    // Verificar que el número de teléfono sea válido (solo números)
+    if (!telefono.matches("\\d+")) {
+        JOptionPane.showMessageDialog(this, "El número de teléfono debe contener solo dígitos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    // SQL para insertar los datos del empleado en la base de datos
     String query = "INSERT INTO empleados (nombre, telefono, correo, edad, cargo, seguro) VALUES (?, ?, ?, ?, ?, ?)";
-    
 
-        //consulta sql manejando exception
-        try {
-            Conexion conn = new Conexion("empleados");
-            Connection c = null;
-            c = conn.getConexion();
-            PreparedStatement ps = c.prepareStatement(query);
-            ps.setString(1, nombre);
-            ps.setString(2, telefono);
-            ps.setString(3, correo);
-            ps.setInt(4, edad);
-            ps.setString(5, cargo);
-            ps.setBoolean(6, seguro);
+    // Ejecutar la consulta SQL
+    try {
+        Conexion conn = new Conexion("empleados");
+        Connection c = conn.getConexion();
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setString(1, nombre);
+        ps.setString(2, telefono);
+        ps.setString(3, correo);
+        ps.setInt(4, edad);
+        ps.setString(5, cargo);
+        ps.setString(6, seguro);
+
+        int filasAfectadas = ps.executeUpdate();
+
+        if (filasAfectadas > 0) {
+            JOptionPane.showMessageDialog(this, "Empleado agregado correctamente.");
             
-            //Ejecuta la consulta
-            int filasAfectadas = ps.executeUpdate();
-            
-            if (filasAfectadas > 0) 
-            {
-                JOptionPane.showMessageDialog(this, "Empleado agregado correctamente.");
-            } 
-            
-            else 
-            {
-                JOptionPane.showMessageDialog(this, "Error al agregar el empleado.");
-            }
-        } 
-        catch (SQLException e) 
-        {
-            JOptionPane.showMessageDialog(this, "Error al ejecutar la consulta: " + e.getMessage());
+            // Limpiar los campos después de agregar
+            txtNombre.setText("");
+            txtTelefono.setText("");
+            txtCorreo.setText("");
+            txtEdad.setText("");
+            cmbCargo.setSelectedIndex(0);  // Reiniciar el JComboBox a la primera opción
+            cmbSeguro.setSelectedIndex(0);  // Reiniciar el JComboBox a la primera opción
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al agregar el empleado.");
         }
 
-    //Limpiar los campos después de agregar
-    txtNombre.setText("");
-    txtTelefono.setText("");
-    txtCorreo.setText("");
-    txtEdad.setText("");
-    cmbCargo.setSelectedIndex(0);  // Reiniciar el JComboBox a la primera opción
-    cmbSeguro.setSelectedIndex(0);  // Reiniciar el JComboBox a la primera opción
+        ps.close();
+        c.close();
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error al ejecutar la consulta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+} catch (NumberFormatException e) {
+    JOptionPane.showMessageDialog(this, "La edad debe ser un número válido.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+}
+
+// Solo se deben limpiar los campos después de agregar exitosamente
+
     }//GEN-LAST:event_btnAnadirActionPerformed
 
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
@@ -266,6 +315,12 @@ public class frmAnadirEmpleado extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbCargo;
     private javax.swing.JComboBox<String> cmbSeguro;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

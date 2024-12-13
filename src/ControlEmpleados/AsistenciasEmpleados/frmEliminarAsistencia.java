@@ -284,6 +284,53 @@ private void filtrarPorNombre() {
     }
 }
 
+private void eliminarAsistenciasSemanales() {
+    int respuesta = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar todas las asistencias semanales?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+    if (respuesta != JOptionPane.YES_OPTION) {
+        return;
+    }
+
+    // Obtener la conexión
+    Conexion conn = new Conexion("empleados");
+    Connection c = conn.getConexion();
+
+    if (c == null) {
+        JOptionPane.showMessageDialog(this, "Error: No se pudo conectar a la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    try {
+        // Eliminar registros de la tabla asistencias
+        String deleteAsistenciasQuery = "DELETE FROM asistencias";
+        PreparedStatement psAsistencias = c.prepareStatement(deleteAsistenciasQuery);
+        psAsistencias.executeUpdate();
+        psAsistencias.close();
+
+        // Eliminar registros de la tabla horapordias
+        String deleteHorapordiasQuery = "DELETE FROM horariopordias";
+        PreparedStatement psHorapordias = c.prepareStatement(deleteHorapordiasQuery);
+        psHorapordias.executeUpdate();
+        psHorapordias.close();
+
+        // Limpiar la tabla local de NetBeans (asumiendo que tblEmpleados es la tabla local)
+        DefaultTableModel model = (DefaultTableModel) tblEmpleados.getModel();
+        model.setRowCount(0);
+
+        JOptionPane.showMessageDialog(this, "Asistencias semanales eliminadas exitosamente.");
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error al eliminar asistencias: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    } finally {
+        try {
+            if (c != null) {
+                c.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -311,6 +358,7 @@ private void filtrarPorNombre() {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        btnEliminarSemanales = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -361,7 +409,7 @@ private void filtrarPorNombre() {
                 btnVolverActionPerformed(evt);
             }
         });
-        jPanel2.add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 450, -1, 60));
+        jPanel2.add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 450, -1, 60));
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(785, 41, 37, -1));
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
@@ -394,12 +442,12 @@ private void filtrarPorNombre() {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 460, -1, 50));
+        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 450, -1, 50));
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Eliminar");
-        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 510, -1, -1));
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 510, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
@@ -409,12 +457,20 @@ private void filtrarPorNombre() {
         jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Volver ");
-        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 510, -1, -1));
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 510, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Buscar");
         jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 70, -1, -1));
+
+        btnEliminarSemanales.setText("Eliminar las asistencias semanales");
+        btnEliminarSemanales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarSemanalesActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnEliminarSemanales, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 460, -1, 60));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -476,6 +532,11 @@ private void filtrarPorNombre() {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtIDActionPerformed
 
+    private void btnEliminarSemanalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarSemanalesActionPerformed
+        // TODO add your handling code here:
+        eliminarAsistenciasSemanales();
+    }//GEN-LAST:event_btnEliminarSemanalesActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -514,6 +575,7 @@ private void filtrarPorNombre() {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarPorID;
     private javax.swing.JButton btnBuscarPorNombre;
+    private javax.swing.JButton btnEliminarSemanales;
     private javax.swing.JButton btnVolver;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;

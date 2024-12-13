@@ -50,7 +50,7 @@ public class frmEliminarEmpleado extends javax.swing.JFrame
                 String correo = rs.getString("correo");
                 int edad = rs.getInt("edad");
                 String cargo = rs.getString("cargo");
-                String seguro = rs.getBoolean("seguro") ? "SI" : "NO";
+                String seguro = rs.getString("seguro");
 
                 // Agrega la fila a la tabla
                 modelo.addRow(new Object[]{id, nombre, telefono, correo, edad, cargo, seguro});
@@ -118,7 +118,142 @@ public class frmEliminarEmpleado extends javax.swing.JFrame
     }
 }
 
+  private void filtrarPorID() {
+    // Obtener el texto del campo txtID
+    String idEmpleado = txtID.getText().trim();
 
+    if (idEmpleado.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, ingrese un ID para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    // Obtener la conexión
+    Conexion conn = new Conexion("empleados");
+    Connection c = conn.getConexion();
+
+    if (c == null) {
+        JOptionPane.showMessageDialog(this, "Error: No se pudo conectar a la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    try {
+        // Crear la consulta SQL para filtrar por ID
+        String query = "SELECT empleados.ID, empleados.Nombre, empleados.Telefono, empleados.Correo, " +
+                       "empleados.Edad, empleados.Cargo, empleados.Seguro " +
+                       "FROM empleados " +
+                       "WHERE empleados.ID = ?";  // Filtrar por ID
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setInt(1, Integer.parseInt(idEmpleado));  // Convertir el ID a entero
+
+        ResultSet rs = ps.executeQuery();
+
+        // Limpiar la tabla antes de agregar nuevos datos
+        DefaultTableModel model = (DefaultTableModel) tblEmpleados.getModel();
+        model.setRowCount(0);
+
+        // Llenar la tabla con los resultados filtrados
+        while (rs.next()) {
+            Object[] row = new Object[7];
+            row[0] = rs.getInt("ID");
+            row[1] = rs.getString("Nombre");
+            row[2] = rs.getString("Telefono");
+            row[3] = rs.getString("Correo");
+            row[4] = rs.getInt("Edad");
+            row[5] = rs.getString("Cargo");
+            row[6] = rs.getString("Seguro");
+
+            model.addRow(row);
+        }
+
+        if (model.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "No se encontraron empleados para el ID proporcionado.", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        rs.close();
+        ps.close();
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error al realizar la consulta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "El ID debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+    } finally {
+        try {
+            if (c != null) {
+                c.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
+private void filtrarPorNombre() {
+    // Obtener el texto del campo txtNombre
+    String nombreEmpleado = txtNombre.getText().trim();
+
+    if (nombreEmpleado.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, ingrese un nombre para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    // Obtener la conexión
+    Conexion conn = new Conexion("empleados");
+    Connection c = conn.getConexion();
+
+    if (c == null) {
+        JOptionPane.showMessageDialog(this, "Error: No se pudo conectar a la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    try {
+        // Crear la consulta SQL para filtrar por nombre
+        String query = "SELECT empleados.ID, empleados.Nombre, empleados.Telefono, empleados.Correo, " +
+                       "empleados.Edad, empleados.Cargo, empleados.Seguro " +
+                       "FROM empleados " +
+                       "WHERE empleados.Nombre LIKE ?";  // Filtrar por nombre (con LIKE)
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setString(1, "%" + nombreEmpleado + "%");  // Permitir coincidencias parciales
+
+        ResultSet rs = ps.executeQuery();
+
+        // Limpiar la tabla antes de agregar nuevos datos
+        DefaultTableModel model = (DefaultTableModel) tblEmpleados.getModel();
+        model.setRowCount(0);
+
+        // Llenar la tabla con los resultados filtrados
+        while (rs.next()) {
+            Object[] row = new Object[7];
+            row[0] = rs.getInt("ID");
+            row[1] = rs.getString("Nombre");
+            row[2] = rs.getString("Telefono");
+            row[3] = rs.getString("Correo");
+            row[4] = rs.getInt("Edad");
+            row[5] = rs.getString("Cargo");
+            row[6] = rs.getString("Seguro");
+
+            model.addRow(row);
+        }
+
+        if (model.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "No se encontraron empleados para el nombre proporcionado.", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        rs.close();
+        ps.close();
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error al realizar la consulta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    } finally {
+        try {
+            if (c != null) {
+                c.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -129,6 +264,16 @@ public class frmEliminarEmpleado extends javax.swing.JFrame
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel2 = new javax.swing.JPanel();
+        btnEliminar1 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        btnVolver1 = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        btnEliminar2 = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        btnVolver2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblEmpleados = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
@@ -136,6 +281,80 @@ public class frmEliminarEmpleado extends javax.swing.JFrame
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnVolver = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        txtID = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
+        btnBuscarPorID = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        btnBuscarPorNombre = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+
+        jPanel2.setBackground(new java.awt.Color(102, 153, 255));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnEliminar1.setBackground(new java.awt.Color(102, 153, 255));
+        btnEliminar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/delete user 50x50.png"))); // NOI18N
+        btnEliminar1.setBorder(null);
+        btnEliminar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminar1ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnEliminar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 20, -1, -1));
+
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Eliminar");
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 80, -1, -1));
+
+        jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Volver");
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 80, -1, -1));
+
+        btnVolver1.setBackground(new java.awt.Color(102, 153, 255));
+        btnVolver1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/out50x50.png"))); // NOI18N
+        btnVolver1.setBorder(null);
+        btnVolver1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolver1ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnVolver1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
+
+        jPanel3.setBackground(new java.awt.Color(102, 153, 255));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnEliminar2.setBackground(new java.awt.Color(102, 153, 255));
+        btnEliminar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/delete user 50x50.png"))); // NOI18N
+        btnEliminar2.setBorder(null);
+        btnEliminar2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminar2ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnEliminar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 20, -1, -1));
+
+        jLabel9.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("Eliminar");
+        jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 80, -1, -1));
+
+        jLabel10.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setText("Volver");
+        jPanel3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 80, -1, -1));
+
+        btnVolver2.setBackground(new java.awt.Color(102, 153, 255));
+        btnVolver2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/out50x50.png"))); // NOI18N
+        btnVolver2.setBorder(null);
+        btnVolver2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolver2ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnVolver2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -190,19 +409,89 @@ public class frmEliminarEmpleado extends javax.swing.JFrame
         });
         jPanel1.add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
 
+        jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel6.setText(" Filtrar por nombre:");
+
+        jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel4.setText("Filtrar por ID: ");
+
+        btnBuscarPorID.setBackground(new java.awt.Color(242, 242, 242));
+        btnBuscarPorID.setIcon(new javax.swing.ImageIcon("C:\\Users\\anton\\Downloads\\buscar 2 30x30.png")); // NOI18N
+        btnBuscarPorID.setBorder(null);
+        btnBuscarPorID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarPorIDActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel5.setText("Buscar");
+
+        btnBuscarPorNombre.setBackground(new java.awt.Color(242, 242, 242));
+        btnBuscarPorNombre.setIcon(new javax.swing.ImageIcon("C:\\Users\\anton\\Downloads\\buscar 2 30x30.png")); // NOI18N
+        btnBuscarPorNombre.setBorder(null);
+        btnBuscarPorNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarPorNombreActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel7.setText("Buscar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 830, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(11, 11, 11)
+                        .addComponent(btnBuscarPorNombre)
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5)
+                        .addComponent(btnBuscarPorID)
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnBuscarPorNombre)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))))
+                .addGap(8, 8, 8)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnBuscarPorID)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE))
         );
 
         pack();
@@ -228,6 +517,32 @@ public class frmEliminarEmpleado extends javax.swing.JFrame
     
     frmgestionEmpleados.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void btnEliminar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEliminar1ActionPerformed
+
+    private void btnVolver1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolver1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVolver1ActionPerformed
+
+    private void btnBuscarPorNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarPorNombreActionPerformed
+        // TODO add your handling code here:
+        filtrarPorNombre();
+    }//GEN-LAST:event_btnBuscarPorNombreActionPerformed
+
+    private void btnBuscarPorIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarPorIDActionPerformed
+        // TODO add your handling code here:
+        filtrarPorID();
+    }//GEN-LAST:event_btnBuscarPorIDActionPerformed
+
+    private void btnVolver2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolver2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVolver2ActionPerformed
+
+    private void btnEliminar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEliminar2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -266,12 +581,30 @@ public class frmEliminarEmpleado extends javax.swing.JFrame
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscarPorID;
+    private javax.swing.JButton btnBuscarPorNombre;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnEliminar1;
+    private javax.swing.JButton btnEliminar2;
     private javax.swing.JButton btnVolver;
+    private javax.swing.JButton btnVolver1;
+    private javax.swing.JButton btnVolver2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblEmpleados;
+    private javax.swing.JTextField txtID;
+    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }

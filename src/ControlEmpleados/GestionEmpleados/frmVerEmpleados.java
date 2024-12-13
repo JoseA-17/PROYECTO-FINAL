@@ -3,10 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package ControlEmpleados.GestionEmpleados;
-
-import ControlEmpleados.Empleado;
-import java.util.List;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
@@ -49,7 +45,7 @@ public class frmVerEmpleados extends javax.swing.JFrame {
                 String correo = rs.getString("correo");
                 int edad = rs.getInt("edad");
                 String cargo = rs.getString("cargo");
-                String seguro = rs.getBoolean("seguro") ? "SI" : "NO";
+                String seguro = rs.getString("seguro");
 
                 // Agrega la fila a la tabla
                 modelo.addRow(new Object[]{id, nombre, telefono, correo, edad, cargo, seguro});
@@ -60,7 +56,7 @@ public class frmVerEmpleados extends javax.swing.JFrame {
         }
     }
 
-   private void filtrarPorID() {
+  private void filtrarPorID() {
     // Obtener el texto del campo txtID
     String idEmpleado = txtID.getText().trim();
 
@@ -80,11 +76,10 @@ public class frmVerEmpleados extends javax.swing.JFrame {
 
     try {
         // Crear la consulta SQL para filtrar por ID
-        String query = "SELECT asistencias.id, empleados.nombre, empleados.cargo, " +
-                       "asistencias.asistencia, asistencias.entrada, asistencias.salida, asistencias.observacion " +
-                       "FROM asistencias " +
-                       "INNER JOIN empleados ON asistencias.id = empleados.id " +
-                       "WHERE empleados.id = ?";  // Filtrar por ID
+        String query = "SELECT empleados.ID, empleados.Nombre, empleados.Telefono, empleados.Correo, " +
+                       "empleados.Edad, empleados.Cargo, empleados.Seguro " +
+                       "FROM empleados " +
+                       "WHERE empleados.ID = ?";  // Filtrar por ID
 
         PreparedStatement ps = c.prepareStatement(query);
         ps.setInt(1, Integer.parseInt(idEmpleado));  // Convertir el ID a entero
@@ -98,19 +93,19 @@ public class frmVerEmpleados extends javax.swing.JFrame {
         // Llenar la tabla con los resultados filtrados
         while (rs.next()) {
             Object[] row = new Object[7];
-            row[0] = rs.getInt("id");
-            row[1] = rs.getString("nombre");
-            row[2] = rs.getString("cargo");
-            row[3] = rs.getString("asistencia");
-            row[4] = rs.getString("entrada");
-            row[5] = rs.getString("salida");
-            row[6] = rs.getString("observacion");
+            row[0] = rs.getInt("ID");
+            row[1] = rs.getString("Nombre");
+            row[2] = rs.getString("Telefono");
+            row[3] = rs.getString("Correo");
+            row[4] = rs.getInt("Edad");
+            row[5] = rs.getString("Cargo");
+            row[6] = rs.getString("Seguro");
 
             model.addRow(row);
         }
 
         if (model.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(this, "No se encontraron asistencias para el ID proporcionado.", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No se encontraron empleados para el ID proporcionado.", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
         }
 
         rs.close();
@@ -129,6 +124,7 @@ public class frmVerEmpleados extends javax.swing.JFrame {
         }
     }
 }
+
 
 private void filtrarPorNombre() {
     // Obtener el texto del campo txtNombre
@@ -150,11 +146,10 @@ private void filtrarPorNombre() {
 
     try {
         // Crear la consulta SQL para filtrar por nombre
-        String query = "SELECT asistencias.id, empleados.nombre, empleados.cargo, " +
-                       "asistencias.asistencia, asistencias.entrada, asistencias.salida, asistencias.observacion " +
-                       "FROM asistencias " +
-                       "INNER JOIN empleados ON asistencias.id = empleados.id " +
-                       "WHERE empleados.nombre LIKE ?";  // Filtrar por nombre (con LIKE)
+        String query = "SELECT empleados.ID, empleados.Nombre, empleados.Telefono, empleados.Correo, " +
+                       "empleados.Edad, empleados.Cargo, empleados.Seguro " +
+                       "FROM empleados " +
+                       "WHERE empleados.Nombre LIKE ?";  // Filtrar por nombre (con LIKE)
 
         PreparedStatement ps = c.prepareStatement(query);
         ps.setString(1, "%" + nombreEmpleado + "%");  // Permitir coincidencias parciales
@@ -168,19 +163,19 @@ private void filtrarPorNombre() {
         // Llenar la tabla con los resultados filtrados
         while (rs.next()) {
             Object[] row = new Object[7];
-            row[0] = rs.getInt("id");
-            row[1] = rs.getString("nombre");
-            row[2] = rs.getString("cargo");
-            row[3] = rs.getString("asistencia");
-            row[4] = rs.getString("entrada");
-            row[5] = rs.getString("salida");
-            row[6] = rs.getString("observacion");
+            row[0] = rs.getInt("ID");
+            row[1] = rs.getString("Nombre");
+            row[2] = rs.getString("Telefono");
+            row[3] = rs.getString("Correo");
+            row[4] = rs.getInt("Edad");
+            row[5] = rs.getString("Cargo");
+            row[6] = rs.getString("Seguro");
 
             model.addRow(row);
         }
 
         if (model.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(this, "No se encontraron asistencias para el nombre proporcionado.", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No se encontraron empleados para el nombre proporcionado.", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
         }
 
         rs.close();
@@ -197,6 +192,7 @@ private void filtrarPorNombre() {
         }
     }
 }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -247,7 +243,7 @@ private void filtrarPorNombre() {
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Volver");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
 
         btnVolver2.setBackground(new java.awt.Color(102, 153, 255));
         btnVolver2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/out50x50.png"))); // NOI18N
@@ -257,7 +253,7 @@ private void filtrarPorNombre() {
                 btnVolver2ActionPerformed(evt);
             }
         });
-        jPanel1.add(btnVolver2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, -1));
+        jPanel1.add(btnVolver2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
 
         jPanel2.setBackground(new java.awt.Color(102, 153, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -310,9 +306,7 @@ private void filtrarPorNombre() {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 876, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 876, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -403,11 +403,6 @@ private void registrarHorasPorDia() {
 
         // Ejecutar la actualización
         int rowsAffected = psUpdate.executeUpdate();
-        if (rowsAffected > 0) {
-            JOptionPane.showMessageDialog(this, "Horas registradas correctamente para el día: " + diaSemana);
-        } else {
-            JOptionPane.showMessageDialog(this, "Error al actualizar el registro de horas.");
-        }
 
         psUpdate.close();
         psSelect.close();
@@ -532,10 +527,12 @@ private void registrarHorasPorDia() {
         jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 50, 30, 40));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Hora de entrada");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 160, 130, -1));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Hora de Salida");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 200, 130, -1));
 
@@ -543,16 +540,18 @@ private void registrarHorasPorDia() {
         jPanel1.add(cmbEntrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 170, 80, -1));
 
         cmbSalida.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM" }));
-        jPanel1.add(cmbSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 200, 80, -1));
+        jPanel1.add(cmbSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 200, 90, -1));
 
         cmbAsistencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Presente", "Faltante", "Permiso", "Excusa" }));
         jPanel1.add(cmbAsistencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 120, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Estado");
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 120, 65, -1));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Jornada");
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 250, 69, -1));
 
@@ -560,6 +559,7 @@ private void registrarHorasPorDia() {
         jPanel1.add(cmbJornada, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 250, -1, -1));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Observacion");
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 340, 100, -1));
 
@@ -581,6 +581,7 @@ private void registrarHorasPorDia() {
         jPanel1.add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 490, -1, 60));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Dia:");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 300, 37, -1));
 
@@ -598,6 +599,7 @@ private void registrarHorasPorDia() {
         jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 550, -1, 23));
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("Datos Asistencia");
         jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 70, -1, -1));
 

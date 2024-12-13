@@ -50,7 +50,7 @@ public class frmModificarEmpleado extends javax.swing.JFrame
                 String correo = rs.getString("correo");
                 int edad = rs.getInt("edad");
                 String cargo = rs.getString("cargo");
-                String seguro = rs.getBoolean("seguro") ? "SI" : "NO";
+                String seguro = rs.getString("seguro");
 
                 // Agrega la fila a la tabla
                 modelo.addRow(new Object[]{id, nombre, telefono, correo, edad, cargo, seguro});
