@@ -315,6 +315,8 @@ private void registrarHorasPorDia() {
     String diaSemana = cmbDiaSemana.getSelectedItem().toString().toUpperCase(); // Día en mayúsculas
     String horaEntrada = cmbEntrada.getSelectedItem().toString();
     String horaSalida = cmbSalida.getSelectedItem().toString();
+    String estadoAsistencia = cmbAsistencia.getSelectedItem().toString();
+    int horasTrabajadas = 0; // Inicializamos con 0
 
     // Mapear días de la semana a las columnas correspondientes en la base de datos
     Map<String, String> diasMap = new HashMap<>();
@@ -330,6 +332,20 @@ private void registrarHorasPorDia() {
     if (columnaDia == null) {
         JOptionPane.showMessageDialog(this, "Día seleccionado no válido.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
+    }
+
+    // Verificar si el estado de asistencia es "Faltante", "Permiso" o "Excusa"
+    if (estadoAsistencia.equals("Faltante") || estadoAsistencia.equals("Permiso") || estadoAsistencia.equals("Excusa")) {
+        horasTrabajadas = 0;  // Asignar 0 horas si es uno de esos estados
+    } else {
+        // Calcular las horas trabajadas solo si no es un estado de ausencia
+        try {
+            horasTrabajadas = Utils.parsearHoras(horaEntrada, horaSalida); // Calculamos las horas de trabajo
+        } catch (ParseException e) {
+            System.out.println("Error al parsear las horas: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al parsear las horas: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
     }
 
     // Crear conexión a la base de datos
@@ -361,7 +377,7 @@ private void registrarHorasPorDia() {
             psInsert.setString(1, idEmpleado);
             psInsert.setString(2, nombreEmpleado);
             psInsert.setString(3, cargoEmpleado);
-            psInsert.setInt(4, 0); // Horas trabajadas iniciales 0
+            psInsert.setInt(4, horasTrabajadas); // Guardamos las horas trabajadas
             psInsert.executeUpdate();
             psInsert.close();
         }
@@ -376,26 +392,12 @@ private void registrarHorasPorDia() {
         }
         rsHoras.close();
 
-        // Calcular las horas trabajadas en el día usando la nueva función
-        int horasTrabajadas = 0;
-        if (horaEntrada != null && horaSalida != null) {
-            // Usamos la función parsearHoras para calcular las horas trabajadas
-            horasTrabajadas = Utils.parsearHoras(horaEntrada, horaSalida);
-
-            // Si el empleado falta, tiene permiso o excusa, las horas trabajadas serán 0
-            if ("F".equals(cmbAsistencia.getSelectedItem().toString()) ||
-                "P".equals(cmbAsistencia.getSelectedItem().toString()) ||
-                "E".equals(cmbAsistencia.getSelectedItem().toString())) {
-                horasTrabajadas = 0;
-            }
-        }
-
         // Actualizar las horas trabajadas sumando las horas previas con las horas del día
         int totalHorasTrabajadas = horasPrevias + horasTrabajadas;
 
         // Actualizar la base de datos
         PreparedStatement psUpdate = c.prepareStatement(updateQuery);
-        psUpdate.setString(1, String.valueOf(horasTrabajadas));
+        psUpdate.setString(1, String.valueOf(horasTrabajadas)); // Actualizamos las horas para el día
         psUpdate.setInt(2, totalHorasTrabajadas); // Horas totales
         psUpdate.setString(3, idEmpleado);
 
@@ -410,10 +412,14 @@ private void registrarHorasPorDia() {
         psUpdate.close();
         psSelect.close();
         psCheck.close();
-    } catch (SQLException | ParseException e) {
+    } 
+    catch (SQLException e) 
+    {
         JOptionPane.showMessageDialog(this, "Error al registrar horas: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         e.printStackTrace();
-    } finally {
+    } 
+    
+    finally {
         try {
             if (c != null) c.close();
         } catch (SQLException e) {
@@ -421,6 +427,8 @@ private void registrarHorasPorDia() {
         }
     }
 }
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
