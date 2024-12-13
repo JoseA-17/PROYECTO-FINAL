@@ -3,19 +3,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package ControlEmpleados.Nomina;
-
-import ControlEmpleados.GestionEmpleados.frmGestionEmpleados;
-import DAO.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
+import java.sql.*;
+import DAO.Conexion;
 
 /**
  *
- * @author Kelly
+ * @author anton
  */
 public class frmVerNominas extends javax.swing.JFrame {
 
@@ -25,8 +24,126 @@ public class frmVerNominas extends javax.swing.JFrame {
     public frmVerNominas() {
         initComponents();
         this.setLocationRelativeTo(null);
+        llenarTabla();
     }
     
+    private void llenarTabla() {
+    DefaultTableModel modelo = new DefaultTableModel(); // Crear el modelo para la tabla
+    modelo.addColumn("ID");
+    modelo.addColumn("Nombre");
+    modelo.addColumn("Cargo");
+    modelo.addColumn("Horas Trabajadas");
+    modelo.addColumn("Salario Base");
+    modelo.addColumn("Bonificaciones");
+    modelo.addColumn("Deducciones");
+    modelo.addColumn("Total");
+
+    Connection conn = null;
+    Statement stmt = null;
+    ResultSet rs = null;
+
+    try {
+        Conexion conexion = new Conexion("empleados"); // Cambia "empleados" por el nombre correcto de tu base de datos
+        conn = conexion.getConexion();
+
+        if (conn == null) {
+            JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos.");
+            return;
+        }
+
+        String query = "SELECT ID, Nombre, Cargo, HorasTrabajadas, SalarioBase, Bonificaciones, Deducciones, Total FROM nominas";
+        stmt = conn.createStatement();
+        rs = stmt.executeQuery(query);
+
+        // Rellenar el modelo con los datos obtenidos
+        while (rs.next()) {
+            Object[] fila = new Object[8]; // Debe coincidir con el número de columnas
+            fila[0] = rs.getInt("ID");
+            fila[1] = rs.getString("Nombre");
+            fila[2] = rs.getString("Cargo");
+            fila[3] = rs.getInt("HorasTrabajadas");
+            fila[4] = rs.getDouble("SalarioBase");
+            fila[5] = rs.getDouble("Bonificaciones");
+            fila[6] = rs.getDouble("Deducciones");
+            fila[7] = rs.getDouble("Total");
+            modelo.addRow(fila);
+        }
+
+        // Asignar el modelo a la tabla
+        tblNominas.setModel(modelo); // Asegúrate de que `tblNominas` sea el nombre de tu JTable en NetBeans
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al cargar los datos.");
+    } finally {
+        try {
+            if (rs != null) rs.close();
+            if (stmt != null) stmt.close();
+            if (conn != null) conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+    
+    private void eliminarEmpleado() {
+    // Verificar si hay una fila seleccionada
+    int selectedRow = tblNominas.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Por favor, selecciona un empleado de la tabla.");
+        return;
+    }
+
+    // Obtener el ID del empleado seleccionado
+    int idEmpleado = (int) tblNominas.getValueAt(selectedRow, 0); // La columna 0 debe ser el ID
+    String nombreEmpleado = tblNominas.getValueAt(selectedRow, 1).toString(); // Columna de nombre
+
+    // Confirmar eliminación
+    int confirm = JOptionPane.showConfirmDialog(this, 
+        "¿Estás seguro de que deseas eliminar al empleado " + nombreEmpleado + " con ID " + idEmpleado + "?",
+        "Confirmar eliminación",
+        JOptionPane.YES_NO_OPTION);
+
+    if (confirm != JOptionPane.YES_OPTION) {
+        return;
+    }
+
+    Connection conn = null;
+    PreparedStatement pst = null;
+
+    try {
+        Conexion conexion = new Conexion("empleados"); // Cambia "empleados" al nombre correcto
+        conn = conexion.getConexion();
+
+        if (conn == null) {
+            JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos.");
+            return;
+        }
+
+        String query = "DELETE FROM nominas WHERE ID = ?";
+        pst = conn.prepareStatement(query);
+        pst.setInt(1, idEmpleado);
+
+        int rowsAffected = pst.executeUpdate();
+        if (rowsAffected > 0) {
+            JOptionPane.showMessageDialog(this, "Empleado eliminado correctamente.");
+            llenarTabla(); // Refrescar la tabla después de eliminar
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo eliminar al empleado. Verifica el ID.");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al eliminar el empleado.");
+    } finally {
+        try {
+            if (pst != null) pst.close();
+            if (conn != null) conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
     
     private void filtrarPorID() {
     // Obtener el texto del campo txtID
@@ -60,7 +177,7 @@ public class frmVerNominas extends javax.swing.JFrame {
         ResultSet rs = ps.executeQuery();
 
         // Limpiar la tabla antes de agregar nuevos datos
-        DefaultTableModel model = (DefaultTableModel) tblEmpleados.getModel();
+        DefaultTableModel model = (DefaultTableModel) tblNominas.getModel();
         model.setRowCount(0);
 
         // Llenar la tabla con los resultados filtrados
@@ -130,7 +247,7 @@ private void filtrarPorNombre() {
         ResultSet rs = ps.executeQuery();
 
         // Limpiar la tabla antes de agregar nuevos datos
-        DefaultTableModel model = (DefaultTableModel) tblEmpleados.getModel();
+        DefaultTableModel model = (DefaultTableModel) tblNominas.getModel();
         model.setRowCount(0);
 
         // Llenar la tabla con los resultados filtrados
@@ -179,7 +296,7 @@ private void filtrarPorNombre() {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblEmpleados = new javax.swing.JTable();
+        tblNominas = new javax.swing.JTable();
         btnVolver = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -190,6 +307,7 @@ private void filtrarPorNombre() {
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        btnEliminar = new javax.swing.JButton();
 
         btnVolver1.setBackground(new java.awt.Color(102, 153, 255));
         btnVolver1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/out50x50.png"))); // NOI18N
@@ -210,7 +328,7 @@ private void filtrarPorNombre() {
         jLabel1.setText("Historial de Empleados y Nominas");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, -1, -1));
 
-        tblEmpleados.setModel(new javax.swing.table.DefaultTableModel(
+        tblNominas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
@@ -221,7 +339,7 @@ private void filtrarPorNombre() {
                 "ID", "Nombre", "Cargo", "Horas trabajadas", "Salario base", "Bonificaciones", "Deducciones", "Total"
             }
         ));
-        jScrollPane1.setViewportView(tblEmpleados);
+        jScrollPane1.setViewportView(tblNominas);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 156, 820, 260));
 
@@ -282,6 +400,14 @@ private void filtrarPorNombre() {
         jLabel6.setText("Buscar");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 80, 60, -1));
 
+        btnEliminar.setText("ELIMINAR");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 450, 90, 50));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -319,6 +445,11 @@ private void filtrarPorNombre() {
         // TODO add your handling code here:
         filtrarPorNombre();
     }//GEN-LAST:event_btnBuscarPorNombreActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+        eliminarEmpleado();
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -359,6 +490,7 @@ private void filtrarPorNombre() {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarPorID;
     private javax.swing.JButton btnBuscarPorNombre;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnVolver;
     private javax.swing.JButton btnVolver1;
     private javax.swing.JLabel jLabel1;
@@ -369,7 +501,7 @@ private void filtrarPorNombre() {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblEmpleados;
+    private javax.swing.JTable tblNominas;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables

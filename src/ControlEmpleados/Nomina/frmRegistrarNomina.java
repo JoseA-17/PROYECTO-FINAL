@@ -5,6 +5,7 @@
 package ControlEmpleados.Nomina;
 
 import DAO.Conexion;
+import java.math.BigDecimal;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import java.sql.Connection;
@@ -77,7 +78,147 @@ public final class frmRegistrarNomina extends javax.swing.JFrame {
 }
 
 
-private void llenarCamposConDatos() {
+  private int obtenerHorasTrabajadasDesdeTabla(String nombre) {
+    int horasTrabajadas = 0;
+    Connection con = null;
+
+    try {
+        // Nombre de la base de datos
+        String dbName = "empleados";
+
+        // Obtén la conexión desde la clase Conexion
+        Conexion conexion = new Conexion(dbName);
+        con = conexion.getConexion();
+
+        if (con != null) {
+            System.out.println("Conexión a la base de datos establecida.");
+
+            // Consulta para obtener las horas trabajadas del empleado
+            String query = "SELECT horastrabajadas FROM horariopordias WHERE nombre = ?";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setString(1, nombre);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                horasTrabajadas = rs.getInt("horastrabajadas"); // Obtener horas trabajadas
+            }
+
+            rs.close();
+            pst.close();
+        } else {
+            System.out.println("No se pudo establecer la conexión a la base de datos.");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    return horasTrabajadas;
+}
+  
+   public BigDecimal obtenerSalarioBase(String cargo) {
+        BigDecimal salarioBase = BigDecimal.ZERO;
+        String sql = "SELECT salario_base FROM cargos WHERE nombre = ?";
+        
+        try (Connection conn = new Conexion("empleados").getConexion();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, cargo);
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                salarioBase = rs.getBigDecimal("salario_base");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return salarioBase;
+    }
+
+
+
+  private boolean empleadoExiste(String nombre) {
+    boolean existe = false;
+    Connection con = null;
+
+    try {
+        // Nombre de la base de datos
+        String dbName = "empleados";
+
+        // Obtén la conexión desde la clase Conexion
+        Conexion conexion = new Conexion(dbName);
+        con = conexion.getConexion();
+
+        if (con != null) {
+            System.out.println("Conexión a la base de datos establecida.");
+
+            // Consulta para verificar si el empleado existe
+            String query = "SELECT COUNT(*) FROM empleados WHERE nombre = ?";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setString(1, nombre);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                // Si el conteo es mayor que 0, el empleado existe
+                existe = rs.getInt(1) > 0;
+            }
+
+            rs.close();
+            pst.close();
+        } else {
+            System.out.println("No se pudo establecer la conexión a la base de datos.");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    return existe;
+}
+  
+ public int obtenerIdEmpleado(String nombreEmpleado) {
+    int idEmpleado = -1;  // Valor por defecto
+    try {
+        Conexion conexion = new Conexion("empleados");  // Reemplaza con el nombre correcto
+        Connection conn = conexion.getConexion();
+
+        if (conn == null) {
+            System.out.println("Error: No se pudo conectar a la base de datos.");
+            return idEmpleado;
+        }
+
+        String query = "SELECT ID FROM empleados WHERE nombre = ?";
+        PreparedStatement pst = conn.prepareStatement(query);
+        pst.setString(1, nombreEmpleado);
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            idEmpleado = rs.getInt("ID");
+        } else {
+            System.out.println("Empleado no encontrado: " + nombreEmpleado);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return idEmpleado;
+}
+
+
+  private void llenarCamposConDatos() {
     int selectedRow = tblNominas.getSelectedRow();  // Usando tblNominas
 
     if (selectedRow != -1) {
@@ -94,111 +235,52 @@ private void llenarCamposConDatos() {
         // Asignar el salario base dependiendo del cargo
         txtSalarioBase.setText(String.valueOf(obtenerSalarioBase(cargo))); // Usar la variable 'cargo' correctamente
 
-        // Calcular las horas trabajadas
-        int horasTrabajadas = obtenerHorasTrabajadas(nombre);
+        // Obtener las horas trabajadas directamente desde la última columna de horariopordias
+        int horasTrabajadas = obtenerHorasTrabajadasDesdeTabla(nombre);  // Nuevo método
         txtHorasTrabajadas.setText(String.valueOf(horasTrabajadas));
 
         System.out.println("ID: " + id + ", Nombre: " + nombre + ", Cargo: " + cargo); // Verifica la información
     }
 }
-
-
-
-private int obtenerHorasTrabajadas(String nombre) {
-    int totalHorasTrabajadas = 0;
-    Connection con = null;
-
-    try {
-        // Nombre de la base de datos
-        String dbName = "empleados";
-
-        // Obtén la conexión desde la clase Conexion
-        Conexion conexion = new Conexion(dbName);
-        con = conexion.getConexion();
-
-        if (con != null) {
-            System.out.println("Conexión a la base de datos establecida.");
-
-            // Consulta para obtener los registros de asistencia
-            String query = "SELECT * FROM horariopordias WHERE nombre = ?";
-            PreparedStatement pst = con.prepareStatement(query);
-            pst.setString(1, nombre);
-            ResultSet rs = pst.executeQuery();
-
-            while (rs.next()) {
-                // Procesar cada día de la semana
-                totalHorasTrabajadas += calcularHorasPorDia(rs.getString("lunes"));
-                totalHorasTrabajadas += calcularHorasPorDia(rs.getString("martes"));
-                totalHorasTrabajadas += calcularHorasPorDia(rs.getString("miercoles"));
-                totalHorasTrabajadas += calcularHorasPorDia(rs.getString("jueves"));
-                totalHorasTrabajadas += calcularHorasPorDia(rs.getString("viernes"));
-                totalHorasTrabajadas += calcularHorasPorDia(rs.getString("sabado"));
-                totalHorasTrabajadas += calcularHorasPorDia(rs.getString("domingo"));
-            }
-
-            rs.close();
-            pst.close();
-        } else {
-            System.out.println("No se pudo establecer la conexión a la base de datos.");
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    } finally {
-        if (con != null) {
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    return totalHorasTrabajadas;
-}
-
-private int calcularHorasPorDia(String horas) {
-    if (horas == null || horas.isEmpty()) {
-        return 0;
-    }
-
-    try {
-        String[] partes = horas.split(" - ");
-        if (partes.length == 2) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm a");
-            LocalTime horaEntrada = LocalTime.parse(partes[0], formatter);
-            LocalTime horaSalida = LocalTime.parse(partes[1], formatter);
-            long horasTrabajadas = Duration.between(horaEntrada, horaSalida).toHours();
-            return (int) horasTrabajadas;
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-
-    return 0;
-}
-
-
-
-
-// Registro de la asistencia
-private void registrarAsistencia() {
-    String nombre = txtNombre.getText();
-    String cargo = txtCargo.getText();
-    int horasTrabajadas = Integer.parseInt(txtHorasTrabajadas.getText());
-    double salarioBase = Double.parseDouble(txtSalarioBase.getText());
+  
+  private void calcularTotal() {
+    double salarioBase = obtenerValor(txtSalarioBase.getText());
     double bonificaciones = obtenerValor(txtBonificaciones.getText());
     double deducciones = obtenerValor(txtDeducciones.getText());
 
-    // Verificar si el empleado existe en la base de datos antes de registrar
-    if (!empleadoExiste(nombre)) {
-        JOptionPane.showMessageDialog(this, "Empleado no encontrado.");
+    double total = salarioBase + bonificaciones - deducciones;
+    txtTotal.setText(String.valueOf(total));
+}
+
+  private double obtenerValor(String texto) {
+    if (texto.isEmpty()) {
+        return 0.0; // Si el campo está vacío, retornar 0
+    }
+    try {
+        return Double.parseDouble(texto); // Intentar convertir el texto a un valor numérico
+    } catch (NumberFormatException e) {
+        return 0.0; // Si ocurre un error, retornar 0
+    }
+}
+  
+  
+  private void registrarAsistencia() {
+    String nombre = txtEmpleado.getText();
+    String cargo = txtCargo.getText();
+    int horasTrabajadas = Integer.parseInt(txtHorasTrabajadas.getText());
+    double salarioBase = obtenerValor(txtSalarioBase.getText());
+    double bonificaciones = obtenerValor(txtBonificaciones.getText());
+    double deducciones = obtenerValor(txtDeducciones.getText());
+
+    int idEmpleado = obtenerIdEmpleado(nombre); // Obtener el ID del empleado
+    if (idEmpleado == -1) {
+        JOptionPane.showMessageDialog(this, "Empleado no encontrado o error en la base de datos.");
         return;
     }
 
     double total = salarioBase + bonificaciones - deducciones;
     txtTotal.setText(String.valueOf(total));
 
-    // Registrar la asistencia en la base de datos
     Connection conn = null;
     PreparedStatement pst = null;
     try {
@@ -207,7 +289,7 @@ private void registrarAsistencia() {
         String query = "INSERT INTO nominas (ID, Nombre, Cargo, HorasTrabajadas, SalarioBase, Bonificaciones, Deducciones, Total) "
                      + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         pst = conn.prepareStatement(query);
-        pst.setInt(1, obtenerIdEmpleado(nombre)); // Obtener el ID del empleado
+        pst.setInt(1, idEmpleado); // Usar el ID obtenido
         pst.setString(2, nombre);
         pst.setString(3, cargo);
         pst.setInt(4, horasTrabajadas);
@@ -215,7 +297,7 @@ private void registrarAsistencia() {
         pst.setDouble(6, bonificaciones);
         pst.setDouble(7, deducciones);
         pst.setDouble(8, total);
-        
+
         pst.executeUpdate();
         JOptionPane.showMessageDialog(this, "Asistencia registrada correctamente.");
     } catch (SQLException e) {
@@ -231,170 +313,8 @@ private void registrarAsistencia() {
     }
 }
 
-// Función para verificar si el empleado existe
-private boolean empleadoExiste(String nombre) {
-    Connection conn = null;
-    PreparedStatement pst = null;
-    ResultSet rs = null;
-    boolean existe = false;
-    try {
-        Conexion conexion = new Conexion("empleados");
-        conn = conexion.getConexion();
-        String query = "SELECT COUNT(*) FROM empleados WHERE nombre = ?";
-        pst = conn.prepareStatement(query);
-        pst.setString(1, nombre);
-        rs = pst.executeQuery();
-        if (rs.next() && rs.getInt(1) > 0) {
-            existe = true;
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    } finally {
-        try {
-            if (rs != null) rs.close();
-            if (pst != null) pst.close();
-            if (conn != null) conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    return existe;
-}
 
 
-// Función para validar bonificación y deducción
-private double obtenerValor(String texto) {
-    if (texto.isEmpty()) {
-        return 0.0; // Si el campo está vacío, retornar 0
-    }
-    try {
-        return Double.parseDouble(texto); // Intentar convertir el texto a un valor numérico
-    } catch (NumberFormatException e) {
-        return 0.0; // Si ocurre un error, retornar 0
-    }
-}
-
-private void calcularTotal() {
-    double salarioBase = obtenerValor(txtSalarioBase.getText());
-    double bonificaciones = obtenerValor(txtBonificaciones.getText());
-    double deducciones = obtenerValor(txtDeducciones.getText());
-
-    double total = salarioBase + bonificaciones - deducciones;
-    txtTotal.setText(String.valueOf(total));
-}
- 
-     public int obtenerSalarioBase(String cargo) {
-    int salarioBase = 0;
-    switch (cargo.toLowerCase()) {
-        case "ingeniero":
-            salarioBase = 30000; // Salario base para Ingeniero
-            break;
-        case "supervisor":
-            salarioBase = 20000; // Salario base para Analista
-            break;
-        case "tecnico":
-            salarioBase = 25000; // Salario base para Administrador
-            break;
-        
-        case "cajero":
-        salarioBase = 15000; // Salario base para Administrador
-        break;
-    }
-    return salarioBase;
-}
-    
-    public int calcularHorasTrabajadas(int idEmpleado) {
-    int horasTotales = 0;
-    String query = "SELECT horas_trabajadas FROM horapordias WHERE id_empleado = ?";
-    
-    // Establecer conexión y ejecutar la consulta
-    Conexion conexion = new Conexion(dbName);
-    try (Connection conn = conexion.getConexion();
-         PreparedStatement stmt = conn.prepareStatement(query)) {
-
-        stmt.setInt(1, idEmpleado);
-        ResultSet rs = stmt.executeQuery();
-
-        while (rs.next()) {
-            horasTotales += rs.getInt("horas_trabajadas");
-        }
-
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-    return horasTotales;
-}
-    
-    private void filtrarPorID() {
-    // Obtener el texto del campo txtsi
-    String idEmpleado = txtsi.getText().trim();
-
-    if (idEmpleado.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Por favor, ingrese un ID para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-
-    // Obtener la conexión
-    Conexion conn = new Conexion("empleados");
-    Connection c = conn.getConexion();
-
-    if (c == null) {
-        JOptionPane.showMessageDialog(this, "Error: No se pudo conectar a la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-
-    try {
-        // Crear la consulta SQL para filtrar por ID
-        String query = "SELECT asistencias.id, empleados.nombre, empleados.cargo, " +
-                       "asistencias.asistencia, asistencias.entrada, asistencias.salida, asistencias.observacion " +
-                       "FROM asistencias " +
-                       "INNER JOIN empleados ON asistencias.id = empleados.id " +
-                       "WHERE empleados.id = ?";  // Filtrar por ID
-
-        PreparedStatement ps = c.prepareStatement(query);
-        ps.setInt(1, Integer.parseInt(idEmpleado));  // Convertir el ID a entero
-
-        ResultSet rs = ps.executeQuery();
-
-        // Limpiar la tabla antes de agregar nuevos datos
-        DefaultTableModel model = (DefaultTableModel) tblNominas.getModel();
-        model.setRowCount(0);
-
-        // Llenar la tabla con los resultados filtrados
-        while (rs.next()) {
-            Object[] row = new Object[7];
-            row[0] = rs.getInt("id");
-            row[1] = rs.getString("nombre");
-            row[2] = rs.getString("cargo");
-            row[3] = rs.getString("asistencia");
-            row[4] = rs.getString("entrada");
-            row[5] = rs.getString("salida");
-            row[6] = rs.getString("observacion");
-
-            model.addRow(row);
-        }
-
-        if (model.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(this, "No se encontraron asistencias para el ID proporcionado.", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
-        }
-
-        rs.close();
-        ps.close();
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(this, "Error al realizar la consulta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "El ID debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
-    } finally {
-        try {
-            if (c != null) {
-                c.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-}
-    
 
 private void filtrarPorNombre() {
     // Obtener el texto del campo txtNombre
@@ -464,31 +384,76 @@ private void filtrarPorNombre() {
     }
 }
 
-public int obtenerIdEmpleado(String nombreEmpleado) {
-    int idEmpleado = -1;  // Valor por defecto en caso de que no se encuentre el empleado
-    try {
-        // Obtener la conexión desde la clase Conexion
-        Conexion conexion = new Conexion("nombreDeTuBaseDeDatos");  // Reemplaza con el nombre real de tu base de datos
-        Connection conn = conexion.getConexion();  // Obtener la conexión desde el método getConexion()
 
-        if (conn == null) {
-            System.out.println("Error: La conexión a la base de datos no se ha establecido.");
-            return idEmpleado;  // Retorna el valor por defecto si no hay conexión
-        }
 
-        // Consulta para obtener el ID del empleado por nombre
-        String query = "SELECT ID FROM empleados WHERE nombre = ?";
-        PreparedStatement pst = conn.prepareStatement(query);
-        pst.setString(1, nombreEmpleado);  // Filtramos por el nombre del empleado
-        ResultSet rs = pst.executeQuery();
+private void filtrarPorID() {
+    // Obtener el texto del campo txtID
+    String idEmpleado = txtID.getText().trim();
 
-        if (rs.next()) {
-            idEmpleado = rs.getInt("ID");  // Obtenemos el ID
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
+    if (idEmpleado.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, ingrese un ID para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        return;
     }
-    return idEmpleado;
+
+    // Obtener la conexión
+    Conexion conn = new Conexion("empleados");
+    Connection c = conn.getConexion();
+
+    if (c == null) {
+        JOptionPane.showMessageDialog(this, "Error: No se pudo conectar a la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    try {
+        // Crear la consulta SQL para filtrar por ID
+        String query = "SELECT asistencias.id, empleados.nombre, empleados.cargo, " +
+                       "asistencias.asistencia, asistencias.entrada, asistencias.salida, asistencias.observacion " +
+                       "FROM asistencias " +
+                       "INNER JOIN empleados ON asistencias.id = empleados.id " +
+                       "WHERE empleados.id = ?";  // Filtrar por ID
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setInt(1, Integer.parseInt(idEmpleado));  // Convertir el ID a entero
+
+        ResultSet rs = ps.executeQuery();
+
+        // Limpiar la tabla antes de agregar nuevos datos
+        DefaultTableModel model = (DefaultTableModel) tblNominas.getModel();
+        model.setRowCount(0);
+
+        // Llenar la tabla con los resultados filtrados
+        while (rs.next()) {
+            Object[] row = new Object[7];
+            row[0] = rs.getInt("id");
+            row[1] = rs.getString("nombre");
+            row[2] = rs.getString("cargo");
+            row[3] = rs.getString("asistencia");
+            row[4] = rs.getString("entrada");
+            row[5] = rs.getString("salida");
+            row[6] = rs.getString("observacion");
+
+            model.addRow(row);
+        }
+
+        if (model.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "No se encontraron asistencias para el ID proporcionado.", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        rs.close();
+        ps.close();
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error al realizar la consulta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "El ID debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+    } finally {
+        try {
+            if (c != null) {
+                c.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 private void agregarDocumentListeners() {
@@ -561,7 +526,6 @@ private void agregarDocumentListeners() {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        btnCancelar = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
         txtEmpleado = new javax.swing.JTextField();
         txtCargo = new javax.swing.JTextField();
@@ -667,13 +631,6 @@ private void agregarDocumentListeners() {
         jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel13.setText("Salario Neto");
 
-        btnCancelar.setText("Cancelar");
-        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarActionPerformed(evt);
-            }
-        });
-
         btnRegistrar.setText("Registrar");
         btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -721,7 +678,6 @@ private void agregarDocumentListeners() {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnCancelar)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -767,7 +723,7 @@ private void agregarDocumentListeners() {
                 .addComponent(btnVolver2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnRegistrar)
-                .addGap(186, 186, 186))
+                .addGap(294, 294, 294))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -828,7 +784,6 @@ private void agregarDocumentListeners() {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnVolver2, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
@@ -868,11 +823,6 @@ private void agregarDocumentListeners() {
         filtrarPorID();
     }//GEN-LAST:event_btnBuscarPorIDActionPerformed
 
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_btnCancelarActionPerformed
-
     private void tblNominasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNominasMouseClicked
         // TODO add your handling code here:
         
@@ -881,14 +831,6 @@ private void agregarDocumentListeners() {
 
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-      // Validar si los campos están correctamente llenos
-      if (txtNombre.getText().isEmpty() || txtID.getText().isEmpty() || 
-        txtSalarioBase.getText().isEmpty() || txtBonificaciones.getText().isEmpty() || 
-        txtDeducciones.getText().isEmpty() || txtTotal.getText().isEmpty()) {
-        JOptionPane.showMessageDialog(null, "Por favor, llene todos los campos.", "Campos Vacíos", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-     // Calcular el total antes de registrar
     calcularTotal();
     // Si los campos están correctos, llamar a la función de registrar asistencia
     registrarAsistencia();
@@ -933,7 +875,6 @@ private void agregarDocumentListeners() {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarPorID;
     private javax.swing.JButton btnBuscarPorNombre;
-    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btnVolver2;
     private javax.swing.JLabel jLabel1;
