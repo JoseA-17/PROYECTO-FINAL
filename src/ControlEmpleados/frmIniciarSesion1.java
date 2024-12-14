@@ -11,9 +11,6 @@ package ControlEmpleados;
 import java.sql.*;
 
 import DAO.Conexion;
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
-import com.mysql.jdbc.ResultSet;
 import javax.swing.JOptionPane;
 public class frmIniciarSesion1 extends javax.swing.JFrame
 {

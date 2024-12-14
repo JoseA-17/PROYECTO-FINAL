@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
+    name="MyReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" 
+    uuid="d0c71c71-9265-4615-80ec-bf3e460e9058">
+
+    <queryString>
+        <![CDATA[SELECT ID, Nombre, Cargo, HorasTrabajadas, Bonificaciones, Deducciones, Total FROM nominas]]>
+    </queryString>
+
+    <!-- Campos del reporte -->
+    <field name="ID" class="java.lang.Integer"/>
+    <field name="Nombre" class="java.lang.String"/>
+    <field name="Cargo" class="java.lang.String"/>
+    <field name="HorasTrabajadas" class="java.lang.Integer"/>
+    <field name="Bonificaciones" class="java.lang.Double"/>
+    <field name="Deducciones" class="java.lang.Double"/>
+    <field name="Total" class="java.lang.Double"/>
+
+    <!-- Fondo del reporte -->
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+
+    <!-- Título del reporte -->
+    <title>
+        <band height="50" splitType="Stretch">
+            <textField>
+                <reportElement x="0" y="0" width="555" height="50" uuid="8a72a3b4-b8f2-4a72-8f43-2942b7c7b6bc"/>
+                <textElement>
+                    <font size="18" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Reporte de Nómina"]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <!-- Encabezado de columnas -->
+    <columnHeader>
+        <band height="25" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="0" width="50" height="25" uuid="ac12b8f0-5e62-4e8e-a4d8-15436992d5d1"/>
+                <textElement>
+                    <font size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[ID]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="50" y="0" width="150" height="25" uuid="f2a67e5a-1e57-4722-b9ec-91af9dd28eb1"/>
+                <textElement>
+                    <font size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Nombre]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="200" y="0" width="100" height="25" uuid="93845d8a-9cd5-4f17-9399-96f1e0d481c4"/>
+                <textElement>
+                    <font size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Cargo]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="300" y="0" width="80" height="25" uuid="ba7e6c37-bdf3-49b1-b1cc-7f4d2db44cc2"/>
+                <textElement>
+                    <font size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Horas]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="380" y="0" width="80" height="25" uuid="d3f51d17-b5c5-4fa7-b8b6-d98fbdce38ea"/>
+                <textElement>
+                    <font size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Bonos]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="460" y="0" width="80" height="25" uuid="e142d54e-dbbd-4e97-bd0d-9d3277b742f2"/>
+                <textElement>
+                    <font size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Deducciones]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="540" y="0" width="80" height="25" uuid="5b27dc69-bc6a-4e1b-8f6d-8692fbdf2e2e"/>
+                <textElement>
+                    <font size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Total]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <!-- Detalles del reporte -->
+    <detail>
+        <band height="25" splitType="Stretch">
+            <textField>
+                <reportElement x="0" y="0" width="50" height="25" uuid="c1c31e54-6f38-44a7-9c6c-f347f8e4c2f7"/>
+                <textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="50" y="0" width="150" height="25" uuid="a8e2dfb6-85b9-4b9a-8327-06c89a5a9f58"/>
+                <textFieldExpression><![CDATA[$F{Nombre}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="200" y="0" width="100" height="25" uuid="e0b7ad2a-5e3d-488b-99e7-7283afc94242"/>
+                <textFieldExpression><![CDATA[$F{Cargo}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="300" y="0" width="80" height="25" uuid="c73478ad-4166-41ae-9b61-5e9b9eb3e779"/>
+                <textFieldExpression><![CDATA[$F{HorasTrabajadas}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="380" y="0" width="80" height="25" uuid="c65c8d8b-04a3-4898-82b3-76fcda68eb57"/>
+                <textFieldExpression><![CDATA[$F{Bonificaciones}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="460" y="0" width="80" height="25" uuid="befde0f5-8769-4e68-91c8-5e7ed1c24b6f"/>
+                <textFieldExpression><![CDATA[$F{Deducciones}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="540" y="0" width="80" height="25" uuid="948ef2e5-badf-4cbb-a5eb-e98fba2ce19d"/>
+                <textFieldExpression><![CDATA[$F{Total}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+
+    <!-- Pie de página -->
+    <pageFooter>
+        <band height="20" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="0" width="555" height="20" uuid="fa8c0cf1-2b3a-4fd5-88b1-cc7284e7d841"/>
+                <textElement>
+                    <font size="10" isItalic="true"/>
+                </textElement>
+                <text><![CDATA[Reporte generado automáticamente por el sistema.]]></text>
+            </staticText>
+        </band>
+    </pageFooter>
+</jasperReport>
