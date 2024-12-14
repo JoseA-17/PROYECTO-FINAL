@@ -12,7 +12,7 @@ public class PadreAsistencias
 {
     private String nombre;
     private String cargo;
-    private String estadoAsistencia; // Presente, Ausente, Permiso, etc.
+    private String estadoAsistencia; 
     private String horaEntrada;
     private String horaSalida;
     private String observaciones;

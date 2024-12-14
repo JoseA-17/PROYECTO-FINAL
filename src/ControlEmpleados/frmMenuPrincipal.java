@@ -18,7 +18,8 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form frmMenuPrincipal
      */
-    public frmMenuPrincipal() {
+    public frmMenuPrincipal() 
+    {
         initComponents();
         this.setLocationRelativeTo(null);
     }
@@ -163,7 +164,7 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
 
     private void btnSalariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalariosActionPerformed
         // TODO add your handling code here:
-         this.dispose();  // Cierra el formulario actual
+         this.dispose();  
         frmGestionSalarios frame = new frmGestionSalarios();
         frame.setVisible(true);
     }//GEN-LAST:event_btnSalariosActionPerformed

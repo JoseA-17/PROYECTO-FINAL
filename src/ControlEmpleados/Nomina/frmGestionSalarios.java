@@ -2,21 +2,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package ControlEmpleados.Nomina;
-
-import ControlEmpleados.AsistenciasEmpleados.frmVerAsistencia;
-import ControlEmpleados.GestionEmpleados.frmGestionEmpleados;
 import ControlEmpleados.frmMenuPrincipal;
 
 /**
  *
  * @author Kelly
  */
-public class frmGestionSalarios extends javax.swing.JFrame {
+public class frmGestionSalarios extends javax.swing.JFrame 
+{
 
     /**
      * Creates new form frmGestionSalarios
      */
-    public frmGestionSalarios() {
+    public frmGestionSalarios() 
+    {
         initComponents();
         this.setLocationRelativeTo(null);
     }
@@ -158,14 +157,14 @@ public class frmGestionSalarios extends javax.swing.JFrame {
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
-        this.dispose();  // Cierra el formulario actual
+        this.dispose();  
         frmMenuPrincipal frame = new frmMenuPrincipal();
         frame.setVisible(true);
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnVolver1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolver1ActionPerformed
         // TODO add your handling code here:
-         this.dispose();  // Cierra el formulario actual
+         this.dispose();
         frmMenuPrincipal frame = new frmMenuPrincipal();
         frame.setVisible(true);
     }//GEN-LAST:event_btnVolver1ActionPerformed

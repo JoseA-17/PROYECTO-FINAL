@@ -29,21 +29,23 @@ public class frmModificarEmpleado extends javax.swing.JFrame
     }
        
     
-    private void cargarEmpleados() {
-        // Modelo de la tabla
+    private void cargarEmpleados() 
+    {
+        //tabla
         DefaultTableModel modelo = (DefaultTableModel) tblEmpleados.getModel();
-        modelo.setRowCount(0); // Limpiar filas anteriores
+        modelo.setRowCount(0); 
 
-        String query = "SELECT * FROM empleados"; // Consulta SQL para obtener todos los empleados
+        String query = "SELECT * FROM empleados"; //obtener empleados de la base
 
-        try {
-            Conexion conn = new Conexion("empleados"); // Conexión con la base de datos
+        try 
+        {
+            Conexion conn = new Conexion("empleados");
             Connection c = conn.getConexion();
             Statement st = c.createStatement();
             ResultSet rs = st.executeQuery(query);
 
-            while (rs.next()) {
-                // Obtiene los datos de cada columna
+            while (rs.next()) 
+            {
                 String id = String.valueOf(rs.getInt("id"));
                 String nombre = rs.getString("nombre");
                 String telefono = rs.getString("telefono");
@@ -52,11 +54,13 @@ public class frmModificarEmpleado extends javax.swing.JFrame
                 String cargo = rs.getString("cargo");
                 String seguro = rs.getString("seguro");
 
-                // Agrega la fila a la tabla
                 modelo.addRow(new Object[]{id, nombre, telefono, correo, edad, cargo, seguro});
             }
 
-        } catch (SQLException e) {
+        } 
+        
+        catch (SQLException e) 
+        {
             JOptionPane.showMessageDialog(this, "Error al cargar los empleados: " + e.getMessage());
         }
     }
@@ -270,28 +274,27 @@ public class frmModificarEmpleado extends javax.swing.JFrame
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
-        // Verifica si se ha seleccionado un empleado
     int filaSeleccionada = tblEmpleados.getSelectedRow();
-    if (filaSeleccionada == -1) {
+    if (filaSeleccionada == -1) 
+    {
         JOptionPane.showMessageDialog(this, "Por favor, selecciona un empleado antes de modificar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         return; // Salir si no hay empleado seleccionado
     }
 
-    // Obtener el ID del empleado seleccionado desde la tabla
     int idEmpleado = Integer.parseInt(tblEmpleados.getValueAt(filaSeleccionada, 0).toString());
 
-    // Obtener los datos modificados desde los campos del formulario
     String nombre = txtNombre.getText();
     String cargo = cmbCargo.getSelectedItem().toString();
     String telefono = txtTelefono.getText();
     String correo = txtCorreo.getText();
     int edad = Integer.parseInt(txtEdad.getText());
-    boolean seguro = cmbSeguro.getSelectedItem().toString().equals("Sí");
+    String seguro = cmbSeguro.getSelectedItem().toString();
 
-    // Actualizar los datos en la base de datos
+    //Actualizar los datos en la base de datos
     String sql = "UPDATE empleados SET nombre = ?, cargo = ?, telefono = ?, correo = ?, edad = ?, seguro = ? WHERE id = ?";
 
-    try {
+    try 
+    {
         Conexion conn = new Conexion("empleados");
         Connection con = conn.getConexion();
         PreparedStatement ps = con.prepareStatement(sql);
@@ -301,20 +304,27 @@ public class frmModificarEmpleado extends javax.swing.JFrame
         ps.setString(3, telefono);
         ps.setString(4, correo);
         ps.setInt(5, edad);
-        ps.setBoolean(6, seguro);
+        ps.setString(6, seguro);
         ps.setInt(7, idEmpleado);
 
         int filasAfectadas = ps.executeUpdate();
-        if (filasAfectadas > 0) {
+        if (filasAfectadas > 0) 
+        {
             JOptionPane.showMessageDialog(this, "Empleado modificado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            cargarEmpleados(); // Actualizar la tabla
-        } else {
+            cargarEmpleados(); 
+        } 
+        
+        else 
+        {
             JOptionPane.showMessageDialog(this, "No se pudo modificar el empleado.", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         ps.close();
         con.close();
-    } catch (SQLException e) {
+    } 
+    
+    catch (SQLException e) 
+    {
         JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
     }//GEN-LAST:event_btnAceptarActionPerformed
@@ -329,14 +339,14 @@ public class frmModificarEmpleado extends javax.swing.JFrame
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         // TODO add your handling code here:
         int filaSeleccionada = tblEmpleados.getSelectedRow();
-    if (filaSeleccionada != -1) {
-        // Cargar los datos del empleado en los campos del formulario
-        txtNombre.setText(tblEmpleados.getValueAt(filaSeleccionada, 1).toString()); // Columna 1: Nombre
-        txtTelefono.setText(tblEmpleados.getValueAt(filaSeleccionada, 2).toString()); // Columna 2: Teléfono
-        txtCorreo.setText(tblEmpleados.getValueAt(filaSeleccionada, 3).toString()); // Columna 3: Correo
-        txtEdad.setText(tblEmpleados.getValueAt(filaSeleccionada, 4).toString()); // Columna 4: Edad
-        cmbCargo.setSelectedItem(tblEmpleados.getValueAt(filaSeleccionada, 5).toString()); // Columna 5: Cargo
-        cmbSeguro.setSelectedItem(tblEmpleados.getValueAt(filaSeleccionada, 6).toString()); // Columna 6: Seguro
+    if (filaSeleccionada != -1) 
+    {
+        txtNombre.setText(tblEmpleados.getValueAt(filaSeleccionada, 1).toString());
+        txtTelefono.setText(tblEmpleados.getValueAt(filaSeleccionada, 2).toString()); 
+        txtCorreo.setText(tblEmpleados.getValueAt(filaSeleccionada, 3).toString()); 
+        txtEdad.setText(tblEmpleados.getValueAt(filaSeleccionada, 4).toString()); 
+        cmbCargo.setSelectedItem(tblEmpleados.getValueAt(filaSeleccionada, 5).toString());
+        cmbSeguro.setSelectedItem(tblEmpleados.getValueAt(filaSeleccionada, 6).toString()); 
     }
     }//GEN-LAST:event_formMouseClicked
 

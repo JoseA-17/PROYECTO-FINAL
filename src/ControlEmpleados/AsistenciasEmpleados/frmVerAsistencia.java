@@ -14,42 +14,47 @@ import javax.swing.JOptionPane;
 import java.sql.*;
 import javax.swing.table.DefaultTableModel;
 
-public class frmVerAsistencia extends javax.swing.JFrame {
+public class frmVerAsistencia extends javax.swing.JFrame 
+{
 
     /**
      * Creates new form frmVerAsistencia
      */
-    public frmVerAsistencia() {
+    public frmVerAsistencia() 
+    {
         initComponents();
         cargarTablaVerAsistencias();
         this.setLocationRelativeTo(null);
     }
   
-     // Método para cargar los datos en la tabla de asistencias
-private void cargarTablaVerAsistencias() {
-    // Obtener la conexión
-    Conexion conn = new Conexion("empleados"); // Usa la base de datos correcta
+private void cargarTablaVerAsistencias() 
+{
+    Conexion conn = new Conexion("empleados"); 
     Connection c = conn.getConexion();
 
-    if (c == null) {
+    if (c == null) 
+    {
         JOptionPane.showMessageDialog(this, "Error: No se pudo conectar a la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
-    try {
-        // Crear consulta para traer todos los datos
+    try 
+    {
+        //consulta para traer todos los datos
         String query = "SELECT id, nombre, cargo, asistencia, entrada, salida, observacion, LUN, MAR, MIE, JUE, VIE, SAB, DOM FROM asistencias";
         Statement stmt = c.createStatement();
         ResultSet rs = stmt.executeQuery(query);
 
         // Configurar modelo de tabla
-        DefaultTableModel model = new DefaultTableModel(new String[] {
+        DefaultTableModel model = new DefaultTableModel(new String[] 
+        {
             "ID", "Nombre", "Cargo", "Entrada", "Salida", 
             "Observación", "LUN", "MAR", "MIE", "JUE", "VIE", "SAB", "DOM"
         }, 0);
 
-        // Llenar la tabla con los resultados
-        while (rs.next()) {
+        // Llenar la tabla 
+        while (rs.next()) 
+        {
             model.addRow(new Object[] {
                 rs.getInt("id"),
                 rs.getString("nombre"),
@@ -67,51 +72,66 @@ private void cargarTablaVerAsistencias() {
             });
         }
 
-        tblEmpleados.setModel(model); // Asignar el modelo a la tabla
+        tblEmpleados.setModel(model);
 
         rs.close();
         stmt.close();
-    } catch (SQLException e) {
+    } 
+    
+    catch (SQLException e) 
+    {
         JOptionPane.showMessageDialog(this, "Error al cargar los datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    } finally {
-        try {
-            if (c != null) {
+    } 
+    
+    finally 
+    {
+        try 
+        {
+            if (c != null) 
+            {
                 c.close();
             }
-        } catch (SQLException e) {
+        } 
+        
+        catch (SQLException e) 
+        {
             e.printStackTrace();
         }
     }
 }
 
-private void filtrarPorID() {
+private void filtrarPorID() 
+{
     // Obtener el texto del campo txtID
     String idEmpleado = txtID.getText().trim();
 
-    if (idEmpleado.isEmpty()) {
+    if (idEmpleado.isEmpty()) 
+    {
         JOptionPane.showMessageDialog(this, "Por favor, ingrese un ID para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         return;
     }
 
-    // Obtener la conexión
     Conexion conn = new Conexion("empleados");
     Connection c = conn.getConexion();
 
-    if (c == null) {
+    if (c == null) 
+    {
         JOptionPane.showMessageDialog(this, "Error: No se pudo conectar a la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
-    try {
-        // Crear la consulta SQL para filtrar por ID
+    try 
+    {
+        // Consulta para filtrar por ID
         String query = "SELECT asistencias.id, empleados.nombre, empleados.cargo, " +
-                       "asistencias.asistencia, asistencias.entrada, asistencias.salida, asistencias.observacion " +
+                       "asistencias.entrada, asistencias.salida, asistencias.observacion, " +
+                       "asistencias.LUN, asistencias.MAR, asistencias.MIE, asistencias.JUE, asistencias.VIE, asistencias.SAB, asistencias.DOM " +
                        "FROM asistencias " +
                        "INNER JOIN empleados ON asistencias.id = empleados.id " +
                        "WHERE empleados.id = ?";  // Filtrar por ID
 
         PreparedStatement ps = c.prepareStatement(query);
-        ps.setInt(1, Integer.parseInt(idEmpleado));  // Convertir el ID a entero
+        ps.setInt(1, Integer.parseInt(idEmpleado)); // Convertir el ID a entero
 
         ResultSet rs = ps.executeQuery();
 
@@ -120,68 +140,92 @@ private void filtrarPorID() {
         model.setRowCount(0);
 
         // Llenar la tabla con los resultados filtrados
-        while (rs.next()) {
-            Object[] row = new Object[7];
-            row[0] = rs.getInt("id");
-            row[1] = rs.getString("nombre");
-            row[2] = rs.getString("cargo");
-            row[3] = rs.getString("asistencia");
-            row[4] = rs.getString("entrada");
-            row[5] = rs.getString("salida");
-            row[6] = rs.getString("observacion");
-
-            model.addRow(row);
+        while (rs.next()) 
+        {
+            model.addRow(new Object[] {
+                rs.getInt("id"),
+                rs.getString("nombre"),
+                rs.getString("cargo"),
+                rs.getString("entrada"),
+                rs.getString("salida"),
+                rs.getString("observacion"),
+                rs.getString("LUN"),
+                rs.getString("MAR"),
+                rs.getString("MIE"),
+                rs.getString("JUE"),
+                rs.getString("VIE"),
+                rs.getString("SAB"),
+                rs.getString("DOM")
+            });
         }
 
-        if (model.getRowCount() == 0) {
+        if (model.getRowCount() == 0) 
+        {
             JOptionPane.showMessageDialog(this, "No se encontraron asistencias para el ID proporcionado.", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
         }
 
         rs.close();
         ps.close();
-    } catch (SQLException e) {
+    } 
+    
+    catch (SQLException e) 
+    {
         JOptionPane.showMessageDialog(this, "Error al realizar la consulta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    } catch (NumberFormatException e) {
+    } 
+    catch (NumberFormatException e) 
+    {
         JOptionPane.showMessageDialog(this, "El ID debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
-    } finally {
-        try {
-            if (c != null) {
+    } 
+    
+    finally 
+    {
+        try 
+        {
+            if (c != null) 
+            {
                 c.close();
             }
-        } catch (SQLException e) {
+        } 
+        
+        catch (SQLException e) 
+        {
             e.printStackTrace();
         }
     }
 }
 
-private void filtrarPorNombre() {
+
+private void filtrarPorNombre() 
+{
     // Obtener el texto del campo txtNombre
     String nombreEmpleado = txtNombre.getText().trim();
 
-    if (nombreEmpleado.isEmpty()) {
+    if (nombreEmpleado.isEmpty()) 
+    {
         JOptionPane.showMessageDialog(this, "Por favor, ingrese un nombre para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         return;
     }
 
-    // Obtener la conexión
     Conexion conn = new Conexion("empleados");
     Connection c = conn.getConexion();
 
-    if (c == null) {
+    if (c == null) 
+    {
         JOptionPane.showMessageDialog(this, "Error: No se pudo conectar a la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
-    try {
-        // Crear la consulta SQL para filtrar por nombre
+    try 
+    {
         String query = "SELECT asistencias.id, empleados.nombre, empleados.cargo, " +
-                       "asistencias.asistencia, asistencias.entrada, asistencias.salida, asistencias.observacion " +
+                       "asistencias.entrada, asistencias.salida, asistencias.observacion, " +
+                       "asistencias.LUN, asistencias.MAR, asistencias.MIE, asistencias.JUE, asistencias.VIE, asistencias.SAB, asistencias.DOM " +
                        "FROM asistencias " +
                        "INNER JOIN empleados ON asistencias.id = empleados.id " +
                        "WHERE empleados.nombre LIKE ?";  // Filtrar por nombre (con LIKE)
 
         PreparedStatement ps = c.prepareStatement(query);
-        ps.setString(1, "%" + nombreEmpleado + "%");  // Permitir coincidencias parciales
+        ps.setString(1, "%" + nombreEmpleado + "%"); // Permitir coincidencias parciales
 
         ResultSet rs = ps.executeQuery();
 
@@ -190,37 +234,56 @@ private void filtrarPorNombre() {
         model.setRowCount(0);
 
         // Llenar la tabla con los resultados filtrados
-        while (rs.next()) {
-            Object[] row = new Object[7];
-            row[0] = rs.getInt("id");
-            row[1] = rs.getString("nombre");
-            row[2] = rs.getString("cargo");
-            row[3] = rs.getString("asistencia");
-            row[4] = rs.getString("entrada");
-            row[5] = rs.getString("salida");
-            row[6] = rs.getString("observacion");
-
-            model.addRow(row);
+        while (rs.next()) 
+        {
+            model.addRow(new Object[] {
+                rs.getInt("id"),
+                rs.getString("nombre"),
+                rs.getString("cargo"),
+                rs.getString("entrada"),
+                rs.getString("salida"),
+                rs.getString("observacion"),
+                rs.getString("LUN"),
+                rs.getString("MAR"),
+                rs.getString("MIE"),
+                rs.getString("JUE"),
+                rs.getString("VIE"),
+                rs.getString("SAB"),
+                rs.getString("DOM")
+            });
         }
 
-        if (model.getRowCount() == 0) {
+        if (model.getRowCount() == 0) 
+        {
             JOptionPane.showMessageDialog(this, "No se encontraron asistencias para el nombre proporcionado.", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
         }
 
         rs.close();
         ps.close();
-    } catch (SQLException e) {
+    } 
+    
+    catch (SQLException e) 
+    {
         JOptionPane.showMessageDialog(this, "Error al realizar la consulta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    } finally {
-        try {
-            if (c != null) {
+    } 
+    
+    finally 
+    {
+        try 
+        {
+            if (c != null) 
+            {
                 c.close();
             }
-        } catch (SQLException e) {
+        } 
+        
+        catch (SQLException e) 
+        {
             e.printStackTrace();
         }
     }
 }
+
 
     /**
      * This method is called from within the constructor to initialize the form.

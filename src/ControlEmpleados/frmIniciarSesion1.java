@@ -15,56 +15,64 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.ResultSet;
 import javax.swing.JOptionPane;
-public class frmIniciarSesion1 extends javax.swing.JFrame {
+public class frmIniciarSesion1 extends javax.swing.JFrame
+{
 
     /**
      * Creates new form frmIniciarSesion1
      */
     public frmIniciarSesion1() {
         initComponents();
-        this.setLocationRelativeTo(null); // centralizar el formulario
+        this.setLocationRelativeTo(null); 
     }
     
-    private void abrirMenuPrincipal() {
-    // Código para abrir el menú principal
-    frmMenuPrincipal menu = new frmMenuPrincipal();  // Asegúrate de tener esta clase
-    menu.setVisible(true);  // Muestra el formulario del menú principal
-    this.dispose();  // Cierra el formulario de inicio de sesión
+    private void abrirMenuPrincipal() 
+    {
+    //metodo para abrir el menu principal si es correcta las credenciales
+    frmMenuPrincipal menu = new frmMenuPrincipal(); 
+    menu.setVisible(true);  
+    this.dispose();  
 }
 
 
-    // Método para validar las credenciales del usuario
+    //verificar si el usuario es corecto
     private void validarCredenciales() {
-    String usuario = txtUsuario.getText().trim();  // Obtén el usuario ingresado
-    String contrasena = new String(txtContrasenia.getPassword()).trim();  // Obtén la contraseña ingresada
+    String usuario = txtUsuario.getText().trim();  
+    String contrasena = new String(txtContrasenia.getPassword()).trim();  
 
-    // Validación de campos vacíos
-    if (usuario.isEmpty() || contrasena.isEmpty()) {
+    //Validacion si no se escribio nada
+    if (usuario.isEmpty() || contrasena.isEmpty()) 
+    {
         JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
         return;
     }
 
-    // Conexión a la base de datos
-    Conexion conn = new Conexion("empleados"); // Cambia al nombre correcto de tu base de datos
-    String sql = "SELECT * FROM users WHERE users = ? AND password = ?"; // Verifica el nombre de la tabla y campos
+    Conexion conn = new Conexion("empleados"); 
+    String sql = "SELECT * FROM users WHERE users = ? AND password = ?"; 
 
-    try (Connection con = (Connection) conn.getConexion();  // Obtén la conexión
-         PreparedStatement ps = (PreparedStatement) con.prepareStatement(sql)) {  // Prepara la consulta
-
-        // Sustituye los valores en la consulta SQL
+    try (Connection con = (Connection) conn.getConexion(); 
+         PreparedStatement ps = (PreparedStatement) con.prepareStatement(sql)) 
+    {
         ps.setString(1, usuario);
         ps.setString(2, contrasena);
 
-        // Ejecuta la consulta y obtiene el resultado
-        try (ResultSet rs = (ResultSet) ps.executeQuery()) {
-            if (rs.next()) {  // Si el usuario existe
+        //Ejecuta la consulta y obtiene el resultado
+        try (ResultSet rs = (ResultSet) ps.executeQuery()) 
+        {
+            if (rs.next()) 
+            { 
                 JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso. ¡Bienvenido, " + usuario + "!");
-                abrirMenuPrincipal();  // Abre el menú principal
-            } else {
-                JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos.");
+                abrirMenuPrincipal(); 
+            } 
+            else 
+            {
+                JOptionPane.showMessageDialog(this, "Usuario o contrasena incorrectos.");
             }
         }
-    } catch (SQLException e) {
+    } 
+    
+    catch (SQLException e) 
+    {
         JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos: " + e.getMessage());
     }
 }
@@ -190,7 +198,7 @@ public class frmIniciarSesion1 extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-            frmIniciarSesion1 frame = new frmIniciarSesion1();  //Crea la instancia del formulario
+            frmIniciarSesion1 frame = new frmIniciarSesion1();  
             frame.setVisible(true);  
             }
         });

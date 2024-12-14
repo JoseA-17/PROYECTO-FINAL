@@ -8,9 +8,6 @@ package iText;
  *
  * @author anton
  */
-
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -19,7 +16,8 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
-public class GenerarReciboPDF {
+public class GenerarReciboPDF 
+{
 public static void generarRecibo(String empresa, String nombre, int id, String correo, String cargo, String seguro, int edad,
                                   int horasTrabajadas, double tarifaPorHora, double bonificaciones, double deducciones,
                                   double horasDisponibles, double horasUsadas, double salarioBruto, double totalDeducciones, double salarioNeto) {
@@ -107,7 +105,8 @@ public static void generarRecibo(String empresa, String nombre, int id, String c
         contentStream.endText();
 
         // Verificar y mostrar horas extras
-        if (horasUsadas > 60) {
+        if (horasUsadas > 60) 
+        {
             contentStream.beginText();
             contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
             contentStream.newLineAtOffset(55, 480); // Ajusta la posición según sea necesario
@@ -171,13 +170,20 @@ public static void generarRecibo(String empresa, String nombre, int id, String c
         document.save("Recibo_" + nombre + ".pdf");
         JOptionPane.showMessageDialog(null, "Recibo generado exitosamente.");
 
-    } catch (IOException e) {
+    } 
+    catch (IOException e) 
+    {
         e.printStackTrace();
         JOptionPane.showMessageDialog(null, "Error al generar el recibo.");
-    } finally {
-        try {
+    } 
+    finally 
+    {
+        try 
+        {
             document.close();
-        } catch (IOException e) {
+        } 
+        catch (IOException e) 
+        {
             e.printStackTrace();
         }
     }

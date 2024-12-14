@@ -5,7 +5,6 @@
 package ControlEmpleados.GestionEmpleados;
 
 import ControlEmpleados.frmMenuPrincipal;
-import javax.swing.JFrame;
 
 /**
  *

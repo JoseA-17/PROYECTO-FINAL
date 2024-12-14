@@ -191,7 +191,7 @@ public class frmAnadirEmpleado extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnadirActionPerformed
- // Obtener los valores de los campos de texto y combo box
+ // valores de los campos de texto y combo box
 String nombre = txtNombre.getText().trim();
 String telefono = txtTelefono.getText().trim();
 String correo = txtCorreo.getText().trim();
@@ -199,26 +199,27 @@ String edadStr = txtEdad.getText().trim();
 String cargo = cmbCargo.getSelectedItem().toString();
 String seguro = cmbSeguro.getSelectedItem().toString();
 
-// Validar que los campos no estén vacíos y que los campos de edad y teléfono sean numéricos
-if (nombre.isEmpty() || telefono.isEmpty() || correo.isEmpty() || edadStr.isEmpty() || cargo.isEmpty() || seguro.isEmpty()) {
+//validacioones si los campos estan vacios
+if (nombre.isEmpty() || telefono.isEmpty() || correo.isEmpty() || edadStr.isEmpty() || cargo.isEmpty() || seguro.isEmpty()) 
+{
     JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.", "Advertencia", JOptionPane.WARNING_MESSAGE);
     return;
 }
 
-try {
-    // Convertir edad a entero
+try 
+{
     int edad = Integer.parseInt(edadStr);
 
-    // Verificar que el número de teléfono sea válido (solo números)
-    if (!telefono.matches("\\d+")) {
-        JOptionPane.showMessageDialog(this, "El número de teléfono debe contener solo dígitos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+    //validar que el numero sean letrars
+    if (!telefono.matches("\\d+")) 
+    {
+        JOptionPane.showMessageDialog(this, "El número de telefono debe contener solo dígitos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         return;
     }
 
-    // SQL para insertar los datos del empleado en la base de datos
     String query = "INSERT INTO empleados (nombre, telefono, correo, edad, cargo, seguro) VALUES (?, ?, ?, ?, ?, ?)";
 
-    // Ejecutar la consulta SQL
+    //consulta SQL
     try {
         Conexion conn = new Conexion("empleados");
         Connection c = conn.getConexion();
@@ -232,31 +233,38 @@ try {
 
         int filasAfectadas = ps.executeUpdate();
 
-        if (filasAfectadas > 0) {
+        if (filasAfectadas > 0) 
+        {
             JOptionPane.showMessageDialog(this, "Empleado agregado correctamente.");
             
-            // Limpiar los campos después de agregar
+            //Limpiar los campos despues de agregar
             txtNombre.setText("");
             txtTelefono.setText("");
             txtCorreo.setText("");
             txtEdad.setText("");
-            cmbCargo.setSelectedIndex(0);  // Reiniciar el JComboBox a la primera opción
-            cmbSeguro.setSelectedIndex(0);  // Reiniciar el JComboBox a la primera opción
-        } else {
+            cmbCargo.setSelectedIndex(0);  
+            cmbSeguro.setSelectedIndex(0);
+        }
+        
+        else 
+        {
             JOptionPane.showMessageDialog(this, "Error al agregar el empleado.");
         }
 
         ps.close();
         c.close();
-    } catch (SQLException e) {
+    } 
+    
+    catch (SQLException e) 
+    {
         JOptionPane.showMessageDialog(this, "Error al ejecutar la consulta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
-} catch (NumberFormatException e) {
-    JOptionPane.showMessageDialog(this, "La edad debe ser un número válido.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+} 
+
+catch (NumberFormatException e) 
+{
+    JOptionPane.showMessageDialog(this, "La edad debe ser un numero valido.", "Advertencia", JOptionPane.WARNING_MESSAGE);
 }
-
-// Solo se deben limpiar los campos después de agregar exitosamente
-
     }//GEN-LAST:event_btnAnadirActionPerformed
 
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed

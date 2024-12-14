@@ -183,9 +183,9 @@ public class frmAsistenciasEmpleado extends javax.swing.JFrame {
     private void btnRegistrarAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarAsistenciaActionPerformed
         // TODO add your handling code here:
         this.dispose();
-        frmRegistrarAsistencia registrarAsistencia = new frmRegistrarAsistencia(); // Crea una instancia del formulario
-        registrarAsistencia.setVisible(true); // Muestra el formulario
-        registrarAsistencia.setLocationRelativeTo(null); // Centra el formulario en pantalla
+        frmRegistrarAsistencia registrarAsistencia = new frmRegistrarAsistencia(); 
+        registrarAsistencia.setVisible(true); 
+        registrarAsistencia.setLocationRelativeTo(null); 
     }//GEN-LAST:event_btnRegistrarAsistenciaActionPerformed
 
     private void btnVerAsistenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerAsistenciasActionPerformed

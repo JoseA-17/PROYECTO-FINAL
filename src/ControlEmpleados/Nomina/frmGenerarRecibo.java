@@ -26,7 +26,8 @@ public class frmGenerarRecibo extends javax.swing.JFrame {
     /**
      * Creates new form frmGenerarRecibo
      */
-    public frmGenerarRecibo() {
+    public frmGenerarRecibo() 
+    {
         initComponents();
         this.setLocationRelativeTo(null);
         llenarTabla();
@@ -34,8 +35,9 @@ public class frmGenerarRecibo extends javax.swing.JFrame {
     }
     
     
-   private void llenarTabla() {
-    DefaultTableModel modelo = new DefaultTableModel(); // Crear el modelo para la tabla
+   private void llenarTabla() 
+   {
+    DefaultTableModel modelo = new DefaultTableModel(); 
     modelo.addColumn("ID");
     modelo.addColumn("Nombre");
     modelo.addColumn("Cargo");
@@ -49,11 +51,13 @@ public class frmGenerarRecibo extends javax.swing.JFrame {
     Statement stmt = null;
     ResultSet rs = null;
 
-    try {
-        Conexion conexion = new Conexion("empleados"); // Cambia "empleados" por el nombre correcto de tu base de datos
+    try 
+    {
+        Conexion conexion = new Conexion("empleados");
         conn = conexion.getConexion();
 
-        if (conn == null) {
+        if (conn == null) 
+        {
             JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos.");
             return;
         }
@@ -63,8 +67,9 @@ public class frmGenerarRecibo extends javax.swing.JFrame {
         rs = stmt.executeQuery(query);
 
         // Rellenar el modelo con los datos obtenidos
-        while (rs.next()) {
-            Object[] fila = new Object[8]; // Debe coincidir con el número de columnas
+        while (rs.next()) 
+        {
+            Object[] fila = new Object[8];
             fila[0] = rs.getInt("ID");
             fila[1] = rs.getString("Nombre");
             fila[2] = rs.getString("Cargo");
@@ -75,18 +80,26 @@ public class frmGenerarRecibo extends javax.swing.JFrame {
             fila[7] = rs.getDouble("Total");
             modelo.addRow(fila);
         }
-
-        // Asignar el modelo a la tabla
-        tblRecibos.setModel(modelo); // Asegúrate de que `tblNominas` sea el nombre de tu JTable en NetBeans
-    } catch (SQLException e) {
+        tblRecibos.setModel(modelo); 
+    } 
+    
+    catch (SQLException e) 
+    {
         e.printStackTrace();
         JOptionPane.showMessageDialog(this, "Error al cargar los datos.");
-    } finally {
-        try {
+    } 
+    
+    finally 
+    {
+        try 
+        {
             if (rs != null) rs.close();
             if (stmt != null) stmt.close();
             if (conn != null) conn.close();
-        } catch (SQLException e) {
+        } 
+        
+        catch (SQLException e) 
+        {
             e.printStackTrace();
         }
     }
@@ -94,43 +107,45 @@ public class frmGenerarRecibo extends javax.swing.JFrame {
 
     
     
-        private void filtrarPorID() {
-    // Obtener el texto del campo txtID
+    private void filtrarPorID() 
+    {
     String idEmpleado = txtID.getText().trim();
 
-    if (idEmpleado.isEmpty()) {
+    if (idEmpleado.isEmpty()) 
+    {
         JOptionPane.showMessageDialog(this, "Por favor, ingrese un ID para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         return;
     }
 
-    // Obtener la conexión
     Conexion conn = new Conexion("empleados");
     Connection c = conn.getConexion();
 
-    if (c == null) {
+    if (c == null) 
+    {
         JOptionPane.showMessageDialog(this, "Error: No se pudo conectar a la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
-    try {
-        // Crear la consulta SQL para filtrar por ID
+    try 
+    {
         String query = "SELECT asistencias.id, empleados.nombre, empleados.cargo, " +
                        "asistencias.asistencia, asistencias.entrada, asistencias.salida, asistencias.observacion " +
                        "FROM asistencias " +
                        "INNER JOIN empleados ON asistencias.id = empleados.id " +
-                       "WHERE empleados.id = ?";  // Filtrar por ID
+                       "WHERE empleados.id = ?";
 
         PreparedStatement ps = c.prepareStatement(query);
-        ps.setInt(1, Integer.parseInt(idEmpleado));  // Convertir el ID a entero
+        ps.setInt(1, Integer.parseInt(idEmpleado)); 
 
         ResultSet rs = ps.executeQuery();
 
-        // Limpiar la tabla antes de agregar nuevos datos
+        //limpiar
         DefaultTableModel model = (DefaultTableModel) tblNominas.getModel();
         model.setRowCount(0);
 
         // Llenar la tabla con los resultados filtrados
-        while (rs.next()) {
+        while (rs.next()) 
+        {
             Object[] row = new Object[7];
             row[0] = rs.getInt("id");
             row[1] = rs.getString("nombre");
@@ -143,46 +158,62 @@ public class frmGenerarRecibo extends javax.swing.JFrame {
             model.addRow(row);
         }
 
-        if (model.getRowCount() == 0) {
+        if (model.getRowCount() == 0) 
+        {
             JOptionPane.showMessageDialog(this, "No se encontraron asistencias para el ID proporcionado.", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
         }
 
         rs.close();
         ps.close();
-    } catch (SQLException e) {
+    } 
+    
+    catch (SQLException e) 
+    {
         JOptionPane.showMessageDialog(this, "Error al realizar la consulta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "El ID debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
-    } finally {
-        try {
-            if (c != null) {
+    }
+    
+    catch (NumberFormatException e) 
+    {
+        JOptionPane.showMessageDialog(this, "El ID debe ser un numero válido.", "Error", JOptionPane.ERROR_MESSAGE);
+    } 
+    
+    finally 
+    {
+        try
+        {
+            if (c != null) 
+            {
                 c.close();
             }
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) 
+        {
             e.printStackTrace();
         }
     }
 }
 
-private void filtrarPorNombre() {
-    // Obtener el texto del campo txtNombre
+private void filtrarPorNombre() 
+{
     String nombreEmpleado = txtNombre.getText().trim();
 
-    if (nombreEmpleado.isEmpty()) {
+    if (nombreEmpleado.isEmpty()) 
+    {
         JOptionPane.showMessageDialog(this, "Por favor, ingrese un nombre para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         return;
     }
 
-    // Obtener la conexión
     Conexion conn = new Conexion("empleados");
     Connection c = conn.getConexion();
 
-    if (c == null) {
+    if (c == null) 
+    {
         JOptionPane.showMessageDialog(this, "Error: No se pudo conectar a la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
-    try {
+    try 
+    {
         // Crear la consulta SQL para filtrar por nombre
         String query = "SELECT asistencias.id, empleados.nombre, empleados.cargo, " +
                        "asistencias.asistencia, asistencias.entrada, asistencias.salida, asistencias.observacion " +
@@ -200,7 +231,8 @@ private void filtrarPorNombre() {
         model.setRowCount(0);
 
         // Llenar la tabla con los resultados filtrados
-        while (rs.next()) {
+        while (rs.next()) 
+        {
             Object[] row = new Object[7];
             row[0] = rs.getInt("id");
             row[1] = rs.getString("nombre");
@@ -213,20 +245,31 @@ private void filtrarPorNombre() {
             model.addRow(row);
         }
 
-        if (model.getRowCount() == 0) {
+        if (model.getRowCount() == 0) 
+        {
             JOptionPane.showMessageDialog(this, "No se encontraron asistencias para el nombre proporcionado.", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
         }
 
         rs.close();
         ps.close();
-    } catch (SQLException e) {
+    } 
+    
+    catch (SQLException e) 
+    {
         JOptionPane.showMessageDialog(this, "Error al realizar la consulta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    } finally {
+    } 
+    
+    finally 
+    {
         try {
-            if (c != null) {
+            if (c != null) 
+            {
                 c.close();
             }
-        } catch (SQLException e) {
+        } 
+        
+        catch (SQLException e) 
+        {
             e.printStackTrace();
         }
     }
@@ -511,7 +554,7 @@ private void filtrarPorNombre() {
 
     private void btnVolver2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolver2ActionPerformed
         // TODO add your handling code here:
-        this.dispose();  // Cierra el formulario actual
+        this.dispose();
         frmGestionSalarios frame = new frmGestionSalarios();
         frame.setVisible(true);
     }//GEN-LAST:event_btnVolver2ActionPerformed
@@ -540,13 +583,14 @@ private void filtrarPorNombre() {
          // Obtener el índice de la fila seleccionada en la tabla
  int filaSeleccionada = tblRecibos.getSelectedRow();
 
-if (filaSeleccionada == -1) {
+if (filaSeleccionada == -1) 
+{
     JOptionPane.showMessageDialog(this, "Por favor, seleccione un empleado.");
-    return; // Si no se seleccionó ninguna fila, salir de la función
+    return; 
 }
 
-try {
-    // Obtener los datos básicos de la fila seleccionada
+try 
+{
     String nombre = (String) tblRecibos.getValueAt(filaSeleccionada, 1);
     int id = (int) tblRecibos.getValueAt(filaSeleccionada, 0);
     int horasTrabajadas = (int) tblRecibos.getValueAt(filaSeleccionada, 3);
@@ -555,16 +599,16 @@ try {
     double deducciones = (double) tblRecibos.getValueAt(filaSeleccionada, 6);
     double salarioNeto = (double) tblRecibos.getValueAt(filaSeleccionada, 7);
 
-    // Crear una instancia de tu clase Conexion
+    //conexon
     Conexion conexion = new Conexion("empleados");
     Connection conn = conexion.getConexion();
 
-    // Consultas SQL
+    //Consulta SQL
     String sqlEmpleado = "SELECT correo, cargo, seguro, edad FROM empleados WHERE ID = ?";
     String sqlNomina = "SELECT HorasTrabajadas FROM nominas WHERE ID = ?";
     String sqlAsistencias = "SELECT horasDisponibles FROM asistencias WHERE ID = ?";
     
-    // Obtener información del empleado
+    // informacion del empleado
     PreparedStatement stmtEmpleado = conn.prepareStatement(sqlEmpleado);
     stmtEmpleado.setInt(1, id);
     ResultSet rsEmpleado = stmtEmpleado.executeQuery();
@@ -578,32 +622,33 @@ try {
         edad = rsEmpleado.getInt("edad");
     }
     
-    // Obtener información de horas trabajadas (de la tabla nominas)
     PreparedStatement stmtNomina = conn.prepareStatement(sqlNomina);
     stmtNomina.setInt(1, id);
     ResultSet rsNomina = stmtNomina.executeQuery();
 
     int horasUsadas = 0;
-    if (rsNomina.next()) {
+    if (rsNomina.next()) 
+    {
         horasUsadas = rsNomina.getInt("HorasTrabajadas");
     }
 
-    // Obtener información de horas disponibles (de la tabla asistencias)
     PreparedStatement stmtAsistencias = conn.prepareStatement(sqlAsistencias);
     stmtAsistencias.setInt(1, id);
     ResultSet rsAsistencias = stmtAsistencias.executeQuery();
 
     double horasDisponibles = 60; // Las horas disponibles siempre son 60
-    if (rsAsistencias.next()) {
+    if (rsAsistencias.next()) 
+    {
         horasDisponibles = rsAsistencias.getDouble("horasDisponibles");
     }
 
-    // Calcular salario bruto y total deducciones
+    //Calcular salario bruto y total deducciones
     double salarioBruto = salarioBase + bonificaciones;
     double totalDeducciones = deducciones;
 
-    // Llamar a la función generarRecibo
-    GenerarReciboPDF.generarRecibo(
+    //funcion de recibo creada en el package itext
+    GenerarReciboPDF.generarRecibo
+        (
         "Mi Empresa S.A.", 
         nombre, 
         id, 
@@ -621,12 +666,10 @@ try {
         totalDeducciones, 
         salarioNeto
     );
+} 
 
-    JOptionPane.showMessageDialog(this, "Recibo generado exitosamente.");
-} catch (SQLException e) {
-    e.printStackTrace();
-    JOptionPane.showMessageDialog(this, "Error al obtener los datos del empleado.");
-} catch (Exception e) {
+catch (Exception e) 
+{
     e.printStackTrace();
     JOptionPane.showMessageDialog(this, "Error al generar el recibo.");
 }

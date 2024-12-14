@@ -9,7 +9,8 @@ package ControlEmpleados.Nomina;
  * @author anton
  */
 
-public class PadreNominasEmpleados {
+public class PadreNominasEmpleados 
+{
     private int idEmpleado;
     private String nombreEmpleado;
     private String cargoEmpleado;
@@ -19,7 +20,6 @@ public class PadreNominasEmpleados {
     private double deducciones;
     private double total;
 
-    // Constructor
     public PadreNominasEmpleados(int idEmpleado, String nombreEmpleado, String cargoEmpleado, double horasTrabajadas, double salarioBase, double bonificaciones, double deducciones) {
         this.idEmpleado = idEmpleado;
         this.nombreEmpleado = nombreEmpleado;
@@ -28,10 +28,9 @@ public class PadreNominasEmpleados {
         this.salarioBase = salarioBase;
         this.bonificaciones = bonificaciones;
         this.deducciones = deducciones;
-        this.total = calcularTotal();  // Llamada a método para calcular el total
+        this.total = calcularTotal(); 
     }
-
-    // Métodos getters y setters
+    
     public int getIdEmpleado() {
         return idEmpleado;
     }
@@ -92,9 +91,9 @@ public class PadreNominasEmpleados {
         return total;
     }
 
-    // Método para calcular el total
-    private double calcularTotal() {
-        return salarioBase + bonificaciones - deducciones;  // Salario base + bonificaciones - deducciones
+    private double calcularTotal() 
+    {
+        return salarioBase + bonificaciones - deducciones; 
     }
 }
 

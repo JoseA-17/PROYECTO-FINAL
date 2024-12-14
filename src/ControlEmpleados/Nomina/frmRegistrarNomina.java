@@ -12,9 +12,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.Duration;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -24,34 +21,43 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Kelly
  */
-public final class frmRegistrarNomina extends javax.swing.JFrame {
+public final class frmRegistrarNomina extends javax.swing.JFrame 
+{
 
     /**
      * Creates new form frmGenerarNomina
      */
-    public frmRegistrarNomina() {
+    public frmRegistrarNomina() 
+    {
     initComponents();
     this.setLocationRelativeTo(null);
     agregarDocumentListeners();
     llenarTablaEmpleados(dbName);
 
-    if (tblNominas != null) {
-        tblNominas.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
+    if (tblNominas != null) 
+    {
+        tblNominas.getSelectionModel().addListSelectionListener(new ListSelectionListener() 
+        {
+            public void valueChanged(ListSelectionEvent e) 
+            {
+                if (!e.getValueIsAdjusting()) 
+                {
                     llenarCamposConDatos();
                 }
             }
         });
-    } else {
-        System.out.println("La tabla tblNominas es null. Verifica la inicialización de los componentes.");
+    } 
+    else 
+    {
+        System.out.println("La tabla esta vacia");
     }
 }
          
     // Nombre de la base de datos
    private String dbName = "empleados";
     
-   public void llenarTablaEmpleados(String dbName) {
+   public void llenarTablaEmpleados(String dbName) 
+   {
     DefaultTableModel model = new DefaultTableModel();
     model.addColumn("ID");
     model.addColumn("Nombre");
@@ -64,25 +70,31 @@ public final class frmRegistrarNomina extends javax.swing.JFrame {
     Conexion conexion = new Conexion(dbName);
     try (Connection conn = conexion.getConexion();
          PreparedStatement stmt = conn.prepareStatement(query);
-         ResultSet rs = stmt.executeQuery()) {
+         ResultSet rs = stmt.executeQuery()) 
+    {
 
-        while (rs.next()) {
+        while (rs.next()) 
+        {
             int id = rs.getInt("id");
             String nombre = rs.getString("nombre");
             String cargo = rs.getString("cargo");
             model.addRow(new Object[]{id, nombre, cargo});
         }
-    } catch (SQLException e) {
+    } 
+    catch (SQLException e) 
+    {
         e.printStackTrace();
     }
 }
 
 
-  private int obtenerHorasTrabajadasDesdeTabla(String nombre) {
+  private int obtenerHorasTrabajadasDesdeTabla(String nombre) 
+  {
     int horasTrabajadas = 0;
     Connection con = null;
 
-    try {
+    try 
+    {
         // Nombre de la base de datos
         String dbName = "empleados";
 
@@ -90,40 +102,52 @@ public final class frmRegistrarNomina extends javax.swing.JFrame {
         Conexion conexion = new Conexion(dbName);
         con = conexion.getConexion();
 
-        if (con != null) {
-            System.out.println("Conexión a la base de datos establecida.");
-
+        if (con != null) 
+        {
             // Consulta para obtener las horas trabajadas del empleado
             String query = "SELECT horastrabajadas FROM horariopordias WHERE nombre = ?";
             PreparedStatement pst = con.prepareStatement(query);
             pst.setString(1, nombre);
             ResultSet rs = pst.executeQuery();
 
-            if (rs.next()) {
+            if (rs.next()) 
+            {
                 horasTrabajadas = rs.getInt("horastrabajadas"); // Obtener horas trabajadas
             }
 
             rs.close();
             pst.close();
-        } else {
-            System.out.println("No se pudo establecer la conexión a la base de datos.");
+        } 
+        else 
+        {
+            System.out.println("Conexion Fallida");
         }
-    } catch (SQLException e) {
+    } 
+    
+    catch (SQLException e) 
+    {
         e.printStackTrace();
-    } finally {
-        if (con != null) {
-            try {
+    } 
+    
+    finally 
+    {
+        if (con != null) 
+        {
+            try 
+            {
                 con.close();
-            } catch (SQLException e) {
+            } 
+            catch (SQLException e) 
+            {
                 e.printStackTrace();
             }
         }
     }
-
     return horasTrabajadas;
 }
   
-   public BigDecimal obtenerSalarioBase(String cargo) {
+   public BigDecimal obtenerSalarioBase(String cargo) 
+   {
         BigDecimal salarioBase = BigDecimal.ZERO;
         String sql = "SELECT salario_base FROM cargos WHERE nombre = ?";
         
@@ -132,72 +156,30 @@ public final class frmRegistrarNomina extends javax.swing.JFrame {
             pstmt.setString(1, cargo);
             ResultSet rs = pstmt.executeQuery();
             
-            if (rs.next()) {
+            if (rs.next()) 
+            {
                 salarioBase = rs.getBigDecimal("salario_base");
             }
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) 
+        {
             e.printStackTrace();
         }
         
         return salarioBase;
     }
-
-
-
-  private boolean empleadoExiste(String nombre) {
-    boolean existe = false;
-    Connection con = null;
-
-    try {
-        // Nombre de la base de datos
-        String dbName = "empleados";
-
-        // Obtén la conexión desde la clase Conexion
-        Conexion conexion = new Conexion(dbName);
-        con = conexion.getConexion();
-
-        if (con != null) {
-            System.out.println("Conexión a la base de datos establecida.");
-
-            // Consulta para verificar si el empleado existe
-            String query = "SELECT COUNT(*) FROM empleados WHERE nombre = ?";
-            PreparedStatement pst = con.prepareStatement(query);
-            pst.setString(1, nombre);
-            ResultSet rs = pst.executeQuery();
-
-            if (rs.next()) {
-                // Si el conteo es mayor que 0, el empleado existe
-                existe = rs.getInt(1) > 0;
-            }
-
-            rs.close();
-            pst.close();
-        } else {
-            System.out.println("No se pudo establecer la conexión a la base de datos.");
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    } finally {
-        if (con != null) {
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    return existe;
-}
   
- public int obtenerIdEmpleado(String nombreEmpleado) {
+ public int obtenerIdEmpleado(String nombreEmpleado) 
+ {
     int idEmpleado = -1;  // Valor por defecto
-    try {
-        Conexion conexion = new Conexion("empleados");  // Reemplaza con el nombre correcto
+    try 
+    {
+        Conexion conexion = new Conexion("empleados"); 
         Connection conn = conexion.getConexion();
 
-        if (conn == null) {
-            System.out.println("Error: No se pudo conectar a la base de datos.");
+        if (conn == null) 
+        {
+            System.out.println("Conexion Fallida");
             return idEmpleado;
         }
 
@@ -206,44 +188,51 @@ public final class frmRegistrarNomina extends javax.swing.JFrame {
         pst.setString(1, nombreEmpleado);
         ResultSet rs = pst.executeQuery();
 
-        if (rs.next()) {
+        if (rs.next()) 
+        {
             idEmpleado = rs.getInt("ID");
-        } else {
-            System.out.println("Empleado no encontrado: " + nombreEmpleado);
+        } 
+        
+        else 
+        {
+            System.out.println("Este Empleado no chambea aqui: " + nombreEmpleado);
         }
-    } catch (SQLException e) {
+    } 
+    catch (SQLException e) 
+    {
         e.printStackTrace();
     }
     return idEmpleado;
 }
 
 
-  private void llenarCamposConDatos() {
-    int selectedRow = tblNominas.getSelectedRow();  // Usando tblNominas
+  private void llenarCamposConDatos() 
+  {
+    int selectedRow = tblNominas.getSelectedRow();
 
-    if (selectedRow != -1) {
+    if (selectedRow != -1) 
+    {
         // Obtener los datos de la fila seleccionada
-        String nombre = tblNominas.getValueAt(selectedRow, 1).toString();  // Columna 1: Nombre
-        String cargo = tblNominas.getValueAt(selectedRow, 2).toString();   // Columna 2: Cargo
-        int id = (int) tblNominas.getValueAt(selectedRow, 0); // Columna 0: ID (espero que ID esté en la primera columna)
+        String nombre = tblNominas.getValueAt(selectedRow, 1).toString(); 
+        String cargo = tblNominas.getValueAt(selectedRow, 2).toString();
+        int id = (int) tblNominas.getValueAt(selectedRow, 0); 
 
         // Asignar los valores a los campos de texto
         txtEmpleado.setText(nombre);
         txtCargo.setText(cargo);
-        txtID.setText(String.valueOf(id));  // Asegúrate de tener un campo de texto para ID si no lo tienes
+        txtID.setText(String.valueOf(id));  
 
         // Asignar el salario base dependiendo del cargo
-        txtSalarioBase.setText(String.valueOf(obtenerSalarioBase(cargo))); // Usar la variable 'cargo' correctamente
+        txtSalarioBase.setText(String.valueOf(obtenerSalarioBase(cargo))); 
 
         // Obtener las horas trabajadas directamente desde la última columna de horariopordias
         int horasTrabajadas = obtenerHorasTrabajadasDesdeTabla(nombre);  // Nuevo método
         txtHorasTrabajadas.setText(String.valueOf(horasTrabajadas));
-
-        System.out.println("ID: " + id + ", Nombre: " + nombre + ", Cargo: " + cargo); // Verifica la información
     }
 }
   
-  private void calcularTotal() {
+  private void calcularTotal() 
+  {
     double salarioBase = obtenerValor(txtSalarioBase.getText());
     double bonificaciones = obtenerValor(txtBonificaciones.getText());
     double deducciones = obtenerValor(txtDeducciones.getText());
@@ -252,19 +241,25 @@ public final class frmRegistrarNomina extends javax.swing.JFrame {
     txtTotal.setText(String.valueOf(total));
 }
 
-  private double obtenerValor(String texto) {
+  private double obtenerValor(String texto) 
+  {
     if (texto.isEmpty()) {
-        return 0.0; // Si el campo está vacío, retornar 0
+        return 0.0; 
     }
-    try {
+    try 
+    {
         return Double.parseDouble(texto); // Intentar convertir el texto a un valor numérico
-    } catch (NumberFormatException e) {
-        return 0.0; // Si ocurre un error, retornar 0
+    } 
+    
+    catch (NumberFormatException e) 
+    {
+        return 0.0; 
     }
 }
   
   
-  private void registrarAsistencia() {
+  private void registrarAsistencia() 
+  {
     String nombre = txtEmpleado.getText();
     String cargo = txtCargo.getText();
     int horasTrabajadas = Integer.parseInt(txtHorasTrabajadas.getText());
@@ -272,9 +267,9 @@ public final class frmRegistrarNomina extends javax.swing.JFrame {
     double bonificaciones = obtenerValor(txtBonificaciones.getText());
     double deducciones = obtenerValor(txtDeducciones.getText());
 
-    int idEmpleado = obtenerIdEmpleado(nombre); // Obtener el ID del empleado
+    int idEmpleado = obtenerIdEmpleado(nombre); 
     if (idEmpleado == -1) {
-        JOptionPane.showMessageDialog(this, "Empleado no encontrado o error en la base de datos.");
+        JOptionPane.showMessageDialog(this, "Empleado no encontrado.");
         return;
     }
 
@@ -283,13 +278,14 @@ public final class frmRegistrarNomina extends javax.swing.JFrame {
 
     Connection conn = null;
     PreparedStatement pst = null;
-    try {
+    try 
+    {
         Conexion conexion = new Conexion("empleados");
         conn = conexion.getConexion();
         String query = "INSERT INTO nominas (ID, Nombre, Cargo, HorasTrabajadas, SalarioBase, Bonificaciones, Deducciones, Total) "
                      + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         pst = conn.prepareStatement(query);
-        pst.setInt(1, idEmpleado); // Usar el ID obtenido
+        pst.setInt(1, idEmpleado);
         pst.setString(2, nombre);
         pst.setString(3, cargo);
         pst.setInt(4, horasTrabajadas);
@@ -300,24 +296,30 @@ public final class frmRegistrarNomina extends javax.swing.JFrame {
 
         pst.executeUpdate();
         JOptionPane.showMessageDialog(this, "Asistencia registrada correctamente.");
-    } catch (SQLException e) {
+    } 
+    
+    catch (SQLException e) 
+    {
         e.printStackTrace();
         JOptionPane.showMessageDialog(this, "Error al registrar la asistencia.");
-    } finally {
-        try {
+    } 
+    
+    finally 
+    {
+        try 
+        {
             if (pst != null) pst.close();
             if (conn != null) conn.close();
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) 
+        {
             e.printStackTrace();
         }
     }
 }
 
-
-
-
-private void filtrarPorNombre() {
-    // Obtener el texto del campo txtNombre
+private void filtrarPorNombre() 
+{
     String nombreEmpleado = txtNombre.getText().trim();
 
     if (nombreEmpleado.isEmpty()) {
@@ -325,25 +327,28 @@ private void filtrarPorNombre() {
         return;
     }
 
-    // Obtener la conexión
+    // Instancia de la conexión
     Conexion conn = new Conexion("empleados");
     Connection c = conn.getConexion();
 
-    if (c == null) {
+    if (c == null) 
+    {
         JOptionPane.showMessageDialog(this, "Error: No se pudo conectar a la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
-    try {
+    try 
+    {
         // Crear la consulta SQL para filtrar por nombre
         String query = "SELECT asistencias.id, empleados.nombre, empleados.cargo, " +
-                       "asistencias.asistencia, asistencias.entrada, asistencias.salida, asistencias.observacion " +
+                       "asistencias.entrada, asistencias.salida, asistencias.observacion, " +
+                       "asistencias.LUN, asistencias.MAR, asistencias.MIE, asistencias.JUE, asistencias.VIE, asistencias.SAB, asistencias.DOM " +
                        "FROM asistencias " +
                        "INNER JOIN empleados ON asistencias.id = empleados.id " +
-                       "WHERE empleados.nombre LIKE ?";  // Filtrar por nombre (con LIKE)
+                       "WHERE empleados.nombre LIKE ?"; 
 
         PreparedStatement ps = c.prepareStatement(query);
-        ps.setString(1, "%" + nombreEmpleado + "%");  // Permitir coincidencias parciales
+        ps.setString(1, "%" + nombreEmpleado + "%");
 
         ResultSet rs = ps.executeQuery();
 
@@ -353,67 +358,87 @@ private void filtrarPorNombre() {
 
         // Llenar la tabla con los resultados filtrados
         while (rs.next()) {
-            Object[] row = new Object[7];
+            Object[] row = new Object[13];
             row[0] = rs.getInt("id");
             row[1] = rs.getString("nombre");
             row[2] = rs.getString("cargo");
-            row[3] = rs.getString("asistencia");
-            row[4] = rs.getString("entrada");
-            row[5] = rs.getString("salida");
-            row[6] = rs.getString("observacion");
+            row[3] = rs.getString("entrada");
+            row[4] = rs.getString("salida");
+            row[5] = rs.getString("observacion");
+            row[6] = rs.getString("LUN");
+            row[7] = rs.getString("MAR");
+            row[8] = rs.getString("MIE");
+            row[9] = rs.getString("JUE");
+            row[10] = rs.getString("VIE");
+            row[11] = rs.getString("SAB");
+            row[12] = rs.getString("DOM");
 
             model.addRow(row);
         }
 
-        if (model.getRowCount() == 0) {
+        if (model.getRowCount() == 0) 
+        {
             JOptionPane.showMessageDialog(this, "No se encontraron asistencias para el nombre proporcionado.", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
         }
 
         rs.close();
         ps.close();
-    } catch (SQLException e) {
+    } 
+    
+    catch (SQLException e) 
+    {
         JOptionPane.showMessageDialog(this, "Error al realizar la consulta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    } finally {
-        try {
-            if (c != null) {
+    } 
+    
+    finally 
+    {
+        try 
+        {
+            if (c != null) 
+            {
                 c.close();
             }
-        } catch (SQLException e) {
+        } 
+        
+        catch (SQLException e) 
+        {
             e.printStackTrace();
         }
     }
 }
 
 
+private void filtrarPorID() 
+{
+    String idEmpleado = txtsi.getText().trim();
 
-private void filtrarPorID() {
-    // Obtener el texto del campo txtID
-    String idEmpleado = txtID.getText().trim();
-
-    if (idEmpleado.isEmpty()) {
+    if (idEmpleado.isEmpty()) 
+    {
         JOptionPane.showMessageDialog(this, "Por favor, ingrese un ID para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         return;
     }
 
-    // Obtener la conexión
     Conexion conn = new Conexion("empleados");
     Connection c = conn.getConexion();
 
-    if (c == null) {
+    if (c == null) 
+    {
         JOptionPane.showMessageDialog(this, "Error: No se pudo conectar a la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
-    try {
+    try 
+    {
         // Crear la consulta SQL para filtrar por ID
         String query = "SELECT asistencias.id, empleados.nombre, empleados.cargo, " +
-                       "asistencias.asistencia, asistencias.entrada, asistencias.salida, asistencias.observacion " +
+                       "asistencias.entrada, asistencias.salida, asistencias.observacion, " +
+                       "asistencias.LUN, asistencias.MAR, asistencias.MIE, asistencias.JUE, asistencias.VIE, asistencias.SAB, asistencias.DOM " +
                        "FROM asistencias " +
                        "INNER JOIN empleados ON asistencias.id = empleados.id " +
                        "WHERE empleados.id = ?";  // Filtrar por ID
 
         PreparedStatement ps = c.prepareStatement(query);
-        ps.setInt(1, Integer.parseInt(idEmpleado));  // Convertir el ID a entero
+        ps.setInt(1, Integer.parseInt(idEmpleado));
 
         ResultSet rs = ps.executeQuery();
 
@@ -422,41 +447,65 @@ private void filtrarPorID() {
         model.setRowCount(0);
 
         // Llenar la tabla con los resultados filtrados
-        while (rs.next()) {
-            Object[] row = new Object[7];
+        while (rs.next()) 
+        {
+            Object[] row = new Object[13];
             row[0] = rs.getInt("id");
             row[1] = rs.getString("nombre");
             row[2] = rs.getString("cargo");
-            row[3] = rs.getString("asistencia");
-            row[4] = rs.getString("entrada");
-            row[5] = rs.getString("salida");
-            row[6] = rs.getString("observacion");
+            row[3] = rs.getString("entrada");
+            row[4] = rs.getString("salida");
+            row[5] = rs.getString("observacion");
+            row[6] = rs.getString("LUN");
+            row[7] = rs.getString("MAR");
+            row[8] = rs.getString("MIE");
+            row[9] = rs.getString("JUE");
+            row[10] = rs.getString("VIE");
+            row[11] = rs.getString("SAB");
+            row[12] = rs.getString("DOM");
 
             model.addRow(row);
         }
 
-        if (model.getRowCount() == 0) {
+        if (model.getRowCount() == 0) 
+        {
             JOptionPane.showMessageDialog(this, "No se encontraron asistencias para el ID proporcionado.", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
         }
 
         rs.close();
         ps.close();
-    } catch (SQLException e) {
+    } 
+    
+    catch (SQLException e) 
+    {
         JOptionPane.showMessageDialog(this, "Error al realizar la consulta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    } catch (NumberFormatException e) {
+    } 
+    
+    catch (NumberFormatException e) 
+    {
         JOptionPane.showMessageDialog(this, "El ID debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
-    } finally {
-        try {
-            if (c != null) {
+    } 
+    
+    finally 
+    {
+        try 
+        {
+            if (c != null) 
+            {
                 c.close();
             }
-        } catch (SQLException e) {
+        } 
+        
+        catch (SQLException e) 
+        {
             e.printStackTrace();
         }
     }
 }
 
-private void agregarDocumentListeners() {
+
+private void agregarDocumentListeners() 
+{
     txtBonificaciones.getDocument().addDocumentListener(new DocumentListener() {
         @Override
         public void insertUpdate(DocumentEvent e) {
@@ -491,10 +540,6 @@ private void agregarDocumentListeners() {
         }
     });
 }
-
-
-
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -858,7 +903,6 @@ private void agregarDocumentListeners() {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
     calcularTotal();
-    // Si los campos están correctos, llamar a la función de registrar asistencia
     registrarAsistencia();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 

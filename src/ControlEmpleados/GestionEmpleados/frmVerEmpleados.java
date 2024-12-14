@@ -12,7 +12,8 @@ import DAO.Conexion;
  *
  * @author anton
  */
-public class frmVerEmpleados extends javax.swing.JFrame {
+public class frmVerEmpleados extends javax.swing.JFrame 
+{
 
     /**
      * Creates new form frmVerEmpleados
@@ -24,21 +25,23 @@ public class frmVerEmpleados extends javax.swing.JFrame {
         cargarEmpleados();
     }
     
-   private void cargarEmpleados() {
+   private void cargarEmpleados() 
+   {
         // Modelo de la tabla
         DefaultTableModel modelo = (DefaultTableModel) tblEmpleados.getModel();
-        modelo.setRowCount(0); // Limpiar filas anteriores
+        modelo.setRowCount(0);
 
-        String query = "SELECT * FROM empleados"; // Consulta SQL para obtener todos los empleados
+        String query = "SELECT * FROM empleados"; 
 
-        try {
-            Conexion conn = new Conexion("empleados"); // Conexión con la base de datos
+        try 
+        {
+            Conexion conn = new Conexion("empleados"); 
             Connection c = conn.getConexion();
             Statement st = c.createStatement();
             ResultSet rs = st.executeQuery(query);
 
-            while (rs.next()) {
-                // Obtiene los datos de cada columna
+            while (rs.next()) 
+            {
                 String id = String.valueOf(rs.getInt("id"));
                 String nombre = rs.getString("nombre");
                 String telefono = rs.getString("telefono");
@@ -47,51 +50,56 @@ public class frmVerEmpleados extends javax.swing.JFrame {
                 String cargo = rs.getString("cargo");
                 String seguro = rs.getString("seguro");
 
-                // Agrega la fila a la tabla
                 modelo.addRow(new Object[]{id, nombre, telefono, correo, edad, cargo, seguro});
             }
 
-        } catch (SQLException e) {
+        } 
+        
+        catch (SQLException e) 
+        {
             JOptionPane.showMessageDialog(this, "Error al cargar los empleados: " + e.getMessage());
         }
     }
 
-  private void filtrarPorID() {
-    // Obtener el texto del campo txtID
+  private void filtrarPorID() 
+  {
     String idEmpleado = txtID.getText().trim();
 
-    if (idEmpleado.isEmpty()) {
+    if (idEmpleado.isEmpty()) 
+    {
         JOptionPane.showMessageDialog(this, "Por favor, ingrese un ID para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         return;
     }
 
-    // Obtener la conexión
     Conexion conn = new Conexion("empleados");
     Connection c = conn.getConexion();
 
-    if (c == null) {
+    if (c == null) 
+    {
         JOptionPane.showMessageDialog(this, "Error: No se pudo conectar a la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
-    try {
-        // Crear la consulta SQL para filtrar por ID
+    try 
+    {
+        //consulta SQL para filtrar por ID
         String query = "SELECT empleados.ID, empleados.Nombre, empleados.Telefono, empleados.Correo, " +
                        "empleados.Edad, empleados.Cargo, empleados.Seguro " +
                        "FROM empleados " +
-                       "WHERE empleados.ID = ?";  // Filtrar por ID
+                       "WHERE empleados.ID = ?"; 
 
         PreparedStatement ps = c.prepareStatement(query);
-        ps.setInt(1, Integer.parseInt(idEmpleado));  // Convertir el ID a entero
+        ps.setInt(1, Integer.parseInt(idEmpleado));  //Convertir el ID a entero
 
         ResultSet rs = ps.executeQuery();
 
-        // Limpiar la tabla antes de agregar nuevos datos
+        //limpiar tabla para solo mostrar el buscado
         DefaultTableModel model = (DefaultTableModel) tblEmpleados.getModel();
         model.setRowCount(0);
 
         // Llenar la tabla con los resultados filtrados
-        while (rs.next()) {
+        while (rs.next()) 
+        {
             Object[] row = new Object[7];
             row[0] = rs.getInt("ID");
             row[1] = rs.getString("Nombre");
@@ -104,29 +112,44 @@ public class frmVerEmpleados extends javax.swing.JFrame {
             model.addRow(row);
         }
 
-        if (model.getRowCount() == 0) {
+        if (model.getRowCount() == 0) 
+        {
             JOptionPane.showMessageDialog(this, "No se encontraron empleados para el ID proporcionado.", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
         }
 
         rs.close();
         ps.close();
-    } catch (SQLException e) {
+    } 
+    
+    catch (SQLException e) 
+    {
         JOptionPane.showMessageDialog(this, "Error al realizar la consulta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    } catch (NumberFormatException e) {
+    } 
+    
+    catch (NumberFormatException e) 
+    {
         JOptionPane.showMessageDialog(this, "El ID debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
-    } finally {
-        try {
-            if (c != null) {
+    } 
+    finally 
+    {
+        try 
+        {
+            if (c != null) 
+            {
                 c.close();
             }
-        } catch (SQLException e) {
+        } 
+        
+        catch (SQLException e) 
+        {
             e.printStackTrace();
         }
     }
 }
 
 
-private void filtrarPorNombre() {
+private void filtrarPorNombre() 
+{
     // Obtener el texto del campo txtNombre
     String nombreEmpleado = txtNombre.getText().trim();
 
@@ -135,33 +158,34 @@ private void filtrarPorNombre() {
         return;
     }
 
-    // Obtener la conexión
     Conexion conn = new Conexion("empleados");
     Connection c = conn.getConexion();
 
-    if (c == null) {
+    if (c == null) 
+    {
         JOptionPane.showMessageDialog(this, "Error: No se pudo conectar a la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
-    try {
-        // Crear la consulta SQL para filtrar por nombre
+    try 
+    {
         String query = "SELECT empleados.ID, empleados.Nombre, empleados.Telefono, empleados.Correo, " +
                        "empleados.Edad, empleados.Cargo, empleados.Seguro " +
                        "FROM empleados " +
-                       "WHERE empleados.Nombre LIKE ?";  // Filtrar por nombre (con LIKE)
+                       "WHERE empleados.Nombre LIKE ?";
 
         PreparedStatement ps = c.prepareStatement(query);
-        ps.setString(1, "%" + nombreEmpleado + "%");  // Permitir coincidencias parciales
+        ps.setString(1, "%" + nombreEmpleado + "%");//mostrar coincidencias
 
         ResultSet rs = ps.executeQuery();
 
-        // Limpiar la tabla antes de agregar nuevos datos
+        // Limpiar la tabla para mostrar solo el buscaod
         DefaultTableModel model = (DefaultTableModel) tblEmpleados.getModel();
         model.setRowCount(0);
 
         // Llenar la tabla con los resultados filtrados
-        while (rs.next()) {
+        while (rs.next()) 
+        {
             Object[] row = new Object[7];
             row[0] = rs.getInt("ID");
             row[1] = rs.getString("Nombre");
@@ -174,20 +198,31 @@ private void filtrarPorNombre() {
             model.addRow(row);
         }
 
-        if (model.getRowCount() == 0) {
+        if (model.getRowCount() == 0) 
+        {
             JOptionPane.showMessageDialog(this, "No se encontraron empleados para el nombre proporcionado.", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
         }
 
         rs.close();
         ps.close();
-    } catch (SQLException e) {
+    } 
+    
+    catch (SQLException e) 
+    {
         JOptionPane.showMessageDialog(this, "Error al realizar la consulta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    } finally {
-        try {
-            if (c != null) {
+    } 
+    finally 
+    {
+        try 
+        {
+            if (c != null) 
+            {
                 c.close();
             }
-        } catch (SQLException e) {
+        } 
+        
+        catch (SQLException e) 
+        {
             e.printStackTrace();
         }
     }

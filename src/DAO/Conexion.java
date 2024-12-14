@@ -32,13 +32,16 @@ public class Conexion
             c = DriverManager.getConnection( url , user , pass );
             System.out.println("Base de Datos OK");
             }
-    catch( Exception x ) {
+    catch( Exception x ) 
+        {
             System.out.println("Error al tratar de conectar a la BD!");
         } 
 
         
     }
-     public Connection getConexion(){
+    
+    public Connection getConexion()
+    {
         return c;
     }
      
