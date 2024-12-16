@@ -47,10 +47,6 @@ public final class frmRegistrarNomina extends javax.swing.JFrame
             }
         });
     } 
-    else 
-    {
-        System.out.println("La tabla esta vacia");
-    }
 }
          
     // Nombre de la base de datos
@@ -295,7 +291,7 @@ public final class frmRegistrarNomina extends javax.swing.JFrame
         pst.setDouble(8, total);
 
         pst.executeUpdate();
-        JOptionPane.showMessageDialog(this, "Asistencia registrada correctamente.");
+        JOptionPane.showMessageDialog(this, "Nomina registrada correctamente.");
     } 
     
     catch (SQLException e) 
@@ -435,10 +431,10 @@ private void filtrarPorID()
                        "asistencias.LUN, asistencias.MAR, asistencias.MIE, asistencias.JUE, asistencias.VIE, asistencias.SAB, asistencias.DOM " +
                        "FROM asistencias " +
                        "INNER JOIN empleados ON asistencias.id = empleados.id " +
-                       "WHERE empleados.id = ?";  // Filtrar por ID
+                       "WHERE empleados.id = ?"; 
 
         PreparedStatement ps = c.prepareStatement(query);
-        ps.setInt(1, Integer.parseInt(idEmpleado));
+        ps.setInt(1, Integer.parseInt(idEmpleado));//id lo pasa a entero
 
         ResultSet rs = ps.executeQuery();
 

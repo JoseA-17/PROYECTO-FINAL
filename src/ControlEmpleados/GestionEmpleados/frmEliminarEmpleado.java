@@ -91,7 +91,7 @@ public class frmEliminarEmpleado extends javax.swing.JFrame
         return;
     }
 
-    //mostra confirmacion apra eliminar al empleado
+    //mostrar confirmacion apra eliminar al empleado
     String nombreEmpleado = (String) tblEmpleados.getValueAt(filaSeleccionada, 1);
     int confirmacion = JOptionPane.showConfirmDialog(
         this,
@@ -197,11 +197,6 @@ public class frmEliminarEmpleado extends javax.swing.JFrame
     catch (SQLException e) 
     {
         JOptionPane.showMessageDialog(this, "Error al realizar la consulta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    } 
-    
-    catch (NumberFormatException e) 
-    {
-        JOptionPane.showMessageDialog(this, "El ID debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
     } 
     
     finally 

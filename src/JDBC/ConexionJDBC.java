@@ -17,7 +17,7 @@ public class ConexionJDBC {
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String URL = "jdbc:mysql://localhost:3306/empleados";
     private static final String USER = "root";
-    private static final String PASSWORD = ""; // Reemplaza 'tu_contraseña' con tu contraseña real
+    private static final String PASSWORD = ""; // 
 
     public static Connection getConexion() {
         Connection conn = null;

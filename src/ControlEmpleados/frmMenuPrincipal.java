@@ -8,7 +8,6 @@ package ControlEmpleados;
 import ControlEmpleados.AsistenciasEmpleados.frmAsistenciasEmpleado;
 import ControlEmpleados.GestionEmpleados.frmGestionEmpleados;
 import ControlEmpleados.Nomina.frmGestionSalarios;
-import javax.swing.JFrame;
 
 /**
  *

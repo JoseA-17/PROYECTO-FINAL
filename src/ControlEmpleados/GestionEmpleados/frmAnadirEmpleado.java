@@ -213,7 +213,7 @@ try
     //validar que el numero sean letrars
     if (!telefono.matches("\\d+")) 
     {
-        JOptionPane.showMessageDialog(this, "El número de telefono debe contener solo dígitos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(this, "El numero de telefono debe contener solo digitos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         return;
     }
 

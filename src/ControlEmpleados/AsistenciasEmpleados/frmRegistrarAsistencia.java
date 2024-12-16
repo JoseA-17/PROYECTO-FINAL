@@ -12,10 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.table.DefaultTableModel;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.Locale;
 
@@ -82,7 +78,7 @@ private void registrarAsistencia()
     String columnaDia = diasMap.get(diaSemana);
     if (columnaDia == null) 
     {
-        JOptionPane.showMessageDialog(this, "Dia seleccionado no válido.", "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Dia seleccionado no valido.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 

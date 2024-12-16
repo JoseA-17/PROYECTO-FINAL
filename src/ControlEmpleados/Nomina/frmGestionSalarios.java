@@ -99,7 +99,7 @@ public class frmGestionSalarios extends javax.swing.JFrame
                 btnActualizarNominaActionPerformed(evt);
             }
         });
-        jPanel2.add(btnActualizarNomina, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 100, 180, 150));
+        jPanel2.add(btnActualizarNomina, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, 180, 150));
 
         btnRegistrarNomina.setBackground(new java.awt.Color(102, 153, 255));
         btnRegistrarNomina.setIcon(new javax.swing.ImageIcon("C:\\Users\\anton\\Downloads\\registrar nomina 120x120.png")); // NOI18N

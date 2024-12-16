@@ -25,7 +25,6 @@ public class frmIniciarSesion1 extends javax.swing.JFrame
     
     private void abrirMenuPrincipal() 
     {
-    //metodo para abrir el menu principal si es correcta las credenciales
     frmMenuPrincipal menu = new frmMenuPrincipal(); 
     menu.setVisible(true);  
     this.dispose();  
@@ -33,7 +32,8 @@ public class frmIniciarSesion1 extends javax.swing.JFrame
 
 
     //verificar si el usuario es corecto
-    private void validarCredenciales() {
+    private void validarCredenciales() 
+    {
     String usuario = txtUsuario.getText().trim();  
     String contrasena = new String(txtContrasenia.getPassword()).trim();  
 
@@ -45,7 +45,7 @@ public class frmIniciarSesion1 extends javax.swing.JFrame
     }
 
     Conexion conn = new Conexion("empleados"); 
-    String sql = "SELECT * FROM users WHERE users = ? AND password = ?"; 
+    String sql = "SELECT * FROM users WHERE users = ? AND password = ?";
 
     try (Connection con = (Connection) conn.getConexion(); 
          PreparedStatement ps = (PreparedStatement) con.prepareStatement(sql)) 
@@ -58,7 +58,7 @@ public class frmIniciarSesion1 extends javax.swing.JFrame
         {
             if (rs.next()) 
             { 
-                JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso. ¡Bienvenido, " + usuario + "!");
+                JOptionPane.showMessageDialog(this, "Inicio de sesion exitoso. ¡Bienvenido, " + usuario + "!");
                 abrirMenuPrincipal(); 
             } 
             else 
